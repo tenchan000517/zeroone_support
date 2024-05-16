@@ -22,6 +22,11 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc libffi-dev
+
       - name: Create and start virtual environment
         run: |
           python -m venv venv
@@ -74,3 +79,4 @@ jobs:
         with:
           app-name: 'uranaibot'
           slot-name: 'Production'
+
