@@ -2,13 +2,15 @@
 import discord
 import datetime
 import os
-import configparser
 import logging
 import asyncio
 import random
 import aiohttp
-from urllib.parse import quote  # Importing the quote function directly
-import re
+from threading import Thread
+from flask import Flask
+from discord.ext import commands
+from dotenv import load_dotenv
+from urllib.parse import quote
 
 #import wikipedia
 # import requests
@@ -32,8 +34,6 @@ from lib import meigen
 from lib import keisuke_honda
 from lib import dominator
 from lib import dice
-from urllib.parse import quote
-from dotenv import load_dotenv
 load_dotenv()
 
 # ロギングの設定
@@ -60,7 +60,7 @@ intents.message_content = True
 intents.guilds = True
 
 # このbotのアカウント情報を格納、Intentsも渡す
-client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 ################# Don't touch. ################
@@ -321,4 +321,19 @@ async def on_message(message):
                 print(e)
                 raise e
 
-client.run(my_token)
+def run_web_server():
+    app = Flask(__name__)
+
+    @app.route('/')
+    def home():
+        return "Hello, this is the Discord bot server!"
+
+    app.run(host='0.0.0.0', port=8000)
+
+if __name__ == "__main__":
+    # Flaskウェブサーバーをスレッドで実行
+    web_server = Thread(target=run_web_server)
+    web_server.start()
+    
+    # Discordボットを実行
+    bot.run(my_token)
