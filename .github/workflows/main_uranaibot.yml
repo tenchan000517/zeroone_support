@@ -74,4 +74,3 @@ jobs:
         with:
           app-name: 'uranaibot'
           slot-name: 'Production'
-          
