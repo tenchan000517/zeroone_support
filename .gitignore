@@ -1,0 +1,9 @@
+.DS_Store
+.un*
+__pycache__/
+mp3/
+other/
+config.ini
+lib/ctf.py
+lib/__pycache__/
+modokicraft_scripts/
