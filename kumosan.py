@@ -2,17 +2,17 @@
 import discord
 import datetime
 import os
-import configparser
 import logging
 import asyncio
 import random
 import aiohttp
-from urllib.parse import quote  # Importing the quote function directly
-import re
+from urllib.parse import quote
 from flask import Flask
+from threading import Thread
+from dotenv import load_dotenv
 
-# from lib import wiki
-# from lib import weather
+from lib import wiki
+from lib import weather
 from lib import waruiko_point
 from lib import uranai
 from lib import primarity_test
@@ -24,12 +24,15 @@ from lib import meigen
 from lib import keisuke_honda
 from lib import dominator
 from lib import dice
-from dotenv import load_dotenv
+
+# 環境変数をロード
 load_dotenv()
 
+# Flaskのインスタンスを作成
+app = Flask(__name__)
+
 # ロギングの設定
-logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
-                    format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
+logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a', format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
 
 # 環境変数から設定を読み込む
 my_token = os.environ['DISCORD_BOT_TOKEN']
@@ -50,11 +53,8 @@ intents.messages = True
 intents.message_content = True
 intents.guilds = True
 
-# Discordのクライアントを初期化
+# このbotのアカウント情報を格納、Intentsも渡す
 client = discord.Client(intents=intents)
-
-# Flaskアプリの初期化
-app = Flask(__name__)
 
 ################# Don't touch. ################
 kumo_san = '╭◜◝ ͡ ◜◝╮ \n(   •ω•　  ) \n╰◟◞ ͜ ◟◞╯ < '
@@ -71,33 +71,28 @@ async def on_ready():
     print('--------\n')
 
 async def get_weather_information(location, days=1):
-    api_key = '74ae9b082b3a41b8abe32555240905'
+    api_key = os.environ['WEATHER_API_KEY']
     base_url = 'http://api.weatherapi.com/v1/forecast.json'
     date_str = datetime.datetime.now().strftime('%Y-%m-%d')
     response_string = ''
 
-    # 日本の都道府県名に"県"を追加、海外の都市名はそのまま
     location_for_geocoding = location
     if any(pref in location for pref in ("北海道", "東京都", "京都府", "大阪府")):
         pass
     elif "県" not in location:
         location_for_geocoding += "県"
 
-    # ジオコーディングAPIのURLを作成
     geocoding_url = f"http://api.weatherapi.com/v1/search.json?key={api_key}&q={quote(location_for_geocoding)}"
 
     try:
         async with aiohttp.ClientSession() as session:
-            # ジオコーディングAPIを呼び出して緯度経度を取得
             async with session.get(geocoding_url) as response:
                 if response.status == 200:
                     data = await response.json()
                     if data:
                         lat = data[0]['lat']
                         lon = data[0]['lon']
-                        # 天気予報APIのURLを作成
                         weather_url = f"{base_url}?key={api_key}&q={lat},{lon}&days={days}&dt={date_str}&lang=ja"
-                        # 天気予報APIを呼び出して天気情報を取得
                         async with session.get(weather_url) as weather_response:
                             if weather_response.status == 200:
                                 weather_data = await weather_response.json()
@@ -106,7 +101,6 @@ async def get_weather_information(location, days=1):
                                 avgtemp = weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']
                                 condition = weather_data['forecast']['forecastday'][0]['day']['condition']['text']
                                 
-                                # 天気の状況に合わせて絵文字を設定
                                 weather_emoji = ""
                                 if "晴" in condition:
                                     weather_emoji = "☀️"
@@ -156,7 +150,6 @@ async def on_message(message):
             msg = await get_weather_information(prefecture)
             await message.channel.send(f"{message.author.mention} 時間内に県名が送信されなかったため、ランダムに選んだ {prefecture} の天気を表示します。")
 
-
     if '占い' in message.content:
         if user_id in last_uranai_usage and last_uranai_usage[user_id] == current_date:
             await message.channel.send("今日はもう占ったよ！また明日来てね！")
@@ -177,10 +170,6 @@ async def on_message(message):
         await message.channel.send(msg)
         logging.info(f"犯罪係数 was triggered by {message.author}: {msg}")
 
-    ######## 管理者直操作モード ########
-    # - admin_idユーザのみ利用できるモード 
-    # - back_modeチャンネルに投稿したメッセージをDJアイズに喋らせる
-    # - ex)`main DJアイズだよ！`
     if message.channel == client.get_channel(int(channel_dict['back_mode'])) and str(message.author.id) == admin_id:
         try:
             text = message.content
@@ -209,19 +198,13 @@ async def on_message(message):
             msg = kumo_san + search_text
             await client.get_channel(selector).send(msg)
             logging.info(f"Admin command executed: {msg} in channel {selector}")
-
             return msg
         except Exception as e:
             logging.error(f"Error in admin command: {e}")
-
             print(e)
             raise e 
-    ####################################
 
-    ######## ここからが主な機能のハンドル ########
-    # 「DJアイズ」で始まるか調べる
     elif message.content.startswith("DJアイズ"):
-    # 送り主がBotだった場合反応したくないので
         if client.user != message.author:
             try:
                 user_name = message.author.name
@@ -230,19 +213,16 @@ async def on_message(message):
                 print(text)
 
                 msg =  kumo_san + user_name + 'さん '
-                #msg = user_name + 'さん '
                 if text == ('DJアイズ'):
                     msg = 'はい！ご用でしょうか！'
                     logging.info(f"DJアイズ basic call response triggered by {message.author}")
 
                 elif text.find('おは') > -1:
                     logging.info(f"おはようございます command triggered by {message.author}")
-
                     msg += 'おはようございます！'
                 elif text.find('こんにちは') > -1 or text.find('こんにちわ') > -1 or text.find('こんちゃ') > -1 or text.find('やあ') > -1 or text.find('おっす') > -1 or text.find('こんにち') > -1:
                     msg += 'こんにちは！'
                     logging.info(f"こんにちは command triggered by {message.author}")
-
                 elif text.find('こんばんは') > -1 or text.find('こんばんわ') > -1 or text.find('ばんわ') > -1 or text.find('こんばん') > -1:
                     msg += 'こんばんは！'
                 elif text.find('おつ') > -1 or text.find('疲') > -1 or text.find('お先') > -1 or text.find('おち') > -1 or text.find('落ち') > -1:
@@ -251,7 +231,6 @@ async def on_message(message):
                     msg += 'おやすみなさーい！'
                 elif text.find('ありがと') > -1 or text.find('thank') > -1 or text.find('thx') > -1:
                     msg += 'お役に立てたならなによりです！'
-                #### ここからメソッドを呼び出して使うトリガー検知 ####
                 elif text.find('慰めて') > -1 or text.find('なぐさめて') > -1 or text.find('アドバイス') > -1 or text.find('助言') > -1:
                     msg = meigen.meigen()
                 elif text.find('グー') > -1 or text.find('チョキ') > -1 or text.find('パー') > -1 or text.find('ぐー') > -1 or text.find('ちょき') > -1 or text.find('ぱー') > -1:
@@ -275,10 +254,9 @@ async def on_message(message):
                 elif text.find('って何') > -1 or text.find('ってなに') > -1:
                     msg += wiki.wikipedia_search(text)
                 elif text.find('天気') > -1:
-                    msg += weather.get_weather_information(text)
+                    msg += await get_weather_information(text)
                 elif text.find('は素数') > -1:
                     msg += primarity_test.primarity_test(text, 50)
-                ######## clear in #暴風域 ########
                 elif text.find('おそうじ') > -1 or text.find('お掃除') > -1:
                     history = ""
                     if channel == client.get_channel(int(channel_dict['storm'])):
@@ -295,36 +273,35 @@ async def on_message(message):
                         await channel.purge()
                         msg += '塵一つ残しません！ :cloud_tornado: '
                         logging.info("Cleaning command executed in storm channel")
-
                     else:
                         msg += 'このコマンドは #暴風域 でしか使えないよ！'
                         logging.info("Cleaning command attempted outside storm channel")
-
-                ##################################
                 else:
                     msg += 'その言葉は知らなかったから調べたよ。\n' + wiki.wiki(text)
-                    #メッセージが送られてきたチャンネルへメッセージを送ります
                 await channel.send(msg)
                 logging.info(f"Responded with: {msg} to {message.author} in channel {message.channel}")
-
                 return msg
             except Exception as e:
                 logging.error(f"Error while handling message: {e}")
-
                 print(e)
                 raise e
 
 # Flaskのルート定義
 @app.route('/')
 def home():
-    return "Hello, this is the Flask app running alongside Discord Bot!"
+    return "Hello, this is a placeholder for the Discord bot server."
 
-def main():
-    # Flaskアプリを非同期で実行
-    loop = asyncio.get_event_loop()
+# Discord Botを別スレッドで実行
+def run_discord_bot():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     loop.create_task(client.start(my_token))
-    app.run(host='0.0.0.0', port=8000)
+    loop.run_forever()
 
 if __name__ == "__main__":
+    # Flaskサーバーをメインスレッドで実行
+    Thread(target=run_discord_bot).start()
+    app.run(host="0.0.0.0", port=8000)
+
     main()
 
