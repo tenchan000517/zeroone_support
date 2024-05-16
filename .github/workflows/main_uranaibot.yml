@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python version
         uses: actions/setup-python@v4
@@ -37,9 +37,14 @@ jobs:
           source antenv/bin/activate
           pip install -r requirements.txt
 
+      - name: Create startup script
+        run: |
+          echo -e '#!/bin/bash\nsource antenv/bin/activate\npython kumosan.py' > start.sh
+          chmod +x start.sh
+
       - name: Zip artifact for deployment
         run: |
-          zip -r release.zip ./* -x "venv/*"
+          zip -r release.zip ./* -x "antenv/*"
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
@@ -47,7 +52,7 @@ jobs:
           name: python-app
           path: |
             release.zip
-            !venv/
+            !antenv/
 
   deploy:
     runs-on: ubuntu-latest
