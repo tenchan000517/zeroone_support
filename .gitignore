@@ -9,4 +9,4 @@ lib/__pycache__/
 modokicraft_scripts/
 
 version/
-.github/
+.github/.github/workflows/main_uranaibot.yml
