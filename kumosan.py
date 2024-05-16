@@ -2,27 +2,17 @@
 import discord
 import datetime
 import os
+import configparser
 import logging
 import asyncio
 import random
 import aiohttp
-from threading import Thread
+from urllib.parse import quote  # Importing the quote function directly
+import re
 from flask import Flask
-from discord.ext import commands
-from dotenv import load_dotenv
-from urllib.parse import quote
 
-#import wikipedia
-# import requests
-#import json
-#import random
-#import re
-#import subprocess
-#import time
-#import urllib.request
-#from bs4 import BeautifulSoup
-from lib import wiki
-from lib import weather
+# from lib import wiki
+# from lib import weather
 from lib import waruiko_point
 from lib import uranai
 from lib import primarity_test
@@ -34,6 +24,7 @@ from lib import meigen
 from lib import keisuke_honda
 from lib import dominator
 from lib import dice
+from dotenv import load_dotenv
 load_dotenv()
 
 # ロギングの設定
@@ -59,9 +50,11 @@ intents.messages = True
 intents.message_content = True
 intents.guilds = True
 
-# このbotのアカウント情報を格納、Intentsも渡す
-bot = commands.Bot(command_prefix="!", intents=intents)
+# Discordのクライアントを初期化
+client = discord.Client(intents=intents)
 
+# Flaskアプリの初期化
+app = Flask(__name__)
 
 ################# Don't touch. ################
 kumo_san = '╭◜◝ ͡ ◜◝╮ \n(   •ω•　  ) \n╰◟◞ ͜ ◟◞╯ < '
@@ -321,19 +314,17 @@ async def on_message(message):
                 print(e)
                 raise e
 
-def run_web_server():
-    app = Flask(__name__)
+# Flaskのルート定義
+@app.route('/')
+def home():
+    return "Hello, this is the Flask app running alongside Discord Bot!"
 
-    @app.route('/')
-    def home():
-        return "Hello, this is the Discord bot server!"
-
+def main():
+    # Flaskアプリを非同期で実行
+    loop = asyncio.get_event_loop()
+    loop.create_task(client.start(my_token))
     app.run(host='0.0.0.0', port=8000)
 
 if __name__ == "__main__":
-    # Flaskウェブサーバーをスレッドで実行
-    web_server = Thread(target=run_web_server)
-    web_server.start()
-    
-    # Discordボットを実行
-    bot.run(my_token)
+    main()
+
