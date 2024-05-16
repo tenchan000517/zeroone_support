@@ -7,3 +7,6 @@ config.ini
 lib/ctf.py
 lib/__pycache__/
 modokicraft_scripts/
+
+version/
+.github/
