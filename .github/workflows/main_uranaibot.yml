@@ -86,3 +86,4 @@ jobs:
           app-name: 'uranaibot'
           slot-name: 'Production'
           startup-command: './start.sh'
+
