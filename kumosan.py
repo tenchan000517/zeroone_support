@@ -33,20 +33,25 @@ from lib import keisuke_honda
 from lib import dominator
 from lib import dice
 from urllib.parse import quote
+from dotenv import load_dotenv
+load_dotenv()
 
 # ロギングの設定
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a',
                     format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
 
-# 設定ファイルの読み出し
-config_ini = configparser.ConfigParser()
-config_ini.read('config.ini', encoding='utf-8')
-# サーバのauthトークン(str), bot管理者のユーザID(int), いくつかのメソッドで特に利用するチャンネルid(dict[str])
-my_token = config_ini.get('TOKEN', 'my_token')
-admin_id = config_ini.get('ADMIN_ID', 'admin_id')
-channel_dict = config_ini.items('USE_CHANNELS')
-channel_dict = dict(channel_dict)
-
+# 環境変数から設定を読み込む
+my_token = os.environ['DISCORD_BOT_TOKEN']
+admin_id = os.environ['ADMIN_ID']
+channel_dict = {
+    'main_chat': os.environ['MAIN_CHAT_CHANNEL'],
+    'bot_salon': os.environ['BOT_SALON_CHANNEL'],
+    'back_mode': os.environ['BACK_MODE_CHANNEL'],
+    'grave': os.environ['GRAVE_CHANNEL'],
+    'storm': os.environ['STORM_CHANNEL'],
+    'dev': os.environ['DEV_CHANNEL'],
+    'pokemon': os.environ['POKEMON_CHANNEL']
+}
 
 # Intentsの設定
 intents = discord.Intents.default()
