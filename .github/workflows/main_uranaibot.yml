@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Set up Python version
         uses: actions/setup-python@v4
@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
@@ -79,4 +79,5 @@ jobs:
         with:
           app-name: 'uranaibot'
           slot-name: 'Production'
+
 
