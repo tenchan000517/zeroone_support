@@ -160,12 +160,12 @@ async def on_message(message):
             await message.channel.send(msg)
             logging.info(f"占い was triggered by {message.author}: {msg}")
 
-    elif 'おみくじ'に message.content:
+    elif 'おみくじ' in message.content:
         msg = omikuji.omikuji()  # おみくじの結果を取得
         await message.channel.send(msg)
         logging.info(f"おみくじ was triggered by {message.author}: {msg}")
 
-    elif '犯罪係数'に message.content:
+    elif '犯罪係数' in message.content:
         msg = dominator.dominator(message.content)  # 犯罪係数の結果を取得
         await message.channel.send(msg)
         logging.info(f"犯罪係数 was triggered by {message.author}: {msg}")
