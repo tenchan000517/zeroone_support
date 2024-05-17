@@ -94,13 +94,13 @@ async def get_weather_information(location, days=1):
                         lon = data[0]['lon']
                         weather_url = f"{base_url}?key={api_key}&q={lat},{lon}&days={days}&dt={date_str}&lang=ja"
                         async with session.get(weather_url) as weather_response:
-                            if weather_response.status == 200:
+                            if (weather_response.status == 200):
                                 weather_data = await weather_response.json()
                                 mintemp = weather_data['forecast']['forecastday'][0]['day']['mintemp_c']
                                 maxtemp = weather_data['forecast']['forecastday'][0]['day']['maxtemp_c']
                                 avgtemp = weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']
                                 condition = weather_data['forecast']['forecastday'][0]['day']['condition']['text']
-                                
+
                                 weather_emoji = ""
                                 if "晴" in condition:
                                     weather_emoji = "☀️"
@@ -112,7 +112,7 @@ async def get_weather_information(location, days=1):
                                     weather_emoji = "⚡"
                                 else:
                                     weather_emoji = "☁️"
-                                
+
                                 response_string = f"{location}の天気予報 {weather_emoji}\n\n最低気温は{mintemp}°C\n最高気温は{maxtemp}°C\n平均気温は{avgtemp}°C\n天気 - {condition}\n\n信じるも信じないもあなた次第👆"
                                 return response_string
                             else:
@@ -304,4 +304,3 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 
     main()
-
