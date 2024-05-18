@@ -6,12 +6,13 @@ import logging
 import asyncio
 import random
 import aiohttp
-import requests  # requestsライブラリのインポート
-import time  # timeモジュールのインポート
-
 from urllib.parse import quote
 from flask import Flask
 from threading import Thread
+from dotenv import load_dotenv
+import requests
+import time
+
 from config.config import DISCORD_BOT_TOKEN, ADMIN_ID, MAIN_CHAT_CHANNEL, BOT_SALON_CHANNEL, BACK_MODE_CHANNEL, GRAVE_CHANNEL, STORM_CHANNEL, DEV_CHANNEL, POKEMON_CHANNEL, WEATHER_API_KEY
 
 from lib import wiki
@@ -28,23 +29,26 @@ from lib import keisuke_honda
 from lib import dominator
 from lib import dice
 
+# 環境変数をロード
+load_dotenv()
+
 # Flaskのインスタンスを作成
 app = Flask(__name__)
 
 # ロギングの設定
-logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a', format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
+logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a', format='%(asctime)s:%(levelname)s:%(name)s:%(message)s')
 
 # 環境変数から設定を読み込む
-my_token = DISCORD_BOT_TOKEN
-admin_id = ADMIN_ID
+my_token = os.getenv('DISCORD_BOT_TOKEN')
+admin_id = os.getenv('ADMIN_ID')
 channel_dict = {
-    'main_chat': MAIN_CHAT_CHANNEL,
-    'bot_salon': BOT_SALON_CHANNEL,
-    'back_mode': BACK_MODE_CHANNEL,
-    'grave': GRAVE_CHANNEL,
-    'storm': STORM_CHANNEL,
-    'dev': DEV_CHANNEL,
-    'pokemon': POKEMON_CHANNEL
+    'main_chat': os.getenv('MAIN_CHAT_CHANNEL'),
+    'bot_salon': os.getenv('BOT_SALON_CHANNEL'),
+    'back_mode': os.getenv('BACK_MODE_CHANNEL'),
+    'grave': os.getenv('GRAVE_CHANNEL'),
+    'storm': os.getenv('STORM_CHANNEL'),
+    'dev': os.getenv('DEV_CHANNEL'),
+    'pokemon': os.getenv('POKEMON_CHANNEL')
 }
 
 # Intentsの設定
