@@ -1,3 +1,3 @@
 #!/bin/bash
-echo "Starting the application..."
-python3 main.py  # 実行するPythonスクリプトの名前
+source antenv/bin/activate
+exec gunicorn --bind 0.0.0.0:8000 main:app
