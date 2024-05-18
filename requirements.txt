@@ -25,6 +25,3 @@ python-dotenv
 gunicorn==20.1.0
 uvicorn==0.18.2
 Flask==2.3.2
-requests
-PyNaCl
-discord

@@ -6,10 +6,13 @@ import logging
 import asyncio
 import random
 import aiohttp
+import requests  # requestsライブラリのインポート
+import time  # timeモジュールのインポート
+
 from urllib.parse import quote
 from flask import Flask
 from threading import Thread
-from dotenv import load_dotenv
+from config.config import DISCORD_BOT_TOKEN, ADMIN_ID, MAIN_CHAT_CHANNEL, BOT_SALON_CHANNEL, BACK_MODE_CHANNEL, GRAVE_CHANNEL, STORM_CHANNEL, DEV_CHANNEL, POKEMON_CHANNEL, WEATHER_API_KEY
 
 from lib import wiki
 from lib import weather
@@ -25,9 +28,6 @@ from lib import keisuke_honda
 from lib import dominator
 from lib import dice
 
-# 環境変数をロード
-load_dotenv()
-
 # Flaskのインスタンスを作成
 app = Flask(__name__)
 
@@ -35,16 +35,16 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a', format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
 
 # 環境変数から設定を読み込む
-my_token = os.environ['DISCORD_BOT_TOKEN']
-admin_id = os.environ['ADMIN_ID']
+my_token = DISCORD_BOT_TOKEN
+admin_id = ADMIN_ID
 channel_dict = {
-    'main_chat': os.environ['MAIN_CHAT_CHANNEL'],
-    'bot_salon': os.environ['BOT_SALON_CHANNEL'],
-    'back_mode': os.environ['BACK_MODE_CHANNEL'],
-    'grave': os.environ['GRAVE_CHANNEL'],
-    'storm': os.environ['STORM_CHANNEL'],
-    'dev': os.environ['DEV_CHANNEL'],
-    'pokemon': os.environ['POKEMON_CHANNEL']
+    'main_chat': MAIN_CHAT_CHANNEL,
+    'bot_salon': BOT_SALON_CHANNEL,
+    'back_mode': BACK_MODE_CHANNEL,
+    'grave': GRAVE_CHANNEL,
+    'storm': STORM_CHANNEL,
+    'dev': DEV_CHANNEL,
+    'pokemon': POKEMON_CHANNEL
 }
 
 # Intentsの設定
@@ -71,7 +71,7 @@ async def on_ready():
     print('--------\n')
 
 async def get_weather_information(location, days=1):
-    api_key = os.environ['WEATHER_API_KEY']
+    api_key = WEATHER_API_KEY
     base_url = 'http://api.weatherapi.com/v1/forecast.json'
     date_str = datetime.datetime.now().strftime('%Y-%m-%d')
     response_string = ''
@@ -94,7 +94,7 @@ async def get_weather_information(location, days=1):
                         lon = data[0]['lon']
                         weather_url = f"{base_url}?key={api_key}&q={lat},{lon}&days={days}&dt={date_str}&lang=ja"
                         async with session.get(weather_url) as weather_response:
-                            if (weather_response.status == 200):
+                            if weather_response.status == 200:
                                 weather_data = await weather_response.json()
                                 mintemp = weather_data['forecast']['forecastday'][0]['day']['mintemp_c']
                                 maxtemp = weather_data['forecast']['forecastday'][0]['day']['maxtemp_c']
@@ -298,9 +298,21 @@ def run_discord_bot():
     loop.create_task(client.start(my_token))
     loop.run_forever()
 
+# Keep-Aliveスクリプト
+def keep_alive():
+    while True:
+        try:
+            response = requests.get('https://uranaibot.azurewebsites.net')  # Azure App ServiceのURL
+            if response.status_code == 200:
+                print("Keep-alive request successful.")
+            else:
+                print(f"Keep-alive request failed with status code: {response.status_code}")
+        except Exception as e:
+            print(f"Keep-alive request encountered an error: {e}")
+        time.sleep(300)  # 5分ごとにリクエストを送信
+
 if __name__ == "__main__":
     # Flaskサーバーをメインスレッドで実行
     Thread(target=run_discord_bot).start()
+    Thread(target=keep_alive).start()
     app.run(host="0.0.0.0", port=8000)
-
-    main()

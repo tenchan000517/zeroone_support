@@ -8023,3 +8023,10 @@ A5. ‰¼‘zŠÂ‹«‚ÍˆÈ‰º‚Ìè‡‚Åì¬Eg—p‚µ‚Ü‚·B
 2024-05-16 08:35:27,080:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: a94c91883145b77cc3f856eb5548e4ec).
 2024-05-16 09:02:55,340:INFO:root: Message received: ƒ_ƒbƒVƒ…ƒ{[ƒh from tenchan_0517
 2024-05-16 09:02:55,631:INFO:root: Message received: ƒ_ƒbƒVƒ…ƒ{[ƒh‚Å‚·B‚Ç‚Ì‘€ì‚ğ‚µ‚Ü‚·‚©H from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2024-05-18 13:18:31,166:INFO:discord.client: logging in using static token
+2024-05-18 13:18:31,182:INFO:werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.0.9:8000
+2024-05-18 13:18:31,182:INFO:werkzeug: [33mPress CTRL+C to quit[0m
+2024-05-18 13:18:32,255:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 625e9f997befe8e1d9ffad2c7e6a79b9).

@@ -10,3 +10,5 @@ modokicraft_scripts/
 
 version/
 .github/.github/workflows/main_uranaibot.yml
+
+.env
