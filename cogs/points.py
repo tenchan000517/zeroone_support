@@ -42,7 +42,7 @@ class Points(commands.Cog):
         
         for i, (user_id, points) in enumerate(leaderboard, 1):
             user = self.bot.get_user(int(user_id))
-            name = user.name if user else f"Unknown ({user_id})"
+            name = user.display_name if user else f"Unknown ({user_id})"
             embed.add_field(
                 name=f"{i}位",
                 value=f"{name}: {points}{settings.point_name}",

@@ -259,7 +259,7 @@ async def on_message(message):
     elif (client.user in message.mentions) or (message.content.startswith("DJアイズ") and not message.content.startswith("DJアイズ ")):
         if client.user != message.author:
             try:
-                user_name = message.author.name
+                user_name = message.author.display_name
                 user_id = message.author.id
                 text = message.content
                 print(text)
