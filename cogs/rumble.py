@@ -981,6 +981,26 @@ class RumbleView(discord.ui.View):
         
         await channel.send(embed=mvp_embed)
         await channel.send(special_msg)
+        
+        # ゲーム終了処理（重要！）
+        rumble_cog = self.get_cog_instance(channel)
+        if rumble_cog:
+            guild_id = None
+            for gid, active_game in list(rumble_cog.active_games.items()):
+                if hasattr(active_game, 'players') and active_game.players == self.game.players:
+                    guild_id = gid
+                    break
+            
+            if guild_id:
+                del rumble_cog.active_games[guild_id]
+                print(f"ランブルゲーム終了: Guild ID {guild_id}")
+    
+    def get_cog_instance(self, channel):
+        """RumbleCogインスタンスを取得"""
+        for guild in channel.client.guilds:
+            if guild == channel.guild:
+                return channel.client.get_cog('RumbleCog')
+        return None
 
 class RumbleCog(commands.Cog):
     def __init__(self, bot):
@@ -1026,10 +1046,18 @@ class RumbleCog(commands.Cog):
         view = RumbleView(game, ADMIN_ID)
         await interaction.response.send_message(embed=embed, view=view)
         
-        # 時間制限処理
+        # 非同期で時間制限処理（バックグラウンド実行）
+        asyncio.create_task(self._handle_time_limit(interaction, game, time_limit))
+    
+    async def _handle_time_limit(self, interaction, game, time_limit):
+        """時間制限処理（バックグラウンド実行）"""
         await asyncio.sleep(time_limit)
-        if interaction.guild.id in self.active_games and not game.in_progress:
-            # 参加者がいる場合は自動開始
+        
+        # ゲームがまだ存在し、開始されていない場合
+        if (interaction.guild.id in self.active_games and 
+            not game.in_progress and 
+            self.active_games[interaction.guild.id] == game):
+            
             if len(game.players) >= 2:
                 # 全員を準備完了にして開始
                 for player in game.players.keys():
@@ -1039,8 +1067,12 @@ class RumbleCog(commands.Cog):
                 # ゲーム開始
                 await self.auto_start_game(interaction.channel, game)
             else:
+                # 参加者不足で終了
                 del self.active_games[interaction.guild.id]
-                await interaction.followup.send("参加者が不足のため、ランブル募集を終了しました")
+                try:
+                    await interaction.followup.send("参加者が不足のため、ランブル募集を終了しました")
+                except:
+                    await interaction.channel.send("参加者が不足のため、ランブル募集を終了しました")
     
     async def auto_start_game(self, channel, game):
         """時間切れ時の自動ゲーム開始"""
@@ -1067,7 +1099,30 @@ class RumbleCog(commands.Cog):
         
         await channel.send(embed=embed)
         
-        # バトルシミュレーション
+        # バトル実行
+        await self._execute_battle(channel, game, red_team, blue_team)
+    
+    async def _execute_battle(self, channel, game, red_team, blue_team):
+        """バトル実行とゲーム終了処理"""
+        # バトルシミュレーション（より詳細な演出）
+        battle_events = [
+            "⚡ 激しい攻防が始まった！",
+            "🔥 赤チームが攻勢に出る！",
+            "🌊 青チームが反撃！",
+            "💥 両チーム一歩も譲らず！",
+            "⭐ 決定的な瞬間が訪れる！"
+        ]
+        
+        for i, event in enumerate(battle_events):
+            await asyncio.sleep(3)  # 3秒間隔
+            battle_embed = discord.Embed(
+                title="⚔️ バトル進行中...",
+                description=event,
+                color=discord.Color.orange()
+            )
+            await channel.send(embed=battle_embed)
+        
+        # 最終待機
         await asyncio.sleep(2)
         
         # ランダムに勝者を決定
@@ -1082,17 +1137,32 @@ class RumbleCog(commands.Cog):
             color=discord.Color.gold()
         )
         result_embed.add_field(
-            name="勝者",
+            name="🏆 勝者",
             value="\n".join(p.mention for p in winners),
             inline=True
         )
         result_embed.add_field(
-            name="敗者",
+            name="💀 敗者",
             value="\n".join(p.mention for p in losers),
             inline=True
         )
         
         await channel.send(embed=result_embed)
+        
+        # ゲーム終了処理（重要！）
+        await self._cleanup_game(game)
+    
+    async def _cleanup_game(self, game):
+        """ゲーム終了処理"""
+        guild_id = None
+        for gid, active_game in list(self.active_games.items()):
+            if active_game == game:
+                guild_id = gid
+                break
+        
+        if guild_id:
+            del self.active_games[guild_id]
+            print(f"ランブルゲーム終了: Guild ID {guild_id}")
 
 async def setup(bot):
     await bot.add_cog(RumbleCog(bot))

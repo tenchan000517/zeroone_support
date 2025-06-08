@@ -8971,3 +8971,28 @@ discord.app_commands.errors.CommandInvokeError: Command 'weekly_test' raised an 
 2025-06-08 20:00:47,180:INFO:root:Message received: <@1232977995673894937> 欲しがってたランブル機能を追加しました\u21d3 from tenchan_0517
 2025-06-08 20:00:56,981:INFO:root:Message received:  from DJ アイズ#4579
 2025-06-08 20:02:06,956:INFO:root:Message received: / rumble コマンドと募集時間を秒数で指定すれば参加者が2人以上いれば実行されます from tenchan_0517
+2025-06-08 22:16:33,998:INFO:discord.client:logging in using static token
+2025-06-08 22:16:35,313:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: ae835aad6ce1c1fabdd60ea18e2f5943).
+2025-06-08 22:16:44,601:INFO:root:Message received: すでにランブルが進行中です from DJ アイズ#4579
+2025-06-08 22:16:44,688:ERROR:discord.app_commands.tree:Ignoring exception in command 'rumble'
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\rumble.py", line 1027, in start_rumble
+    await interaction.response.send_message(embed=embed, view=view)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'rumble' raised an exception: HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
