@@ -1,0 +1,15 @@
+[Unit]
+Description=Discord Bot
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/zeroone_support
+Environment="PATH=/home/ubuntu/.local/bin:/usr/bin:/bin"
+ExecStart=/usr/bin/python3 /home/ubuntu/zeroone_support/main.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

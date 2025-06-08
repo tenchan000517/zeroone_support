@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import discord
+from discord.ext import commands
 import datetime
 import os
 import logging
@@ -7,11 +8,7 @@ import asyncio
 import random
 import aiohttp
 from urllib.parse import quote
-from flask import Flask
-from threading import Thread
 from dotenv import load_dotenv
-import requests
-import time
 
 from config.config import DISCORD_BOT_TOKEN, ADMIN_ID, MAIN_CHAT_CHANNEL, BOT_SALON_CHANNEL, BACK_MODE_CHANNEL, GRAVE_CHANNEL, STORM_CHANNEL, DEV_CHANNEL, POKEMON_CHANNEL, WEATHER_API_KEY
 
@@ -30,29 +27,12 @@ from lib import dominator
 from lib import dice
 from lib.gemini_chat import GeminiChat
 from models.database import init_db
-from discord.ext import commands
 
 # 環境変数をロード
 load_dotenv()
 
-# Flaskのインスタンスを作成
-app = Flask(__name__)
-
 # ロギングの設定
 logging.basicConfig(level=logging.INFO, filename='bot.log', filemode='a', format='%(asctime)s:%(levelname)s:%(name)s:%(message)s')
-
-# 環境変数から設定を読み込む
-my_token = os.getenv('DISCORD_BOT_TOKEN')
-admin_id = os.getenv('ADMIN_ID')
-channel_dict = {
-    'main_chat': os.getenv('MAIN_CHAT_CHANNEL'),
-    'bot_salon': os.getenv('BOT_SALON_CHANNEL'),
-    'back_mode': os.getenv('BACK_MODE_CHANNEL'),
-    'grave': os.getenv('GRAVE_CHANNEL'),
-    'storm': os.getenv('STORM_CHANNEL'),
-    'dev': os.getenv('DEV_CHANNEL'),
-    'pokemon': os.getenv('POKEMON_CHANNEL')
-}
 
 # Intentsの設定
 intents = discord.Intents.default()
@@ -71,7 +51,7 @@ gemini_chat = None
 init_db()
 
 ################# Don't touch. ################
-kumo_san = '╭◜◝ ͡ ◜◝╮ \n(   •ω•　  ) \n╰◟◞ ͜ ◟◞╯ < '
+kumo_san = ''
 ################# Don't touch. ################
 
 # ユーザーが占いを使った日を記録する辞書
@@ -94,12 +74,42 @@ async def on_ready():
         gemini_chat = None
     
     # Cogsをロード
-    for cog in ['cogs.points', 'cogs.role_panel', 'cogs.rumble']:
+    for cog in ['cogs.points', 'cogs.role_panel', 'cogs.rumble', 'cogs.welcome', 'cogs.weekly_content', 'cogs.help_system']:
         try:
             await client.load_extension(cog)
             print(f'Loaded {cog}')
         except Exception as e:
             print(f'Failed to load {cog}: {e}')
+    
+    # スラッシュコマンドを同期（改善版）
+    try:
+        # グローバルコマンド同期
+        synced = await client.tree.sync()
+        print(f'Successfully synced {len(synced)} global slash commands')
+        
+        # 同期されたコマンド一覧を表示
+        for cmd in synced:
+            print(f'  - /{cmd.name}: {cmd.description}')
+            
+        # 特定のギルドでのコマンドを確認
+        for guild in client.guilds:
+            try:
+                guild_commands = await client.tree.fetch_commands(guild=guild)
+                print(f'Guild {guild.name}: {len(guild_commands)} commands available')
+            except Exception as guild_e:
+                print(f'Could not fetch commands for guild {guild.name}: {guild_e}')
+                
+    except Exception as e:
+        print(f'Failed to sync slash commands: {e}')
+        print('Attempting manual sync for each guild...')
+        
+        # フォールバック: 各ギルドで個別同期
+        for guild in client.guilds:
+            try:
+                guild_synced = await client.tree.sync(guild=guild)
+                print(f'Synced {len(guild_synced)} commands for guild {guild.name}')
+            except Exception as guild_e:
+                print(f'Failed to sync for guild {guild.name}: {guild_e}')
 
 async def get_weather_information(location, days=1):
     api_key = WEATHER_API_KEY
@@ -165,7 +175,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if '天気' in message.content:
+    # コマンド処理を先に実行
+    await client.process_commands(message)
+
+    if '天気' in message.content and not message.content.startswith('DJアイズ'):
         await message.channel.send(f"{message.author.mention} どの県の天気を表示しますか？")
 
         def check(m):
@@ -181,30 +194,37 @@ async def on_message(message):
             msg = await get_weather_information(prefecture)
             await message.channel.send(f"{message.author.mention} 時間内に県名が送信されなかったため、ランダムに選んだ {prefecture} の天気を表示します。")
 
-    if '占い' in message.content:
+    # 統一占いシステム: ZERO to ONE星座占い
+    fortune_triggers = ['今日の運勢', '運勢教えて', '運勢チェック', '占って', '星に聞いて']
+    if any(trigger in message.content for trigger in fortune_triggers) and not message.content.startswith('DJアイズ'):
         if user_id in last_uranai_usage and last_uranai_usage[user_id] == current_date:
-            await message.channel.send("今日はもう占ったよ！また明日来てね！")
+            await message.channel.send("🚀 今日はもう占いました！\n✨ 明日のビジネス運もお楽しみに ✨")
         else:
             last_uranai_usage[user_id] = current_date
-            user_name = message.author.display_name  # ユーザー名を取得
-            msg = uranai.uranai(user_name)  # 占いの結果を取得
+            user_name = message.author.display_name
+            msg = uranai.dj_eyes_fortune(user_name)
             await message.channel.send(msg)
-            logging.info(f"占い was triggered by {message.author}: {msg}")
+            logging.info(f"ZERO to ONE占い was triggered by {message.author}")
+        return  # 占い処理後は他の処理をスキップ
 
-    elif 'おみくじ' in message.content:
-        msg = omikuji.omikuji()  # おみくじの結果を取得
+    # スタートアップおみくじシステム
+    elif any(trigger in message.content for trigger in ['おみくじ', 'インキュベーター']) and not message.content.startswith('DJアイズ'):
+        msg = omikuji.dj_omikuji()
         await message.channel.send(msg)
-        logging.info(f"おみくじ was triggered by {message.author}: {msg}")
+        logging.info(f"スタートアップおみくじ was triggered by {message.author}")
+        return  # おみくじ処理後は他の処理をスキップ
 
-    elif '犯罪係数' in message.content:
-        msg = dominator.dominator(message.content)  # 犯罪係数の結果を取得
+    elif '犯罪係数' in message.content and not message.content.startswith('DJアイズ'):
+        msg = dominator.dominator(message.content)
         await message.channel.send(msg)
         logging.info(f"犯罪係数 was triggered by {message.author}: {msg}")
+        return  # 犯罪係数処理後は他の処理をスキップ
 
-    if message.channel == client.get_channel(int(channel_dict['back_mode'])) and str(message.author.id) == admin_id:
+    # 管理者専用バックモード
+    if message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
         try:
             text = message.content
-            selector = int(channel_dict['bot_salon'])
+            selector = int(BOT_SALON_CHANNEL)
             index_st = text.find(' ')+1
             index_ed = text.find(' ')
             search_channel = text[:index_ed]
@@ -212,19 +232,19 @@ async def on_message(message):
             print(search_channel)
             print(search_text)
             if search_channel == 'bot' or search_channel == 'bot_salon':
-                selector = int(channel_dict['bot_salon'])
+                selector = int(BOT_SALON_CHANNEL)
             elif search_channel == 'main' or search_channel == 'main_chat':
-                selector = int(channel_dict['main_chat'])
+                selector = int(MAIN_CHAT_CHANNEL)
             elif search_channel == 'storm':
-                selector = int(channel_dict['storm'])
+                selector = int(STORM_CHANNEL)
             elif search_channel == 'grave' or search_channel == 'hakaba':
-                selector = int(channel_dict['grave'])
+                selector = int(GRAVE_CHANNEL)
             elif search_channel == 'dev':
-                selector = int(channel_dict['dev'])
+                selector = int(DEV_CHANNEL)
             elif search_channel == 'pokemon':
-                selector = int(channel_dict['pokemon'])
+                selector = int(POKEMON_CHANNEL)
             else:
-                selector = int(channel_dict['bot_salon'])
+                selector = int(BOT_SALON_CHANNEL)
             print(selector)
             msg = kumo_san + search_text
             await client.get_channel(selector).send(msg)
@@ -235,7 +255,8 @@ async def on_message(message):
             print(e)
             raise e 
 
-    elif message.content.startswith("DJアイズ"):
+    # メンション or DJアイズへの呼びかけ処理
+    elif (client.user in message.mentions) or (message.content.startswith("DJアイズ") and not message.content.startswith("DJアイズ ")):
         if client.user != message.author:
             try:
                 user_name = message.author.name
@@ -243,26 +264,19 @@ async def on_message(message):
                 text = message.content
                 print(text)
 
-                msg =  kumo_san + user_name + 'さん '
-                if text == ('DJアイズ'):
-                    msg = 'はい！ご用でしょうか！'
-                    logging.info(f"DJアイズ basic call response triggered by {message.author}")
-
-                elif text.find('おは') > -1:
-                    logging.info(f"おはようございます command triggered by {message.author}")
-                    msg += 'おはようございます！'
-                elif text.find('こんにちは') > -1 or text.find('こんにちわ') > -1 or text.find('こんちゃ') > -1 or text.find('やあ') > -1 or text.find('おっす') > -1 or text.find('こんにち') > -1:
-                    msg += 'こんにちは！'
-                    logging.info(f"こんにちは command triggered by {message.author}")
-                elif text.find('こんばんは') > -1 or text.find('こんばんわ') > -1 or text.find('ばんわ') > -1 or text.find('こんばん') > -1:
-                    msg += 'こんばんは！'
-                elif text.find('おつ') > -1 or text.find('疲') > -1 or text.find('お先') > -1 or text.find('おち') > -1 or text.find('落ち') > -1:
-                    msg += 'おつかれさまです！'  
-                elif text.find('おやす') > -1:
-                    msg += 'おやすみなさーい！'
-                elif text.find('ありがと') > -1 or text.find('thank') > -1 or text.find('thx') > -1:
-                    msg += 'お役に立てたならなによりです！'
-                elif text.find('慰めて') > -1 or text.find('なぐさめて') > -1 or text.find('アドバイス') > -1 or text.find('助言') > -1:
+                # メンションの場合は@を削除
+                if client.user in message.mentions:
+                    text = text.replace(f'<@{client.user.id}>', '').strip()
+                
+                # コマンドシステムを優先（ポイント確認、ロールパネル作成など）
+                command_keywords = ['ポイント確認', 'デイリーボーナス', 'ランキング', 'ポイント付与', 'ポイント削除', 'ポイント設定', 
+                                  'ロールパネル作成']
+                if any(keyword in text for keyword in command_keywords):
+                    # コマンドシステムに処理を任せるため、何もしない
+                    return
+                
+                # 特定のキーワードは既存機能を使用（トークン節約）
+                if text.find('慰めて') > -1 or text.find('なぐさめて') > -1 or text.find('アドバイス') > -1 or text.find('助言') > -1:
                     msg = meigen.meigen()
                 elif text.find('グー') > -1 or text.find('チョキ') > -1 or text.find('パー') > -1 or text.find('ぐー') > -1 or text.find('ちょき') > -1 or text.find('ぱー') > -1:
                     msg = keisuke_honda.keisuke_honda(text, user_id)
@@ -271,26 +285,25 @@ async def on_message(message):
                 elif text.find('犯罪係数') > -1 or text.find('ドミネータ') > -1 or text.find('サイコパス') > -1 or text.find('色相') > -1 or text.find('シビュラ') > -1:
                     msg = kumo_san + dominator.dominator(text)
                 elif text.find('modokicraft') > -1:
-                    msg += modokicraft.send_signal_to_modokicraft(text)
+                    msg = kumo_san + user_name + 'さん ' + modokicraft.send_signal_to_modokicraft(text)
                 elif text.find('wp') > -1:
                     msg = kumo_san + waruiko_point.waruiko_point(text, user_id)
                 elif text.find('マインスイーパ') > -1 or text.find('まいんすいーぱ') > -1:
-                    msg += '出題！\n' + minesweeper.minesweeper(text)
+                    msg = kumo_san + user_name + 'さん 出題！\n' + minesweeper.minesweeper(text)
                 elif text.find('級') > -1 or text.find('遊ぼ') > -1 or text.find('遊んで') > -1 or text.find('あそぼ') > -1 or text.find('あそんで') > -1:
-                    msg += 'マインスイーパーしましょう！\n' + minesweeper.minesweeper(text)
-                elif text.find('座') > -1:
-                    msg += uranai.uranai(text)
+                    msg = kumo_san + user_name + 'さん マインスイーパーしましょう！\n' + minesweeper.minesweeper(text)
+                # 星座占いは統一システムに移行済み（重複除去）
                 elif text.find('d') > -1:
-                    msg += 'のダイス結果です\n' + dice.nDn(text)
+                    msg = kumo_san + user_name + 'さん のダイス結果です\n' + dice.nDn(text)
                 elif text.find('って何') > -1 or text.find('ってなに') > -1:
-                    msg += wiki.wikipedia_search(text)
+                    msg = kumo_san + user_name + 'さん ' + wiki.wikipedia_search(text)
                 elif text.find('天気') > -1:
-                    msg += await get_weather_information(text)
+                    msg = kumo_san + user_name + 'さん ' + await get_weather_information(text)
                 elif text.find('は素数') > -1:
-                    msg += primarity_test.primarity_test(text, 50)
+                    msg = kumo_san + user_name + 'さん ' + primarity_test.primarity_test(text, 50)
                 elif text.find('おそうじ') > -1 or text.find('お掃除') > -1:
                     history = ""
-                    if channel == client.get_channel(int(channel_dict['storm'])):
+                    if channel == client.get_channel(int(STORM_CHANNEL)):
                         async for i in channel.history(oldest_first=True):
                             history += i.author.display_name+" "+i.content+"\n"
                         date = datetime.datetime.today().strftime("%Y_%m_%d")
@@ -302,21 +315,27 @@ async def on_message(message):
                             with open(path, mode='a') as f:
                                 f.write(history)
                         await channel.purge()
-                        msg += '塵一つ残しません！ :cloud_tornado: '
+                        msg = kumo_san + user_name + 'さん 塵一つ残しません！ :cloud_tornado: '
                         logging.info("Cleaning command executed in storm channel")
                     else:
-                        msg += 'このコマンドは #暴風域 でしか使えないよ！'
+                        msg = kumo_san + user_name + 'さん このコマンドは #暴風域 でしか使えないよ！'
                         logging.info("Cleaning command attempted outside storm channel")
-                else:
-                    # Gemini AIが利用可能ならAI応答を試みる
-                    if gemini_chat and text.find('AI') > -1 or text.find('会話') > -1:
+                # メッセージがある場合はGemini AI、空の場合は定型文
+                elif text.replace('DJアイズ', '').strip():
+                    # Gemini AIで応答
+                    if gemini_chat:
                         try:
                             ai_response = gemini_chat.get_response(str(user_id), text.replace('DJアイズ', '').strip())
-                            msg = kumo_san + ai_response
+                            msg = ai_response
                         except:
-                            msg += 'その言葉は知らなかったから調べたよ。\n' + wiki.wiki(text)
+                            msg = kumo_san + user_name + 'さん その言葉は知らなかったから調べたよ。\n' + wiki.wiki(text)
                     else:
-                        msg += 'その言葉は知らなかったから調べたよ。\n' + wiki.wiki(text)
+                        msg = kumo_san + user_name + 'さん その言葉は知らなかったから調べたよ。\n' + wiki.wiki(text)
+                else:
+                    # 空のメンション・呼びかけには定型文で応答
+                    msg = 'はい！ご用でしょうか！'
+                    logging.info(f"Basic call response triggered by {message.author}")
+                
                 await channel.send(msg)
                 logging.info(f"Responded with: {msg} to {message.author} in channel {message.channel}")
                 return msg
@@ -325,36 +344,5 @@ async def on_message(message):
                 print(e)
                 raise e
 
-# Flaskのルート定義
-@app.route('/')
-def home():
-    return "Hello, this is a placeholder for the Discord bot server."
-
-# Discord Botを別スレッドで実行
-def run_discord_bot():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.create_task(client.start(my_token))
-    loop.run_forever()
-
-# Keep-Aliveスクリプト（現在は無効化）
-def keep_alive():
-    # Azure App Serviceが403を返すため、一時的に無効化
-    print("Keep-alive is currently disabled")
-    return
-    # while True:
-    #     try:
-    #         response = requests.get('https://uranaibot.azurewebsites.net')  # Azure App ServiceのURL
-    #         if response.status_code == 200:
-    #             print("Keep-alive request successful.")
-    #         else:
-    #             print(f"Keep-alive request failed with status code: {response.status_code}")
-    #     except Exception as e:
-    #         print(f"Keep-alive request encountered an error: {e}")
-    #     time.sleep(300)  # 5分ごとにリクエストを送信
-
 if __name__ == "__main__":
-    # Flaskサーバーをメインスレッドで実行
-    Thread(target=run_discord_bot).start()
-    Thread(target=keep_alive).start()
-    app.run(host="0.0.0.0", port=8000)
+    client.run(DISCORD_BOT_TOKEN)

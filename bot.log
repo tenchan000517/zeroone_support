@@ -8030,3 +8030,944 @@ A5. ‰¼‘zŠÂ‹«‚ÍˆÈ‰º‚Ìè‡‚Åì¬Eg—p‚µ‚Ü‚·B
  * Running on http://192.168.0.9:8000
 2024-05-18 13:18:31,182:INFO:werkzeug: [33mPress CTRL+C to quit[0m
 2024-05-18 13:18:32,255:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 625e9f997befe8e1d9ffad2c7e6a79b9).
+2025-06-08 11:41:41,557:INFO:discord.client:logging in using static token
+2025-06-08 11:41:41,557:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<Client.start() done, defined at C:\Users\tench\anaconda3\lib\site-packages\discord\client.py:756> exception=TypeError('expected token to be a str, received NoneType instead')>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 777, in start
+    await self.login(token)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 609, in login
+    raise TypeError(f'expected token to be a str, received {token.__class__.__name__} instead')
+TypeError: expected token to be a str, received NoneType instead
+2025-06-08 11:41:41,566:INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.0.7:8000
+2025-06-08 11:41:41,566:INFO:werkzeug:[33mPress CTRL+C to quit[0m
+2025-06-08 14:29:53,856:INFO:discord.client:logging in using static token
+2025-06-08 14:29:53,857:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<Client.start() done, defined at C:\Users\tench\anaconda3\lib\site-packages\discord\client.py:756> exception=TypeError('expected token to be a str, received NoneType instead')>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 777, in start
+    await self.login(token)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 609, in login
+    raise TypeError(f'expected token to be a str, received {token.__class__.__name__} instead')
+TypeError: expected token to be a str, received NoneType instead
+2025-06-08 14:29:53,866:INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.0.7:8000
+2025-06-08 14:29:53,866:INFO:werkzeug:[33mPress CTRL+C to quit[0m
+2025-06-08 14:35:11,761:INFO:discord.client:logging in using static token
+2025-06-08 14:39:14,854:INFO:discord.client:logging in using static token
+2025-06-08 14:40:51,096:INFO:discord.client:logging in using static token
+2025-06-08 14:40:52,436:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 984bc437dd0126561a2eb26fce4cb3e0).
+2025-06-08 14:41:16,336:INFO:root:Message received: “V‹C from tenchan_0517
+2025-06-08 14:41:16,708:INFO:root:Message received: <@976427276340166696> ‚Ç‚ÌŒ§‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 14:41:20,858:INFO:root:Message received: ˆ¤’mŒ§ from tenchan_0517
+2025-06-08 14:41:20,858:ERROR:discord.client:Ignoring exception in on_message
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\zeroone_support\main.py", line 188, in on_message
+    if message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
+ValueError: invalid literal for int() with base 10: 'your_back_mode_channel_id'
+2025-06-08 14:41:21,690:INFO:root:Message received: ƒWƒIƒR[ƒfƒBƒ“ƒO‚É¸”s‚µ‚Ü‚µ‚½BƒGƒ‰[ƒR[ƒh: 401 :cold_sweat: from DJ ƒAƒCƒY#4579
+2025-06-08 14:41:21,785:ERROR:discord.client:Ignoring exception in on_message
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\zeroone_support\main.py", line 188, in on_message
+    if message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
+ValueError: invalid literal for int() with base 10: 'your_back_mode_channel_id'
+2025-06-08 14:42:14,728:INFO:root:Message received: “V‹C from tenchan_0517
+2025-06-08 14:42:16,579:INFO:root:Message received: <@976427276340166696> ‚Ç‚ÌŒ§‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 14:42:47,336:INFO:root:Message received: <@976427276340166696> ŠÔ“à‚ÉŒ§–¼‚ª‘—M‚³‚ê‚È‚©‚Á‚½‚½‚ßAƒ‰ƒ“ƒ_ƒ€‚É‘I‚ñ‚¾ ç—tŒ§ ‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·B from DJ ƒAƒCƒY#4579
+2025-06-08 14:42:47,463:ERROR:discord.client:Ignoring exception in on_message
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\zeroone_support\main.py", line 188, in on_message
+    if message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
+ValueError: invalid literal for int() with base 10: 'your_back_mode_channel_id'
+2025-06-08 14:43:45,948:INFO:discord.client:logging in using static token
+2025-06-08 14:43:47,254:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 6e2e7a16b4defac1382dbfee8f253b11).
+2025-06-08 14:43:54,271:INFO:root:Message received: è‚¢ from tenchan_0517
+2025-06-08 14:43:54,704:INFO:root:Message received: ¡“ú‚Ì**“V‚¿‚á‚ñ++**‚Ì‰^¨‚Í...**59“**I
+Šy‚µ‚»‚¤‚È—U‚¢‚ª‚ ‚¿‚±‚¿‚©‚ç—ˆ‚ÄƒEƒLƒEƒLB‹C•ª‚àæ‚Á‚Ä‚¢‚é‚Ì‚ÅA”æ‚ê‚ğŠ´‚¶‚È‚³‚»‚¤B‚Ì‚Ñ‚Ì‚ÑƒXƒgƒŒƒX‚ğ”­U‚µ‚ÄB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒR[ƒ“ƒtƒŒ[ƒN**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒVƒ‹ƒo[**B
+d–‰^F:briefcase: :briefcase: :briefcase: :briefcase: 
+‹à@‰^F:moneybag: :moneybag: :moneybag: 
+—öˆ¤‰^F:heart: :heart: :heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: :star: :star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI from DJ ƒAƒCƒY#4579
+2025-06-08 14:43:54,765:INFO:root:è‚¢ was triggered by tenchan_0517: ¡“ú‚Ì**“V‚¿‚á‚ñ++**‚Ì‰^¨‚Í...**59“**I
+Šy‚µ‚»‚¤‚È—U‚¢‚ª‚ ‚¿‚±‚¿‚©‚ç—ˆ‚ÄƒEƒLƒEƒLB‹C•ª‚àæ‚Á‚Ä‚¢‚é‚Ì‚ÅA”æ‚ê‚ğŠ´‚¶‚È‚³‚»‚¤B‚Ì‚Ñ‚Ì‚ÑƒXƒgƒŒƒX‚ğ”­U‚µ‚ÄB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒR[ƒ“ƒtƒŒ[ƒN**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒVƒ‹ƒo[**B
+d–‰^F:briefcase: :briefcase: :briefcase: :briefcase: 
+‹à@‰^F:moneybag: :moneybag: :moneybag: 
+—öˆ¤‰^F:heart: :heart: :heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: :star: :star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI
+2025-06-08 14:44:08,515:INFO:root:Message received: è‚¢ from tenchan_0517
+2025-06-08 14:44:08,765:INFO:root:Message received: ¡“ú‚Í‚à‚¤è‚Á‚½‚æI‚Ü‚½–¾“ú—ˆ‚Ä‚ËI from DJ ƒAƒCƒY#4579
+2025-06-08 14:44:08,866:INFO:root:Message received: è‚¢‚ÌÀs’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B from Gatcha#9378
+2025-06-08 14:44:09,187:INFO:root:Message received: ¡“ú‚Ì**ƒ‚ƒfƒŒ[ƒ^[**‚Ì‰^¨‚Í...**50“**I
+•K—v‚È‚à‚Ì‚ªƒ^ƒCƒ~ƒ“ƒO—Ç‚­è‚É“ü‚Á‚½‚èA˜b‚µ‚½‚¢l‚É‹ô‘Ro‰ï‚Á‚½‚èAƒ^ƒCƒ~ƒ“ƒO‚Ì—Ç‚¢“úB—öl‚Æ˜A—‚ğ‚Æ‚é‚Ì‚à‹gB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒnƒ“ƒo[ƒK[**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒIƒŒƒ“ƒW**B
+d–‰^F:briefcase: :briefcase: :briefcase: 
+‹à@‰^F:moneybag: :moneybag: :moneybag: 
+—öˆ¤‰^F:heart: :heart: :heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: :star: :star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI from DJ ƒAƒCƒY#4579
+2025-06-08 14:44:09,242:INFO:root:è‚¢ was triggered by Gatcha#9378: ¡“ú‚Ì**ƒ‚ƒfƒŒ[ƒ^[**‚Ì‰^¨‚Í...**50“**I
+•K—v‚È‚à‚Ì‚ªƒ^ƒCƒ~ƒ“ƒO—Ç‚­è‚É“ü‚Á‚½‚èA˜b‚µ‚½‚¢l‚É‹ô‘Ro‰ï‚Á‚½‚èAƒ^ƒCƒ~ƒ“ƒO‚Ì—Ç‚¢“úB—öl‚Æ˜A—‚ğ‚Æ‚é‚Ì‚à‹gB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒnƒ“ƒo[ƒK[**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒIƒŒƒ“ƒW**B
+d–‰^F:briefcase: :briefcase: :briefcase: 
+‹à@‰^F:moneybag: :moneybag: :moneybag: 
+—öˆ¤‰^F:heart: :heart: :heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: :star: :star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI
+2025-06-08 14:45:08,473:INFO:root:Message received: è‚¢ from tenchan_0517
+2025-06-08 14:45:08,759:INFO:root:Message received: ‚±‚ÌƒT[ƒo[‚Å‚Íè‚¢‹@”\‚ª–³Œø‚É‚È‚Á‚Ä‚¢‚Ü‚·B from Gatcha#9378
+2025-06-08 14:45:08,799:INFO:root:Message received: ¡“ú‚Í‚à‚¤è‚Á‚½‚æI‚Ü‚½–¾“ú—ˆ‚Ä‚ËI from DJ ƒAƒCƒY#4579
+2025-06-08 14:45:09,157:INFO:root:Message received: ¡“ú‚Í‚à‚¤è‚Á‚½‚æI‚Ü‚½–¾“ú—ˆ‚Ä‚ËI from DJ ƒAƒCƒY#4579
+2025-06-08 14:45:58,845:INFO:discord.client:logging in using static token
+2025-06-08 14:46:00,002:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 1295e27318b4fdf91f6183b951a1d0d4).
+2025-06-08 14:46:08,451:INFO:root:Message received: è‚¢ from tenchan_0517
+2025-06-08 14:46:08,897:INFO:root:Message received: ‚±‚ÌƒT[ƒo[‚Å‚Íè‚¢‹@”\‚ª–³Œø‚É‚È‚Á‚Ä‚¢‚Ü‚·B from Gatcha#9378
+2025-06-08 14:46:08,942:INFO:root:Message received: ¡“ú‚Ì**“V‚¿‚á‚ñ++**‚Ì‰^¨‚Í...**100“**I
+ƒXƒeƒL‚Èo‰ï‚¢‚ÉŒb‚Ü‚ê‚é—\Š´B—F’B‚©‚ç‚ÌĞ‰î‚Å‚àAŠú‘Ò‚Í‚‚»‚¤‚Å‚·IƒIƒVƒƒƒŒ‚ğˆÓ¯‚·‚é‚±‚Æ‚ªA¡“ú‚ÌŠJ‰^‚ÌƒJƒMB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒsƒ“ƒL[ƒŠƒ“ƒO**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒOƒŒ[**B
+d–‰^F:briefcase: :briefcase: :briefcase: :briefcase: :briefcase: 
+‹à@‰^F:moneybag: :moneybag: :moneybag: :moneybag: :moneybag: 
+—öˆ¤‰^F:heart: :heart: :heart: :heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: :star: :star: :star: :star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI from DJ ƒAƒCƒY#4579
+2025-06-08 14:46:09,012:INFO:root:è‚¢ was triggered by tenchan_0517: ¡“ú‚Ì**“V‚¿‚á‚ñ++**‚Ì‰^¨‚Í...**100“**I
+ƒXƒeƒL‚Èo‰ï‚¢‚ÉŒb‚Ü‚ê‚é—\Š´B—F’B‚©‚ç‚ÌĞ‰î‚Å‚àAŠú‘Ò‚Í‚‚»‚¤‚Å‚·IƒIƒVƒƒƒŒ‚ğˆÓ¯‚·‚é‚±‚Æ‚ªA¡“ú‚ÌŠJ‰^‚ÌƒJƒMB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒsƒ“ƒL[ƒŠƒ“ƒO**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒOƒŒ[**B
+d–‰^F:briefcase: :briefcase: :briefcase: :briefcase: :briefcase: 
+‹à@‰^F:moneybag: :moneybag: :moneybag: :moneybag: :moneybag: 
+—öˆ¤‰^F:heart: :heart: :heart: :heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: :star: :star: :star: :star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI
+2025-06-08 14:46:09,315:INFO:root:Message received: ¡“ú‚Ì**ƒ‚ƒfƒŒ[ƒ^[**‚Ì‰^¨‚Í...**8“**I
+ˆø‚Á‚İvˆÄ‚Íƒ_ƒB‘å’_‚È”­Œ¾‚ğ‚·‚é‚ÆAüˆÍ‚©‚ç‘å‚«‚Èx‚ª‚ ‚è‚»‚¤Bà“¾‚·‚éƒV[ƒ“‚Å‚ÍA‚ ‚È‚½‚Ìî”M‚ğ“`‚¦‚é‚æ‚¤‚É‚µ‚ÄB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒvƒŠƒ“ƒ^[**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒS[ƒ‹ƒh**B
+d–‰^F:briefcase: :briefcase: 
+‹à@‰^F:moneybag: 
+—öˆ¤‰^F:heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI from DJ ƒAƒCƒY#4579
+2025-06-08 14:46:09,418:INFO:root:è‚¢ was triggered by Gatcha#9378: ¡“ú‚Ì**ƒ‚ƒfƒŒ[ƒ^[**‚Ì‰^¨‚Í...**8“**I
+ˆø‚Á‚İvˆÄ‚Íƒ_ƒB‘å’_‚È”­Œ¾‚ğ‚·‚é‚ÆAüˆÍ‚©‚ç‘å‚«‚Èx‚ª‚ ‚è‚»‚¤Bà“¾‚·‚éƒV[ƒ“‚Å‚ÍA‚ ‚È‚½‚Ìî”M‚ğ“`‚¦‚é‚æ‚¤‚É‚µ‚ÄB
+ƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Í**ƒvƒŠƒ“ƒ^[**‚ÅAƒ‰ƒbƒL[ƒJƒ‰[‚Í**ƒS[ƒ‹ƒh**B
+d–‰^F:briefcase: :briefcase: 
+‹à@‰^F:moneybag: 
+—öˆ¤‰^F:heart: :heart: 
+ƒg[ƒ^ƒ‹‚Í...:star: ‚Å‚·I—Ç‚¢ˆê“ú‚ğI
+2025-06-08 14:48:36,228:INFO:root:Message received: <@1216246537647292486> ÅV‚ÌAIƒgƒŒƒ“ƒh‚ğ‹³‚¦‚Ä‚­‚¾‚³‚¢ from tenchan_0517
+2025-06-08 14:50:57,018:INFO:root:Message received: ‰ï˜b from tenchan_0517
+2025-06-08 14:51:04,430:INFO:root:Message received: DJƒAƒCƒY@‰ï˜b from tenchan_0517
+2025-06-08 14:51:05,173:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < Gemini‚Æ‚Ì’ÊM‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods. from DJ ƒAƒCƒY#4579
+2025-06-08 14:51:05,224:INFO:root:Responded with: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < Gemini‚Æ‚Ì’ÊM‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods. to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:52:17,234:INFO:discord.client:logging in using static token
+2025-06-08 14:52:18,406:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 9f1f35fd22b0390093aa242da84600e7).
+2025-06-08 14:52:21,934:INFO:root:Message received: DJƒAƒCƒY@‰ï˜b from tenchan_0517
+2025-06-08 14:52:24,192:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ‚Ç‚Ì‚æ‚¤‚È‰ï˜b‚ğŠó–]‚³‚ê‚Ü‚·‚©H  ‹ï‘Ì“I‚Èó‹µ‚â“oêl•¨Aƒe[ƒ}‚È‚Ç‚ğ‹³‚¦‚Ä‚¢‚½‚¾‚¯‚ê‚ÎA‚»‚ê‚É‰ˆ‚Á‚½‰ï˜b‚ğ¶¬‚Å‚«‚Ü‚·B
+
+—á‚¦‚ÎAˆÈ‰º‚Ì‚æ‚¤‚Èî•ñ‚ª‚ ‚é‚Æ‚æ‚è—Ç‚¢‰ï˜b‚ğì¬‚Å‚«‚Ü‚·B
+
+* **“oêl•¨:** ’N‚ª˜b‚µ‚Ä‚¢‚é‚Ì‚©Hi”N—îA«•ÊA«ŠiAŠÖŒW«‚È‚Çj
+* **ó‹µ:** ‚Ç‚±‚ÅA‚Ç‚ñ‚Èó‹µ‚Å‰ï˜b‚ªs‚í‚ê‚Ä‚¢‚é‚Ì‚©HiŠÔAêŠA•µˆÍ‹C‚È‚Çj
+* **ƒe[ƒ}:** ‚Ç‚Ì‚æ‚¤‚È“à—e‚É‚Â‚¢‚Ä˜b‚µ‚Ä‚¢‚é‚Ì‚©Hid–A—öˆ¤Aï–¡A“úí¶Šˆ‚È‚Çj
+* **‰ï˜b‚Ì–Ú“I:** ‰ï˜b‚É‚æ‚Á‚Ä‰½‚ª’B¬‚³‚ê‚é‚Ì‚©Hiî•ñŒğŠ·A–â‘è‰ğŒˆAŠÖŒW\’z‚È‚Çj
+* **‰ï˜b‚Ìƒg[ƒ“:** ‰ï˜b‚Ì•µˆÍ‹C‚Í‚Ç‚Ì‚æ‚¤‚È‚Ì‚©HiƒtƒH[ƒ}ƒ‹AƒCƒ“ƒtƒH[ƒ}ƒ‹Ae–§A‹Ù’£Š´‚È‚Çj
+
+—á‚¦‚ÎAuƒJƒtƒF‚Å—F’B“ñli20‘ã—«j‚ªAÅ‹ß‚Ì‰f‰æ‚É‚Â‚¢‚Ä˜b‚µ‚Ä‚¢‚é‰ï˜bv‚Æ‚©Auãi‚Æ•”‰ºi30‘ã’j«j‚ªAƒvƒƒWƒFƒNƒg‚Ìi’»‚É‚Â‚¢‚Ä˜b‚µ‚Ä‚¢‚é‰ï˜bv‚Æ‚¢‚Á‚½î•ñ‚ğ‚¢‚½‚¾‚¯‚ê‚ÎA‚æ‚è‹ï‘Ì“I‚È‰ï˜b‚ğ¶¬‚Å‚«‚Ü‚·B from DJ ƒAƒCƒY#4579
+2025-06-08 14:52:24,243:INFO:root:Responded with: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ‚Ç‚Ì‚æ‚¤‚È‰ï˜b‚ğŠó–]‚³‚ê‚Ü‚·‚©H  ‹ï‘Ì“I‚Èó‹µ‚â“oêl•¨Aƒe[ƒ}‚È‚Ç‚ğ‹³‚¦‚Ä‚¢‚½‚¾‚¯‚ê‚ÎA‚»‚ê‚É‰ˆ‚Á‚½‰ï˜b‚ğ¶¬‚Å‚«‚Ü‚·B
+
+—á‚¦‚ÎAˆÈ‰º‚Ì‚æ‚¤‚Èî•ñ‚ª‚ ‚é‚Æ‚æ‚è—Ç‚¢‰ï˜b‚ğì¬‚Å‚«‚Ü‚·B
+
+* **“oêl•¨:** ’N‚ª˜b‚µ‚Ä‚¢‚é‚Ì‚©Hi”N—îA«•ÊA«ŠiAŠÖŒW«‚È‚Çj
+* **ó‹µ:** ‚Ç‚±‚ÅA‚Ç‚ñ‚Èó‹µ‚Å‰ï˜b‚ªs‚í‚ê‚Ä‚¢‚é‚Ì‚©HiŠÔAêŠA•µˆÍ‹C‚È‚Çj
+* **ƒe[ƒ}:** ‚Ç‚Ì‚æ‚¤‚È“à—e‚É‚Â‚¢‚Ä˜b‚µ‚Ä‚¢‚é‚Ì‚©Hid–A—öˆ¤Aï–¡A“úí¶Šˆ‚È‚Çj
+* **‰ï˜b‚Ì–Ú“I:** ‰ï˜b‚É‚æ‚Á‚Ä‰½‚ª’B¬‚³‚ê‚é‚Ì‚©Hiî•ñŒğŠ·A–â‘è‰ğŒˆAŠÖŒW\’z‚È‚Çj
+* **‰ï˜b‚Ìƒg[ƒ“:** ‰ï˜b‚Ì•µˆÍ‹C‚Í‚Ç‚Ì‚æ‚¤‚È‚Ì‚©HiƒtƒH[ƒ}ƒ‹AƒCƒ“ƒtƒH[ƒ}ƒ‹Ae–§A‹Ù’£Š´‚È‚Çj
+
+—á‚¦‚ÎAuƒJƒtƒF‚Å—F’B“ñli20‘ã—«j‚ªAÅ‹ß‚Ì‰f‰æ‚É‚Â‚¢‚Ä˜b‚µ‚Ä‚¢‚é‰ï˜bv‚Æ‚©Auãi‚Æ•”‰ºi30‘ã’j«j‚ªAƒvƒƒWƒFƒNƒg‚Ìi’»‚É‚Â‚¢‚Ä˜b‚µ‚Ä‚¢‚é‰ï˜bv‚Æ‚¢‚Á‚½î•ñ‚ğ‚¢‚½‚¾‚¯‚ê‚ÎA‚æ‚è‹ï‘Ì“I‚È‰ï˜b‚ğ¶¬‚Å‚«‚Ü‚·B
+ to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:52:37,055:INFO:root:Message received: DJƒAƒCƒY@¡“ú‚Ì‰^¨ from tenchan_0517
+2025-06-08 14:52:38,963:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ¡“ú‚Ì‰^¨‚ÍAc”O‚È‚ª‚ç‚¨“`‚¦‚Å‚«‚Ü‚¹‚ñB ‰^¨‚Íè‚¢‚â“Œv‚ÉŠî‚Ã‚¢‚½‚à‚Ì‚Å‚ ‚èA‰ÈŠw“I‚Èª‹’‚ÉŠî‚Ã‚¢‚Ä‚¢‚Ü‚¹‚ñB  „‚Í–À‚âî•ñ‚ğ’ñ‹Ÿ‚·‚é‚±‚Æ‚ğ–Ú“I‚Æ‚µ‚Ä‚¨‚èAè‚¢‚ÌŒ‹‰Ê‚ğ—\‘ª‚·‚é”\—Í‚Í‚ ‚è‚Ü‚¹‚ñB
+
+‚µ‚©‚µA¡“úˆê“ú‚ğ—Ç‚¢“ú‚Æ‚·‚é‚½‚ß‚Ìƒqƒ“ƒg‚Í‚¢‚­‚Â‚©‚¨“`‚¦‚Å‚«‚Ü‚·B
+
+* **ƒ|ƒWƒeƒBƒu‚Èvl‚ğS‚ª‚¯‚é:** ƒ|ƒWƒeƒBƒu‚È‹C‚¿‚Åˆê“ú‚ğn‚ß‚é‚ÆA•¨–‚ªƒXƒ€[ƒY‚Éi‚İ‚â‚·‚­‚È‚è‚Ü‚·B
+* **–Ú•W‚ğİ’è‚·‚é:**  ¬‚³‚È–Ú•W‚Å‚à—Ç‚¢‚Ì‚ÅA’B¬‚µ‚½‚¢‚±‚Æ‚ğİ’è‚µA‚»‚ê‚ÉŒü‚©‚Á‚Ä“w—Í‚·‚é‚±‚Æ‚Å[ÀŠ´‚ğ“¾‚ç‚ê‚Ü‚·B
+* **ü‚è‚Ìl‚ÉŠ´Ó‚·‚é:**  Š´Ó‚Ì‹C‚¿‚ğ“`‚¦‚é‚±‚Æ‚ÅA©•ª©g‚àK‚¹‚È‹C‚¿‚É‚È‚è‚Ü‚·B
+* **‹x‘§‚ğ‚µ‚Á‚©‚è‚Æ‚é:**  ”æ‚ê‚Ä‚¢‚é‚Í–³—‚ğ‚¹‚¸A‹x‘§‚ğæ‚é‚±‚Æ‚ÅAƒpƒtƒH[ƒ}ƒ“ƒX‚ğŒüã‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+
+
+¡“ú‚Ì‰^¨‚ÍA‚ ‚È‚½‚ª‚Ç‚¤‰ß‚²‚·‚©‚É‚æ‚Á‚ÄŒˆ‚Ü‚è‚Ü‚·B  —Ç‚¢ˆê“ú‚ğ‚¨‰ß‚²‚µ‚­‚¾‚³‚¢I from DJ ƒAƒCƒY#4579
+2025-06-08 14:52:38,996:INFO:root:Responded with: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ¡“ú‚Ì‰^¨‚ÍAc”O‚È‚ª‚ç‚¨“`‚¦‚Å‚«‚Ü‚¹‚ñB ‰^¨‚Íè‚¢‚â“Œv‚ÉŠî‚Ã‚¢‚½‚à‚Ì‚Å‚ ‚èA‰ÈŠw“I‚Èª‹’‚ÉŠî‚Ã‚¢‚Ä‚¢‚Ü‚¹‚ñB  „‚Í–À‚âî•ñ‚ğ’ñ‹Ÿ‚·‚é‚±‚Æ‚ğ–Ú“I‚Æ‚µ‚Ä‚¨‚èAè‚¢‚ÌŒ‹‰Ê‚ğ—\‘ª‚·‚é”\—Í‚Í‚ ‚è‚Ü‚¹‚ñB
+
+‚µ‚©‚µA¡“úˆê“ú‚ğ—Ç‚¢“ú‚Æ‚·‚é‚½‚ß‚Ìƒqƒ“ƒg‚Í‚¢‚­‚Â‚©‚¨“`‚¦‚Å‚«‚Ü‚·B
+
+* **ƒ|ƒWƒeƒBƒu‚Èvl‚ğS‚ª‚¯‚é:** ƒ|ƒWƒeƒBƒu‚È‹C‚¿‚Åˆê“ú‚ğn‚ß‚é‚ÆA•¨–‚ªƒXƒ€[ƒY‚Éi‚İ‚â‚·‚­‚È‚è‚Ü‚·B
+* **–Ú•W‚ğİ’è‚·‚é:**  ¬‚³‚È–Ú•W‚Å‚à—Ç‚¢‚Ì‚ÅA’B¬‚µ‚½‚¢‚±‚Æ‚ğİ’è‚µA‚»‚ê‚ÉŒü‚©‚Á‚Ä“w—Í‚·‚é‚±‚Æ‚Å[ÀŠ´‚ğ“¾‚ç‚ê‚Ü‚·B
+* **ü‚è‚Ìl‚ÉŠ´Ó‚·‚é:**  Š´Ó‚Ì‹C‚¿‚ğ“`‚¦‚é‚±‚Æ‚ÅA©•ª©g‚àK‚¹‚È‹C‚¿‚É‚È‚è‚Ü‚·B
+* **‹x‘§‚ğ‚µ‚Á‚©‚è‚Æ‚é:**  ”æ‚ê‚Ä‚¢‚é‚Í–³—‚ğ‚¹‚¸A‹x‘§‚ğæ‚é‚±‚Æ‚ÅAƒpƒtƒH[ƒ}ƒ“ƒX‚ğŒüã‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+
+
+¡“ú‚Ì‰^¨‚ÍA‚ ‚È‚½‚ª‚Ç‚¤‰ß‚²‚·‚©‚É‚æ‚Á‚ÄŒˆ‚Ü‚è‚Ü‚·B  —Ç‚¢ˆê“ú‚ğ‚¨‰ß‚²‚µ‚­‚¾‚³‚¢I
+ to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:55:09,155:INFO:discord.client:logging in using static token
+2025-06-08 14:55:10,583:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 2c71b66ea447e58a777cde15816f3d04).
+2025-06-08 14:55:15,634:INFO:root:Message received: DJƒAƒCƒY@‚±‚ñ‚É‚¿‚í from tenchan_0517
+2025-06-08 14:55:15,634:INFO:root:‚±‚ñ‚É‚¿‚Í command triggered by tenchan_0517
+2025-06-08 14:55:15,945:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < tenchan_0517‚³‚ñ ‚±‚ñ‚É‚¿‚ÍI from DJ ƒAƒCƒY#4579
+2025-06-08 14:55:15,977:INFO:root:Responded with: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < tenchan_0517‚³‚ñ ‚±‚ñ‚É‚¿‚ÍI to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:55:23,110:INFO:root:Message received: DJƒAƒCƒY@‰ï˜b from tenchan_0517
+2025-06-08 14:55:23,919:INFO:root:Message received: ‚Ç‚¤‚µ‚½‚ÌH‰½‚©ƒŠƒNƒGƒXƒg‚ ‚éH from DJ ƒAƒCƒY#4579
+2025-06-08 14:55:23,971:INFO:root:Responded with: ‚Ç‚¤‚µ‚½‚ÌH‰½‚©ƒŠƒNƒGƒXƒg‚ ‚éH
+ to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:55:34,820:INFO:root:Message received: “Á‚É‚È‚¢ from tenchan_0517
+2025-06-08 14:58:31,657:INFO:discord.client:logging in using static token
+2025-06-08 14:58:32,825:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: bef742979a474921cbb55cadfd02f4e8).
+2025-06-08 14:58:38,186:INFO:root:Message received: <@1216246537647292486> from tenchan_0517
+2025-06-08 14:58:38,187:INFO:root:Basic call response triggered by tenchan_0517
+2025-06-08 14:58:38,436:INFO:root:Message received: ‚Í‚¢I‚²—p‚Å‚µ‚å‚¤‚©I from DJ ƒAƒCƒY#4579
+2025-06-08 14:58:38,468:INFO:root:Responded with: ‚Í‚¢I‚²—p‚Å‚µ‚å‚¤‚©I to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:58:54,341:INFO:root:Message received: ‚¢‚â“Á‚É—p‚Í‚È‚¢ from tenchan_0517
+2025-06-08 14:58:55,187:INFO:root:Message received: ‚Ó[‚ñA‚»‚¤‚È‚ñ‚¾B‰É‚Â‚Ô‚µ‚É‚Å‚à‰½‚©˜b‚»‚¤‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 14:58:55,215:INFO:root:Responded with: ‚Ó[‚ñA‚»‚¤‚È‚ñ‚¾B‰É‚Â‚Ô‚µ‚É‚Å‚à‰½‚©˜b‚»‚¤‚©H
+ to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:59:07,040:INFO:root:Message received: ‚¢‚â‚»‚ñ‚È‹C•ª‚Å‚à‚È‚¢ from tenchan_0517
+2025-06-08 14:59:07,702:INFO:root:Message received: —¹‰ğI‚¶‚á‚ ‚Ü‚½Œã‚Å‚ËI from DJ ƒAƒCƒY#4579
+2025-06-08 14:59:07,738:INFO:root:Responded with: —¹‰ğI‚¶‚á‚ ‚Ü‚½Œã‚Å‚ËI
+ to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 14:59:23,773:INFO:root:Message received: “V‹C from tenchan_0517
+2025-06-08 14:59:24,488:INFO:root:Message received: <@976427276340166696> ‚Ç‚ÌŒ§‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 14:59:30,927:INFO:root:Message received: ˆ¤’mŒ§ from tenchan_0517
+2025-06-08 14:59:31,781:INFO:root:Message received: ƒWƒIƒR[ƒfƒBƒ“ƒO‚É¸”s‚µ‚Ü‚µ‚½BƒGƒ‰[ƒR[ƒh: 401 :cold_sweat: from DJ ƒAƒCƒY#4579
+2025-06-08 15:01:55,644:INFO:discord.client:logging in using static token
+2025-06-08 15:01:58,072:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: becbcad22b1dc8778427d5c9ef540336).
+2025-06-08 15:02:02,166:INFO:root:Message received: “V‹C from tenchan_0517
+2025-06-08 15:02:02,471:INFO:root:Message received: <@976427276340166696> ‚Ç‚ÌŒ§‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 15:02:04,972:INFO:root:Message received: ˆ¤’mŒ§ from tenchan_0517
+2025-06-08 15:02:06,328:INFO:root:Message received: ˆ¤’mŒ§‚Ì“V‹C—\•ñ \u2600\ufe0f
+
+Å’á‹C‰·‚Í21.9‹C
+Å‚‹C‰·‚Í42.8‹C
+•½‹Ï‹C‰·‚Í31.9‹C
+“V‹C - °‚ê
+
+M‚¶‚é‚àM‚¶‚È‚¢‚à‚ ‚È‚½Ÿ‘æ\U0001f446 from DJ ƒAƒCƒY#4579
+2025-06-08 15:02:17,873:INFO:root:Message received: “V‹C from tenchan_0517
+2025-06-08 15:02:18,210:INFO:root:Message received: <@976427276340166696> ‚Ç‚ÌŒ§‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 15:02:20,942:INFO:root:Message received: ˆ¤’mŒ§ from tenchan_0517
+2025-06-08 15:02:21,472:INFO:root:Message received: ˆ¤’mŒ§‚Ì“V‹C—\•ñ \u2600\ufe0f
+
+Å’á‹C‰·‚Í21.9‹C
+Å‚‹C‰·‚Í42.8‹C
+•½‹Ï‹C‰·‚Í31.9‹C
+“V‹C - °‚ê
+
+M‚¶‚é‚àM‚¶‚È‚¢‚à‚ ‚È‚½Ÿ‘æ\U0001f446 from DJ ƒAƒCƒY#4579
+2025-06-08 15:05:07,767:INFO:root:Message received: “V‹C from tenchan_0517
+2025-06-08 15:05:08,255:INFO:root:Message received: <@976427276340166696> ‚Ç‚ÌŒ§‚Ì“V‹C‚ğ•\¦‚µ‚Ü‚·‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 15:05:13,148:INFO:root:Message received: ˆ¤’mŒ§–¼ŒÃ‰®s from tenchan_0517
+2025-06-08 15:05:14,235:INFO:root:Message received: ˆ¤’mŒ§–¼ŒÃ‰®s‚Ì“V‹C—\•ñ \u2601\ufe0f
+
+Å’á‹C‰·‚Í20.4‹C
+Å‚‹C‰·‚Í25.3‹C
+•½‹Ï‹C‰·‚Í22.6‹C
+“V‹C - Š‚É‚æ‚è“Ü‚è
+
+M‚¶‚é‚àM‚¶‚È‚¢‚à‚ ‚È‚½Ÿ‘æ\U0001f446 from DJ ƒAƒCƒY#4579
+2025-06-08 15:08:19,706:INFO:root:Message received: DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn from tenchan_0517
+2025-06-08 15:08:20,691:INFO:root:Message received: ‚¨[I·‚èã‚ª‚Á‚Ä‚¢‚«‚Ü‚µ‚å‚¤I‚Ç‚ñ‚È‰¹Šy‚ªD‚«H from DJ ƒAƒCƒY#4579
+2025-06-08 15:08:20,753:INFO:root:Responded with: ‚¨[I·‚èã‚ª‚Á‚Ä‚¢‚«‚Ü‚µ‚å‚¤I‚Ç‚ñ‚È‰¹Šy‚ªD‚«H
+ to tenchan_0517 in channel \U0001f512bbot-test
+2025-06-08 15:08:55,923:INFO:root:Message received: DJƒAƒCƒY ƒ[ƒ‹ƒpƒlƒ‹ì¬ from tenchan_0517
+2025-06-08 15:08:56,243:INFO:root:Message received: ‚±‚ÌƒRƒ}ƒ“ƒh‚ÍŠÇ—Ò‚Ì‚İg—p‚Å‚«‚Ü‚· from DJ ƒAƒCƒY#4579
+2025-06-08 15:10:08,810:INFO:discord.client:logging in using static token
+2025-06-08 15:10:10,036:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 51a2ba822312d24e73d7702c5cdd8129).
+2025-06-08 15:10:20,955:INFO:root:Message received: DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn from tenchan_0517
+2025-06-08 15:10:21,253:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn from DJ ƒAƒCƒY#4579
+2025-06-08 15:10:21,312:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn in channel 1236346121954132079
+2025-06-08 15:10:38,534:INFO:root:Message received: DJƒAƒCƒY ƒ[ƒ‹ƒpƒlƒ‹ì¬ from tenchan_0517
+2025-06-08 15:10:38,874:INFO:root:Message received: ƒ[ƒ‹–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢
+—á: `DJƒAƒCƒY ƒ[ƒ‹ƒpƒlƒ‹ì¬ ƒ[ƒ‹1 ƒ[ƒ‹2 ƒ[ƒ‹3` from DJ ƒAƒCƒY#4579
+2025-06-08 15:10:39,258:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ƒ[ƒ‹ƒpƒlƒ‹ì¬ from DJ ƒAƒCƒY#4579
+2025-06-08 15:10:39,296:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ƒ[ƒ‹ƒpƒlƒ‹ì¬ in channel 1236346121954132079
+2025-06-08 15:11:10,559:INFO:root:Message received: FIND to DO from tenchan_0517
+2025-06-08 15:11:10,845:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < to DO from DJ ƒAƒCƒY#4579
+2025-06-08 15:11:10,880:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < to DO in channel 1236346121954132079
+2025-06-08 15:12:14,242:INFO:discord.client:logging in using static token
+2025-06-08 15:12:15,427:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 567a27110f2c5c3c0091e9f0b699ed41).
+2025-06-08 15:12:23,500:INFO:root:Message received: DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn from tenchan_0517
+2025-06-08 15:12:23,802:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn from DJ ƒAƒCƒY#4579
+2025-06-08 15:12:23,835:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < DJƒAƒCƒY@ƒ‰ƒ“ƒuƒ‹ŠJn in channel 1236346121954132079
+2025-06-08 15:12:33,989:INFO:root:Message received: ƒ‰ƒ“ƒuƒ‹ŠJn from tenchan_0517
+2025-06-08 15:12:34,313:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ƒ‰ƒ“ƒuƒ‹ŠJn from DJ ƒAƒCƒY#4579
+2025-06-08 15:12:34,362:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ƒ‰ƒ“ƒuƒ‹ŠJn in channel 1236346121954132079
+2025-06-08 15:15:08,968:INFO:discord.client:logging in using static token
+2025-06-08 15:15:10,209:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d88985c9016534020b71592398ca866c).
+2025-06-08 15:15:42,217:INFO:root:Message received: /ƒ‰ƒ“ƒuƒ‹ŠJn from tenchan_0517
+2025-06-08 15:15:42,492:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < /ƒ‰ƒ“ƒuƒ‹ŠJn from DJ ƒAƒCƒY#4579
+2025-06-08 15:15:42,517:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < /ƒ‰ƒ“ƒuƒ‹ŠJn in channel 1236346121954132079
+2025-06-08 15:16:55,400:INFO:discord.client:logging in using static token
+2025-06-08 15:16:56,735:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 41a6778b6dabd72ff26cbe2d194a97b4).
+2025-06-08 15:18:53,912:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 15:18:54,845:INFO:root:Message received: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Šm”F‚µ‚Ä‚«‚Ü‚·‚ËIŠy‚µ‚İI from DJ ƒAƒCƒY#4579
+2025-06-08 15:18:55,017:INFO:root:Responded with: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Šm”F‚µ‚Ä‚«‚Ü‚·‚ËIŠy‚µ‚İI
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 15:19:23,232:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:19:26,394:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: REDj from DJ ƒAƒCƒY#4579
+2025-06-08 15:19:31,853:INFO:root:Message received: <@976427276340166696> €”õŠ®—¹ from DJ ƒAƒCƒY#4579
+2025-06-08 15:20:19,479:INFO:root:Message received: ˆÈ‰º‚Ìƒ[ƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½: <@&1332242428459221046> from DJ ƒAƒCƒY#4579
+2025-06-08 15:20:29,592:INFO:root:Message received: ‚·‚Å‚ÉQ‰Á‚µ‚Ä‚¢‚é‚©AƒQ[ƒ€‚ªis’†‚Å‚· from DJ ƒAƒCƒY#4579
+2025-06-08 15:23:57,997:INFO:discord.client:logging in using static token
+2025-06-08 15:23:59,353:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: efa3750bfb57e0cc9b5abdca744f01c8).
+2025-06-08 15:24:08,960:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:24:13,124:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:24:16,948:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:24:25,798:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:24:30,263:INFO:root:Message received: <@976427276340166696> €”õŠ®—¹ from DJ ƒAƒCƒY#4579
+2025-06-08 15:26:09,232:INFO:discord.client:logging in using static token
+2025-06-08 15:26:10,411:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 7f131b45d44cdb3967ff9ff291d4cc97).
+2025-06-08 15:26:16,941:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:26:20,088:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:26:23,243:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:26:27,307:INFO:root:Message received: <@976427276340166696> €”õŠ®—¹ from DJ ƒAƒCƒY#4579
+2025-06-08 15:26:28,225:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:26:30,526:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:03,538:INFO:discord.client:logging in using static token
+2025-06-08 15:36:04,725:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 413b132ffc358b072b08fe78494b8475).
+2025-06-08 15:36:24,987:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:27,426:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:29,702:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:32,684:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:33,544:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:36,894:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:40,169:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:43,496:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:46,771:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:36:49,045:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:39:53,311:INFO:discord.client:logging in using static token
+2025-06-08 15:39:54,523:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 6dc3eacaf622d4313d7a8130dad30fbf).
+2025-06-08 15:40:04,490:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:40:06,323:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:40:08,303:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:40:10,162:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:40:11,315:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:40:31,676:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:40:52,011:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:41:12,373:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:41:32,680:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:41:34,971:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:45:29,038:INFO:discord.client:logging in using static token
+2025-06-08 15:45:30,202:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: fce7260cfd887a7ca9e41d144cee2eef).
+2025-06-08 15:45:36,284:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:45:38,346:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:45:40,219:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:45:42,926:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:45:43,974:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:46:04,303:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:46:24,665:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:46:45,061:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:47:05,383:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:47:07,702:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:48:54,123:INFO:discord.client:logging in using static token
+2025-06-08 15:48:55,270:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 4195d80709fbbed99fba76921f7efe58).
+2025-06-08 15:49:00,639:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:02,190:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:04,192:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:06,066:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:07,103:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:27,476:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:29,785:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:32,113:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:34,482:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:54,886:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:57,207:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:49:59,536:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:01,832:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:22,124:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:24,437:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:26,728:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:29,121:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:49,535:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:51,835:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:54,124:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:56,446:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:50:58,737:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:52:08,932:INFO:discord.client:logging in using static token
+2025-06-08 15:52:10,078:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 70d4a462a25be83e53af77989babc141).
+2025-06-08 15:52:51,684:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:52:53,865:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:52:56,138:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:52:58,221:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:52:59,265:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:19,600:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:21,862:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:24,183:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:26,530:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:46,889:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:49,192:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:51,545:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:53:53,933:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:14,256:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:16,593:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:18,943:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:21,263:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:41,656:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:43,945:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:46,250:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:48,569:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:50,825:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:54:51,139:INFO:root:Message received: \U0001f38a ‚¨‚ß‚Å‚Æ‚¤‚²‚´‚¢‚Ü‚·I <@976427276340166696> @ƒeƒXƒgƒ†[ƒU[2 @ƒeƒXƒgƒ†[ƒU[4
+‘f°‚ç‚µ‚¢ƒ`[ƒ€ƒ[ƒN‚Å‚µ‚½I from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:05,815:INFO:discord.client:logging in using static token
+2025-06-08 15:56:07,016:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: e49a86b7c0cfc18c78f5d2a5945b7ce2).
+2025-06-08 15:56:13,187:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:14,874:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:16,993:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:19,711:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:20,790:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:41,087:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:43,401:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:45,704:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:56:48,101:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:08,574:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:10,961:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:13,308:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:15,627:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:36,008:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:38,404:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:40,766:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:57:43,062:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:03,438:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:05,749:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:08,094:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:10,405:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:12,699:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:14,511:INFO:root:Message received: \U0001f38a ‚¨‚ß‚Å‚Æ‚¤‚²‚´‚¢‚Ü‚·I <@976427276340166696> @ƒeƒXƒgƒ†[ƒU[2 @ƒeƒXƒgƒ†[ƒU[4
+‘f°‚ç‚µ‚¢ƒ`[ƒ€ƒ[ƒN‚Å‚µ‚½I from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:17,852:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:18,142:INFO:root:Message received: \U0001f38a\u2728 @ƒeƒXƒgƒ†[ƒU[4 @ƒeƒXƒgƒ†[ƒU[3
+“¯“_MVPóÜ‚¨‚ß‚Å‚Æ‚¤‚²‚´‚¢‚Ü‚·I\u2728\U0001f38a
+Œİ‚¢‚ğ‚‚ß‡‚¤‘f°‚ç‚µ‚¢í‚¢‚Å‚µ‚½I from DJ ƒAƒCƒY#4579
+2025-06-08 15:58:51,174:INFO:discord.client:logging in using static token
+2025-06-08 15:58:52,410:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 3b51fb2259568706037f70eca4280ec3).
+2025-06-08 15:58:59,450:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:01,061:INFO:root:Message received: <@976427276340166696> ‚ªƒ‰ƒ“ƒuƒ‹‚ÉQ‰Á‚µ‚Ü‚µ‚½Iiƒ`[ƒ€: Ôj from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:03,659:INFO:root:Message received: ƒeƒXƒgƒ†[ƒU[ 4l‚ğ’Ç‰Á‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:05,595:INFO:root:Message received: ‘Sˆõ‚ğ€”õŠ®—¹ó‘Ô‚É‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:06,551:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:26,894:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:29,257:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:31,573:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:33,869:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:54,235:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:56,585:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 15:59:58,946:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:01,415:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:21,837:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:24,197:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:26,654:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:29,138:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:49,678:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:52,096:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:54,425:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:56,771:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:59,062:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:00:59,484:INFO:root:Message received: \U0001f38a ‚¨‚ß‚Å‚Æ‚¤‚²‚´‚¢‚Ü‚·I <@976427276340166696> @ƒeƒXƒgƒ†[ƒU[2 @ƒeƒXƒgƒ†[ƒU[4
+‘f°‚ç‚µ‚¢ƒ`[ƒ€ƒ[ƒN‚Å‚µ‚½I from DJ ƒAƒCƒY#4579
+2025-06-08 16:01:02,881:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:01:03,230:INFO:root:Message received: \U0001f38a\u2728 @ƒeƒXƒgƒ†[ƒU[4 @ƒeƒXƒgƒ†[ƒU[1
+“¯“_MVPóÜ‚¨‚ß‚Å‚Æ‚¤‚²‚´‚¢‚Ü‚·I\u2728\U0001f38a
+Œİ‚¢‚ğ‚‚ß‡‚¤‘f°‚ç‚µ‚¢í‚¢‚Å‚µ‚½I from DJ ƒAƒCƒY#4579
+2025-06-08 16:04:50,090:INFO:root:Message received: <@1216246537647292486> Å‹ß‰½‚ª—¬s‚Á‚Ä‚éH from tenchan_0517
+2025-06-08 16:04:51,153:INFO:root:Message received: ‚¤[‚ñA“ï‚µ‚¢¿–â‚¾‚ËI  TikTok‚Å—¬s‚Á‚Ä‚éƒ_ƒ“ƒX‚Æ‚©‚©‚ÈH  Å‹ßFXî•ñûW‚µ‚Ä‚È‚¢‚©‚çA‚¿‚å‚Á‚Æ‚í‚©‚ç‚È‚¢‚ÈI  ŒN‚Í‰½‚©‹C‚É‚È‚é‚±‚Æ‚ ‚éH from DJ ƒAƒCƒY#4579
+2025-06-08 16:04:51,199:INFO:root:Responded with: ‚¤[‚ñA“ï‚µ‚¢¿–â‚¾‚ËI  TikTok‚Å—¬s‚Á‚Ä‚éƒ_ƒ“ƒX‚Æ‚©‚©‚ÈH  Å‹ßFXî•ñûW‚µ‚Ä‚È‚¢‚©‚çA‚¿‚å‚Á‚Æ‚í‚©‚ç‚È‚¢‚ÈI  ŒN‚Í‰½‚©‹C‚É‚È‚é‚±‚Æ‚ ‚éH
+ to tenchan_0517 in channel \U0001f4acbG’k
+2025-06-08 16:05:18,402:INFO:root:Message received: ƒtƒBƒbƒgƒlƒX‚Ì“®‰æ‚É–Ê”’‚¢“®‰æ‚ª‚ ‚é‚ñ‚¾‚¯‚Ç‚»‚ê‚ª‹C‚É‚È‚Á‚Ä–é‚à–°‚ê‚È‚¢ from tenchan_0517
+2025-06-08 16:05:19,322:INFO:root:Message received: ‚Ö‚¥`I‚Ç‚ñ‚ÈƒtƒBƒbƒgƒlƒX“®‰æH–Ê”’‚·‚¬‚Ä–°‚ê‚È‚¢‚È‚ñ‚ÄA‘Š“–‹C‚É‚È‚é‚ËI  ‚º‚Ğ‹³‚¦‚ÄI from DJ ƒAƒCƒY#4579
+2025-06-08 16:05:19,425:INFO:root:Responded with: ‚Ö‚¥`I‚Ç‚ñ‚ÈƒtƒBƒbƒgƒlƒX“®‰æH–Ê”’‚·‚¬‚Ä–°‚ê‚È‚¢‚È‚ñ‚ÄA‘Š“–‹C‚É‚È‚é‚ËI  ‚º‚Ğ‹³‚¦‚ÄI
+ to tenchan_0517 in channel \U0001f4acbG’k
+2025-06-08 16:05:30,598:INFO:root:Message received: ‚¾‚ª’f‚éI from tenchan_0517
+2025-06-08 16:05:31,375:INFO:root:Message received: ‚Ó‚Ó‚ÁAc”OI‚¶‚á‚ A‰½‚©‘¼‚É–Ê”’‚¢˜b‚Å‚à‚µ‚æ‚¤‚©H from DJ ƒAƒCƒY#4579
+2025-06-08 16:05:31,467:INFO:root:Responded with: ‚Ó‚Ó‚ÁAc”OI‚¶‚á‚ A‰½‚©‘¼‚É–Ê”’‚¢˜b‚Å‚à‚µ‚æ‚¤‚©H
+ to tenchan_0517 in channel \U0001f4acbG’k
+2025-06-08 16:07:07,857:INFO:discord.client:logging in using static token
+2025-06-08 16:07:09,127:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 9feaa56e8f50c9faa9c59abc7e204df9).
+2025-06-08 16:16:53,378:INFO:discord.client:logging in using static token
+2025-06-08 16:16:54,695:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 82fa38fe484ea74d9912f2ab558436d1).
+2025-06-08 16:16:59,616:INFO:root:Message received: ¡“ú‚Ì‰^¨ from tenchan_0517
+2025-06-08 16:17:00,050:INFO:root:Message received: \U0001f680 **DJƒAƒCƒY‚ÌZERO to ONEè‚¢** \U0001f680
+
+ƒCƒmƒx[ƒVƒ‡ƒ“‚Ì¯À‚©‚ç‚ÌƒƒbƒZ[ƒW‚Å‚·\u2728
+
+\u2b50 **“V‚¿‚á‚ñ++**‚³‚ñ‚Í¡“úA**\u264d ‰³—À**‚Ì‹N‹Æ‰Æ‚Æ‚µ‚Ä‹P‚«‚Ü‚· \u2b50
+\u2728 **ƒrƒWƒlƒX¬Œ÷—¦: 66%** \u2728
+
+–²’†‚É‚È‚ê‚é‚à‚Ì‚ªŒ©‚Â‚©‚è‚»‚¤‚È“úB‹»–¡‚ğ‚Á‚½‚çA‚½‚ß‚ç‚í‚¸‚É”ò‚Ñ‚ñ‚Å‚İ‚ÄBˆÓŠO‚È‚Ù‚Ç‚¤‚Ü‚­‚Å‚«‚»‚¤‚Å‚·B
+
+\U0001f4a1 **¡“ú‚ÌƒXƒ^[ƒgƒAƒbƒvƒAƒhƒoƒCƒX**
+ƒXƒ^[ƒgƒAƒbƒv‚ÌŠî”Õ‚ğŒÅ‚ß‚é—Ç‚¢“úBƒ`[ƒ€ì‚è‚âƒ}[ƒPƒbƒg’²¸‚ÉÅ“K‚Å‚·\U0001f4bc
+
+\U0001f340 **ƒ‰ƒbƒL[ƒc[ƒ‹:** ƒJƒtƒFƒ‰ƒe
+\U0001f308 **ƒ‰ƒbƒL[ƒuƒ‰ƒ“ƒhƒJƒ‰[:** ƒuƒ‹[
+
+\U0001f4ca **‹N‹Æ‰Æ‰^¨Ú×**
+\U0001f4bc ƒrƒWƒlƒX‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5)
+\U0001f4b0 ‘‹à’²’B‰^: \u2b50\u2b50\u2b50™™ (3/5) 
+\U0001f495 ƒ`[ƒ€ƒ[ƒN‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5)
+\U0001f31f ƒCƒmƒx[ƒVƒ‡ƒ“‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5)
+
+\u2728 ¡“ú‚àZERO to ONE‚Ì¸_‚Å’§í‚µ‚Ü‚µ‚å‚¤I \u2728 from DJ ƒAƒCƒY#4579
+2025-06-08 16:17:00,180:INFO:root:DJƒAƒCƒYè‚¢ was triggered by tenchan_0517: fortune request
+2025-06-08 16:17:00,486:INFO:root:Message received: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ¡“ú‚Ì‰^¨ from DJ ƒAƒCƒY#4579
+2025-06-08 16:17:00,554:INFO:root:Admin command executed: \u256d\u25dc\u25dd \u0361 \u25dc\u25dd\u256e 
+(   \u2022ƒÖ\u2022@  ) 
+\u2570\u25df\u25de \u035c \u25df\u25de\u256f < ¡“ú‚Ì‰^¨ in channel 1236346121954132079
+2025-06-08 16:22:36,578:INFO:discord.client:logging in using static token
+2025-06-08 16:22:37,883:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 3abbc5e121c0e7cece8a37348318651b).
+2025-06-08 16:22:40,361:INFO:root:Message received: ¡“ú‚Ì‰^¨ from tenchan_0517
+2025-06-08 16:22:40,712:INFO:root:Message received: \U0001f680 **DJƒAƒCƒY‚ÌZERO to ONEè‚¢** \U0001f680
+
+ƒVƒŠƒRƒ“ƒoƒŒ[‚©‚ç“Í‚­¬Œ÷‚ÌƒGƒlƒ‹ƒM[I
+
+\u2b50 **“V‚¿‚á‚ñ++**‚³‚ñ‚Í¡“úA**\u264a ‘oqÀ**‚Ì‹N‹Æ‰Æ‚Æ‚µ‚Ä‹P‚«‚Ü‚· \u2b50
+\u2728 **ƒrƒWƒlƒX¬Œ÷—¦: 94%** \u2728
+
+ƒXƒeƒL‚Èo‰ï‚¢‚ÉŒb‚Ü‚ê‚é—\Š´B—F’B‚©‚ç‚ÌĞ‰î‚Å‚àAŠú‘Ò‚Í‚‚»‚¤‚Å‚·IƒIƒVƒƒƒŒ‚ğˆÓ¯‚·‚é‚±‚Æ‚ªA¡“ú‚ÌŠJ‰^‚ÌƒJƒMB
+
+\U0001f4a1 **¡“ú‚ÌƒXƒ^[ƒgƒAƒbƒvƒAƒhƒoƒCƒX**
+¡“ú‚ÍŠvV“I‚ÈƒAƒCƒfƒA‚ª¶‚Ü‚ê‚é“úIV‚µ‚¢ƒrƒWƒlƒX‚ğn‚ß‚éƒ`ƒƒƒ“ƒX‚Å‚·\U0001f680
+
+\U0001f340 **ƒ‰ƒbƒL[ƒc[ƒ‹:** ƒsƒ“ƒL[ƒŠƒ“ƒO
+\U0001f308 **ƒ‰ƒbƒL[ƒuƒ‰ƒ“ƒhƒJƒ‰[:** ƒOƒŒ[
+
+\U0001f4ca **‹N‹Æ‰Æ‰^¨Ú×**
+\U0001f4bc ƒrƒWƒlƒX‰^: \u2b50\u2b50\u2b50\u2b50\u2b50 (5/5)
+\U0001f4b0 ‘‹à’²’B‰^: \u2b50\u2b50\u2b50\u2b50\u2b50 (5/5) 
+\U0001f495 ƒ`[ƒ€ƒ[ƒN‰^: \u2b50\u2b50\u2b50\u2b50\u2b50 (5/5)
+\U0001f31f ƒCƒmƒx[ƒVƒ‡ƒ“‰^: \u2b50\u2b50\u2b50\u2b50\u2b50 (5/5)
+
+\u2728 ¡“ú‚àZERO to ONE‚Ì¸_‚Å’§í‚µ‚Ü‚µ‚å‚¤I \u2728 from DJ ƒAƒCƒY#4579
+2025-06-08 16:22:40,750:INFO:root:DJƒAƒCƒYè‚¢ was triggered by tenchan_0517: fortune request
+2025-06-08 16:22:41,044:INFO:root:Message received: ¡“ú‚Ì‰^¨ from DJ ƒAƒCƒY#4579
+2025-06-08 16:22:41,086:INFO:root:Admin command executed: ¡“ú‚Ì‰^¨ in channel 1236346121954132079
+2025-06-08 16:24:05,573:INFO:discord.client:logging in using static token
+2025-06-08 16:24:06,748:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: e2e52097b6f94262e4a40d18fe81d78b).
+2025-06-08 16:24:13,195:INFO:root:Message received: ¡“ú‚Ì‚³‚»‚èÀ‚Ì‰^¨ from tenchan_0517
+2025-06-08 16:24:13,514:INFO:root:Message received: ¡“ú‚Ì‚³‚»‚èÀ‚Ì‰^¨ from DJ ƒAƒCƒY#4579
+2025-06-08 16:24:13,572:INFO:root:Admin command executed: ¡“ú‚Ì‚³‚»‚èÀ‚Ì‰^¨ in channel 1236346121954132079
+2025-06-08 16:24:20,118:INFO:root:Message received: ¡“ú‚Ì‰^¨ from tenchan_0517
+2025-06-08 16:24:20,436:INFO:root:Message received: \U0001f680 **DJƒAƒCƒY‚ÌZERO to ONEè‚¢** \U0001f680
+
+‹N‹Æ‰Æ¸_‚ª‚ ‚È‚½‚ğ“±‚¢‚Ä‚¢‚Ü‚·I
+
+\u2b50 **“V‚¿‚á‚ñ++**‚³‚ñ‚Í¡“úA**\u264e “V”‰À**‚Ì‹N‹Æ‰Æ‚Æ‚µ‚Ä‹P‚«‚Ü‚· \u2b50
+\u2728 **ƒrƒWƒlƒX¬Œ÷—¦: 19%** \u2728
+
+‹C‚É‚È‚é‘Šè‚Ì‹C‚ğˆø‚«‚½‚¢‚È‚çAs“®‚ğæ“Ç‚İ‚·‚é‚±‚ÆB‹C”z‚è‚ª‚Å‚«‚é‚Æ‚±‚ë‚ğƒAƒs[ƒ‹‚·‚ê‚ÎA—Ç‚¢ˆóÛ‚ğ‚½‚ê‚Ü‚·B
+
+\U0001f4a1 **¡“ú‚ÌƒXƒ^[ƒgƒAƒbƒvƒAƒhƒoƒCƒX**
+ƒsƒ{ƒbƒg‚Ìƒ^ƒCƒ~ƒ“ƒO‚©‚àHV‚µ‚¢Šp“x‚©‚çƒrƒWƒlƒX‚ğŒ©’¼‚µ‚Ä‚İ‚Ä\U0001f504
+
+\U0001f340 **ƒ‰ƒbƒL[ƒc[ƒ‹:** ƒ{ƒfƒB[ƒNƒŠ[ƒ€
+\U0001f308 **ƒ‰ƒbƒL[ƒuƒ‰ƒ“ƒhƒJƒ‰[:** ƒŒƒbƒh
+
+\U0001f4ca **‹N‹Æ‰Æ‰^¨Ú×**
+\U0001f4bc ƒrƒWƒlƒX‰^: \u2b50\u2b50™™™ (2/5)
+\U0001f4b0 ‘‹à’²’B‰^: \u2b50\u2b50™™™ (2/5) 
+\U0001f495 ƒ`[ƒ€ƒ[ƒN‰^: \u2b50\u2b50™™™ (2/5)
+\U0001f31f ƒCƒmƒx[ƒVƒ‡ƒ“‰^: \u2b50\u2b50™™™ (2/5)
+
+\u2728 ¡“ú‚àZERO to ONE‚Ì¸_‚Å’§í‚µ‚Ü‚µ‚å‚¤I \u2728 from DJ ƒAƒCƒY#4579
+2025-06-08 16:24:20,471:INFO:root:DJƒAƒCƒYè‚¢ was triggered by tenchan_0517: fortune request
+2025-06-08 16:24:20,741:INFO:root:Message received: ¡“ú‚Ì‰^¨ from DJ ƒAƒCƒY#4579
+2025-06-08 16:24:20,777:INFO:root:Admin command executed: ¡“ú‚Ì‰^¨ in channel 1236346121954132079
+2025-06-08 16:28:49,128:INFO:discord.client:logging in using static token
+2025-06-08 16:28:50,444:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: b792113aad106f5a1eca04c0453f9514).
+2025-06-08 16:28:54,466:INFO:root:Message received: ¡“ú‚Ì‰^¨ from tenchan_0517
+2025-06-08 16:28:54,830:INFO:root:Message received: \U0001f680 **DJƒAƒCƒY‚ÌZERO to ONEè‚¢** \U0001f680
+
+ƒCƒmƒx[ƒVƒ‡ƒ“‚Ì¯À‚©‚ç‚ÌƒƒbƒZ[ƒW‚Å‚·\u2728
+
+\u2b50 **“V‚¿‚á‚ñ++**‚³‚ñ‚Í¡“úA**\u2653 ‹›À**‚Ì‹N‹Æ‰Æ‚Æ‚µ‚Ä‹P‚«‚Ü‚· \u2b50
+\u2728 **ƒrƒWƒlƒX¬Œ÷—¦: 59%** \u2728
+
+Šy‚µ‚»‚¤‚È—U‚¢‚ª‚ ‚¿‚±‚¿‚©‚ç—ˆ‚ÄƒEƒLƒEƒLB‹C•ª‚àæ‚Á‚Ä‚¢‚é‚Ì‚ÅA”æ‚ê‚ğŠ´‚¶‚È‚³‚»‚¤B‚Ì‚Ñ‚Ì‚ÑƒXƒgƒŒƒX‚ğ”­U‚µ‚ÄB
+
+\U0001f4a1 **¡“ú‚ÌƒXƒ^[ƒgƒAƒbƒvƒAƒhƒoƒCƒX**
+ƒXƒ^[ƒgƒAƒbƒv‚ÌŠî”Õ‚ğŒÅ‚ß‚é—Ç‚¢“úBƒ`[ƒ€ì‚è‚âƒ}[ƒPƒbƒg’²¸‚ÉÅ“K‚Å‚·\U0001f4bc
+
+\U0001f340 **ƒ‰ƒbƒL[ƒc[ƒ‹:** ƒR[ƒ“ƒtƒŒ[ƒN
+\U0001f308 **ƒ‰ƒbƒL[ƒuƒ‰ƒ“ƒhƒJƒ‰[:** ƒVƒ‹ƒo[
+
+\U0001f4ca **‹N‹Æ‰Æ‰^¨Ú×**
+\U0001f4bc ƒrƒWƒlƒX‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5)
+\U0001f4b0 ‘‹à’²’B‰^: \u2b50\u2b50\u2b50™™ (3/5) 
+\U0001f495 ƒ`[ƒ€ƒ[ƒN‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5)
+\U0001f31f ƒCƒmƒx[ƒVƒ‡ƒ“‰^: \u2b50\u2b50\u2b50™™ (3/5)
+
+\u2728 ¡“ú‚àZERO to ONE‚Ì¸_‚Å’§í‚µ‚Ü‚µ‚å‚¤I \u2728 from DJ ƒAƒCƒY#4579
+2025-06-08 16:28:54,947:INFO:root:ZERO to ONEè‚¢ was triggered by tenchan_0517
+2025-06-08 16:28:55,208:INFO:root:Message received: ¡“ú‚Ì‰^¨ from DJ ƒAƒCƒY#4579
+2025-06-08 16:28:55,257:INFO:root:Admin command executed: ¡“ú‚Ì‰^¨ in channel 1236346121954132079
+2025-06-08 16:29:13,759:INFO:root:Message received: ¡“ú‚Ì‰^ from tenchan_0517
+2025-06-08 16:29:14,053:INFO:root:Message received: ¡“ú‚Ì‰^ from DJ ƒAƒCƒY#4579
+2025-06-08 16:29:14,094:INFO:root:Admin command executed: ¡“ú‚Ì‰^ in channel 1236346121954132079
+2025-06-08 16:32:39,995:INFO:discord.client:logging in using static token
+2025-06-08 16:32:41,149:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 5f71a900a3fdb24db81f05722bdb92f8).
+2025-06-08 16:32:44,968:INFO:root:Message received: ¡“ú‚Ì‰^¨ from tenchan_0517
+2025-06-08 16:32:45,278:INFO:root:Message received: \U0001f680 **DJƒAƒCƒY‚ÌZERO to ONEè‚¢** \U0001f680
+
+ƒVƒŠƒRƒ“ƒoƒŒ[‚©‚ç“Í‚­¬Œ÷‚ÌƒGƒlƒ‹ƒM[I
+
+\u2b50 **“V‚¿‚á‚ñ++**‚³‚ñ‚Í¡“úA**\u264c ‚qÀ**‚Ì‹N‹Æ‰Æ‚Æ‚µ‚Ä‹P‚«‚Ü‚· \u2b50
+\u2728 **ƒrƒWƒlƒX¬Œ÷—¦: 84%** \u2728
+
+—ö‚ği“W‚³‚¹‚½‚¢‚Æv‚Á‚½‚çAƒXƒs[ƒhŸ•‰B‘Ò‚Á‚Ä‚¢‚È‚¢‚ÅA‚ ‚È‚½‚©‚çs“®‚ğ‚·‚é‚ÆA–]‚İ’Ê‚è‚ÌŒ‹‰Ê‚ªŠú‘Ò‚Å‚«‚»‚¤ô
+
+\U0001f4a1 **¡“ú‚ÌƒXƒ^[ƒgƒAƒbƒvƒAƒhƒoƒCƒX**
+¡“ú‚Ì‚ ‚È‚½‚ÍŸ¢‘ã‚ÌƒCƒmƒx[ƒ^[‚Å‚·I¢ŠE‚ğ•Ï‚¦‚é‘æˆê•à‚ğ“¥‚İo‚µ‚Ü‚µ‚å‚¤
+
+\U0001f340 **ƒ‰ƒbƒL[ƒc[ƒ‹:** ‘oŠá‹¾
+\U0001f308 **ƒ‰ƒbƒL[ƒuƒ‰ƒ“ƒhƒJƒ‰[:** ƒCƒGƒ[
+
+\U0001f4ca **‹N‹Æ‰Æ‰^¨Ú×**
+\U0001f4bc ƒrƒWƒlƒX‰^: \u2b50\u2b50\u2b50\u2b50\u2b50 (5/5)
+\U0001f4b0 ‘‹à’²’B‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5) 
+\U0001f495 ƒ`[ƒ€ƒ[ƒN‰^: \u2b50\u2b50\u2b50\u2b50\u2b50 (5/5)
+\U0001f31f ƒCƒmƒx[ƒVƒ‡ƒ“‰^: \u2b50\u2b50\u2b50\u2b50™ (4/5)
+
+\u2728 ¡“ú‚àZERO to ONE‚Ì¸_‚Å’§í‚µ‚Ü‚µ‚å‚¤I \u2728 from DJ ƒAƒCƒY#4579
+2025-06-08 16:32:45,310:INFO:root:ZERO to ONEè‚¢ was triggered by tenchan_0517
+2025-06-08 16:37:55,161:INFO:root:Message received: ˆÈ‰º‚Ìƒ[ƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½: <@&1332242428459221046> from DJ ƒAƒCƒY#4579
+2025-06-08 16:48:12,261:INFO:discord.client:logging in using static token
+2025-06-08 16:48:13,450:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 26bb78f40a0f1cec08f2c3fee0e9c731).
+2025-06-08 16:48:24,741:ERROR:discord.app_commands.tree:Ignoring exception in command 'rolepanel'
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\role_panel.py", line 193, in create_role_panel
+    await interaction.response.send_message(embed=embed, view=view)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In data.components.0.components.1.custom_id: Component custom id cannot be duplicated
+In data.components.0.components.2.custom_id: Component custom id cannot be duplicated
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'rolepanel' raised an exception: HTTPException: 400 Bad Request (error code: 50035): Invalid Form Body
+In data.components.0.components.1.custom_id: Component custom id cannot be duplicated
+In data.components.0.components.2.custom_id: Component custom id cannot be duplicated
+2025-06-08 16:51:03,069:INFO:discord.client:logging in using static token
+2025-06-08 16:51:04,398:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: f55b4466dfe12d51ba0e18c5d47fe5c4).
+2025-06-08 16:51:51,740:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:52:33,705:INFO:discord.client:logging in using static token
+2025-06-08 16:52:34,909:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 3e4c55ce0b45f2672778664d5715e89c).
+2025-06-08 16:53:14,118:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 16:53:15,152:INFO:root:Message received: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Šm”F‚·‚é‚ËI  ‚Ç‚ñ‚È˜b‚µ‚Ä‚é‚Ì‚©‚ÈHŠy‚µ‚İI from DJ ƒAƒCƒY#4579
+2025-06-08 16:53:15,217:INFO:root:Responded with: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Šm”F‚·‚é‚ËI  ‚Ç‚ñ‚È˜b‚µ‚Ä‚é‚Ì‚©‚ÈHŠy‚µ‚İI
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 16:53:41,803:INFO:root:Message received: /rolepanel from tenchan_0517
+2025-06-08 16:53:42,088:INFO:root:Message received: /rolepanel from DJ ƒAƒCƒY#4579
+2025-06-08 16:53:42,114:INFO:root:Admin command executed: /rolepanel in channel 1236346121954132079
+2025-06-08 16:55:45,152:INFO:discord.client:logging in using static token
+2025-06-08 16:55:46,345:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: bbec059f6eac985ad75071a6a0dc3c5b).
+2025-06-08 16:56:21,794:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 16:56:22,676:INFO:root:Message received: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Šm”F‚µ‚Ä‚­‚é‚ËI  Šy‚µ‚İ‚¾I from DJ ƒAƒCƒY#4579
+2025-06-08 16:56:22,740:INFO:root:Responded with: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Šm”F‚µ‚Ä‚­‚é‚ËI  Šy‚µ‚İ‚¾I
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 16:56:40,535:INFO:root:Message received: \u274c **ƒ[ƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½**
+
+\U0001f50d **–¢”­Œ©:** <@&1332242428459221046>
+
+\U0001f4dd **ƒqƒ“ƒg:**
+\u2022 `/rolelist` ‚Å³Šm‚Èƒ[ƒ‹–¼‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢
+\u2022 ‘å•¶š¬•¶š‚â•”•ªˆê’v‚Å‚àŒŸõ‚Å‚«‚Ü‚· from DJ ƒAƒCƒY#4579
+2025-06-08 16:56:48,902:INFO:root:Message received: /rolelist from tenchan_0517
+2025-06-08 16:56:49,149:INFO:root:Message received: /rolelist from DJ ƒAƒCƒY#4579
+2025-06-08 16:56:49,178:INFO:root:Admin command executed: /rolelist in channel 1236346121954132079
+2025-06-08 16:56:56,168:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:57:13,776:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 16:57:19,407:INFO:root:Message received: \u2705 **FIND TO DO** ƒ[ƒ‹‚ğ•t—^‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 16:57:28,806:INFO:root:Message received: \u274c **FIND TO DO** ƒ[ƒ‹‚ğíœ‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 17:02:35,484:INFO:discord.client:logging in using static token
+2025-06-08 17:02:36,697:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: c3359705f093270c5231a5851077e780).
+2025-06-08 17:02:46,045:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 17:02:46,409:INFO:root:Message received: \u2705 **ƒpƒlƒ‹ì¬Š®—¹** - 1ŒÂ‚Ìƒ[ƒ‹ from DJ ƒAƒCƒY#4579
+2025-06-08 17:04:29,875:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 17:04:30,397:INFO:root:Message received: \u2705 **ƒpƒlƒ‹ì¬Š®—¹** - 1ŒÂ‚Ìƒ[ƒ‹ from DJ ƒAƒCƒY#4579
+2025-06-08 17:08:39,207:INFO:discord.client:logging in using static token
+2025-06-08 17:08:40,438:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: f7537fd3e9033de188470b5fa3d076f5).
+2025-06-08 17:09:24,923:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 17:09:26,489:INFO:root:Message received: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Œ©‚Ä‚­‚é‚ËIŠy‚µ‚İI from DJ ƒAƒCƒY#4579
+2025-06-08 17:09:26,576:INFO:root:Responded with: —¹‰ğIƒ`ƒƒƒ“ƒlƒ‹Œ©‚Ä‚­‚é‚ËIŠy‚µ‚İI
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 17:09:44,955:INFO:root:Message received: \U0001f4cb **ƒEƒFƒ‹ƒJƒ€ƒƒbƒZ[ƒW‚ÌƒvƒŒƒrƒ…[**
+ÀÛ‚ÌƒƒbƒZ[ƒW‚ÍˆÈ‰º‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·F from DJ ƒAƒCƒY#4579
+2025-06-08 17:09:45,261:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 17:13:16,458:INFO:root:Message received: <@557628352828014614> from DJ ƒAƒCƒY#4579
+2025-06-08 17:13:20,149:INFO:root:Message received: ‚æ‚¤‚±‚» <@557628352828014614> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 17:16:15,480:INFO:discord.client:logging in using static token
+2025-06-08 17:16:16,826:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: acbfa369ffd27775643b61e7675470e1).
+2025-06-08 18:23:19,843:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:23:20,656:INFO:root:Message received: \u2705 **ƒpƒlƒ‹ì¬Š®—¹** - 2ŒÂ‚Ìƒ[ƒ‹ from DJ ƒAƒCƒY#4579
+2025-06-08 18:24:23,137:INFO:discord.client:logging in using static token
+2025-06-08 18:24:24,286:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d69c03688477bd822e5e372c65e3fa6b).
+2025-06-08 18:24:26,375:ERROR:discord.ext.tasks:Unhandled exception in internal background task 'weekly_scheduler'.
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\weekly_content.py", line 64, in weekly_scheduler
+    content_info = self.settings_manager.get_today_content_info(guild_id, current_weekday)
+  File "C:\zeroone_support\utils\weekly_settings_manager.py", line 45, in get_today_content_info
+    enabled = getattr(settings, f"{weekday_prefix}_enabled")
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\attributes.py", line 481, in __get__
+    return self.impl.get(state, dict_)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\attributes.py", line 941, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\attributes.py", line 972, in _fire_loader_callables
+    return state._load_expired(state, passive)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\state.py", line 712, in _load_expired
+    self.manager.expired_attribute_loader(self, toload, passive)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\loading.py", line 1369, in load_scalar_attributes
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Instance <WeeklyContentSettings at 0x2de9c0da260> is not bound to a Session; attribute refresh operation cannot proceed (Background on this error at: https://sqlalche.me/e/14/bhk3)
+2025-06-08 18:25:37,330:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-12' coro=<Loop._loop() done, defined at C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py:200> exception=DetachedInstanceError('Instance <WeeklyContentSettings at 0x2de9c0da260> is not bound to a Session; attribute refresh operation cannot proceed')>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 264, in _loop
+    raise exc
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\weekly_content.py", line 64, in weekly_scheduler
+    content_info = self.settings_manager.get_today_content_info(guild_id, current_weekday)
+  File "C:\zeroone_support\utils\weekly_settings_manager.py", line 45, in get_today_content_info
+    if not settings:
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\attributes.py", line 481, in __get__
+    return self.impl.get(state, dict_)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\attributes.py", line 941, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\attributes.py", line 972, in _fire_loader_callables
+    return state._load_expired(state, passive)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\state.py", line 712, in _load_expired
+    self.manager.expired_attribute_loader(self, toload, passive)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\loading.py", line 1369, in load_scalar_attributes
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Instance <WeeklyContentSettings at 0x2de9c0da260> is not bound to a Session; attribute refresh operation cannot proceed (Background on this error at: https://sqlalche.me/e/14/bhk3)
+2025-06-08 18:25:44,722:INFO:discord.client:logging in using static token
+2025-06-08 18:25:45,952:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: e1fb9e30f257081335f88f71b93076d2).
+2025-06-08 18:26:26,702:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 18:26:27,582:INFO:root:Message received: —¹‰ğI‘‘¬ƒ`ƒƒƒ“ƒlƒ‹”`‚¢‚Ä‚İ‚Ü‚·‚ËI
+‚Ç‚ñ‚È˜b‚µ‚Ä‚é‚Ì‚©‚ÈHŠy‚µ‚İI from DJ ƒAƒCƒY#4579
+2025-06-08 18:26:27,658:INFO:root:Responded with: —¹‰ğI‘‘¬ƒ`ƒƒƒ“ƒlƒ‹”`‚¢‚Ä‚İ‚Ü‚·‚ËI
+‚Ç‚ñ‚È˜b‚µ‚Ä‚é‚Ì‚©‚ÈHŠy‚µ‚İI
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 18:28:10,051:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:28:10,444:INFO:root:Message received: quotesƒRƒ“ƒeƒ“ƒc‚ğ‘—M‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 18:31:10,020:INFO:root:Message received: /weekly_config action:channel channel:#‚¨’m‚ç‚¹ from tenchan_0517
+2025-06-08 18:31:10,316:INFO:root:Message received: action:channel channel:#‚¨’m‚ç‚¹ from DJ ƒAƒCƒY#4579
+2025-06-08 18:31:10,354:INFO:root:Admin command executed: action:channel channel:#‚¨’m‚ç‚¹ in channel 1236346121954132079
+2025-06-08 18:31:26,004:INFO:root:Message received: ƒ`ƒƒƒ“ƒlƒ‹‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢ from DJ ƒAƒCƒY#4579
+2025-06-08 18:31:46,832:INFO:root:Message received: ‘—Mæƒ`ƒƒƒ“ƒlƒ‹‚ğ <#1250986185225015296> ‚Éİ’è‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 18:32:06,746:INFO:root:Message received: —˜—p‰Â”\‚Èƒ^ƒCƒv: quotes, trends, tips, tech, challenge, events, mindset from DJ ƒAƒCƒY#4579
+2025-06-08 18:32:17,504:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:32:17,868:INFO:root:Message received: quotesƒRƒ“ƒeƒ“ƒc‚ğ‘—M‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 18:34:38,372:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:34:38,979:INFO:root:Message received: eventsƒRƒ“ƒeƒ“ƒc‚ğ‘—M‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 18:40:23,487:INFO:discord.client:logging in using static token
+2025-06-08 18:40:24,806:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: eda375e1117d828574dd28941e566e61).
+2025-06-08 18:40:48,674:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:40:49,137:ERROR:discord.app_commands.tree:Ignoring exception in command 'weekly_test'
+Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\weekly_content.py", line 475, in test_weekly_content
+    await interaction.response.send_message(f"{content_type}ƒRƒ“ƒeƒ“ƒc‚ğ‘—M‚µ‚Ü‚µ‚½", ephemeral=True)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\weekly_content.py", line 478, in test_weekly_content
+    await interaction.response.send_message(f"ƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½: {e}", ephemeral=True)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'weekly_test' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-06-08 18:43:22,420:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:43:22,817:INFO:root:Message received: mindsetƒRƒ“ƒeƒ“ƒc‚ğ‘—M‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 18:45:52,961:INFO:discord.client:logging in using static token
+2025-06-08 18:45:54,344:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 024f30a9668f4304d0267c8b30a39fff).
+2025-06-08 18:46:04,251:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:46:16,016:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:47:48,893:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:47:49,171:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:48:37,839:INFO:discord.client:logging in using static token
+2025-06-08 18:48:38,986:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 12919a49bed97def488ffd06d0a2548a).
+2025-06-08 18:48:46,421:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:48:54,849:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:50:56,676:INFO:discord.client:logging in using static token
+2025-06-08 18:50:58,063:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 84e2cf6be1dac4379edeba175386a136).
+2025-06-08 18:51:28,743:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:51:40,194:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:56:39,258:INFO:discord.client:logging in using static token
+2025-06-08 18:56:40,478:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 6ea50fb64e4332580e466f8e7b4f91db).
+2025-06-08 18:56:57,743:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:57:36,930:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:57:49,447:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 18:58:38,790:INFO:discord.client:logging in using static token
+2025-06-08 18:58:40,000:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: e4ee0a8fe9842afe5522250f8e0e880e).
+2025-06-08 18:58:49,358:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 18:58:49,929:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:00:39,535:INFO:discord.client:logging in using static token
+2025-06-08 19:00:40,867:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 8d8dd4434bfe3721b55db8c24b121fd9).
+2025-06-08 19:00:52,809:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 19:01:04,079:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:04:41,013:INFO:discord.client:logging in using static token
+2025-06-08 19:04:42,402:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: fdab897625d78b3c3ecc6488becffae6).
+2025-06-08 19:04:51,345:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 19:05:03,009:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:35:17,754:INFO:root:Message received: ‘—Mæƒ`ƒƒƒ“ƒlƒ‹‚ğ <#1236319713013792811> ‚Éİ’è‚µ‚Ü‚µ‚½ from DJ ƒAƒCƒY#4579
+2025-06-08 19:35:52,543:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 19:36:02,131:INFO:root:Message received: ƒRƒ“ƒeƒ“ƒc‚ğ¶¬’†... from DJ ƒAƒCƒY#4579
+2025-06-08 19:36:03,958:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:36:04,941:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:40:10,708:INFO:discord.client:logging in using static token
+2025-06-08 19:40:11,925:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 689042329997f32f257073c9fbabacbb).
+2025-06-08 19:43:25,641:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 19:43:26,597:INFO:root:Message received: —¹‰ğI‘‘¬s‚Á‚Ä‚İ‚é‚ËI
+‰½‚©–Ê”’‚¢‚±‚Æ‚ ‚Á‚½‚ç‹³‚¦‚Ä‚ËI
+\U0001f604 from DJ ƒAƒCƒY#4579
+2025-06-08 19:43:26,673:INFO:root:Responded with: —¹‰ğI‘‘¬s‚Á‚Ä‚İ‚é‚ËI
+‰½‚©–Ê”’‚¢‚±‚Æ‚ ‚Á‚½‚ç‹³‚¦‚Ä‚ËI
+\U0001f604
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 19:45:18,334:INFO:root:Message received: ‚æ‚¤‚±‚» <@1216246537647292486> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 19:45:19,149:INFO:root:Message received: —¹‰ğI¡‚·‚®ƒ`ƒFƒbƒN‚·‚é‚ËI  Šy‚µ‚İI
+‰½‚©¿–â‚ª‚ ‚Á‚½‚ç‹³‚¦‚Ä‚ËI
+\U0001f60a from DJ ƒAƒCƒY#4579
+2025-06-08 19:45:19,232:INFO:root:Responded with: —¹‰ğI¡‚·‚®ƒ`ƒFƒbƒN‚·‚é‚ËI  Šy‚µ‚İI
+‰½‚©¿–â‚ª‚ ‚Á‚½‚ç‹³‚¦‚Ä‚ËI
+\U0001f60a
+ to ZERO to ONE ƒTƒ|[ƒ^[#3383 in channel \U0001f64cbwelcome
+2025-06-08 19:45:27,490:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:50:57,256:INFO:discord.client:logging in using static token
+2025-06-08 19:50:58,399:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 6c524ea9f1a184e3eb045e677e43678c).
+2025-06-08 19:51:58,521:INFO:root:Message received: ‚æ‚¤‚±‚» <@557628352828014614> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 19:52:00,056:INFO:root:Message received: <@557628352828014614> from DJ ƒAƒCƒY#4579
+2025-06-08 19:57:08,122:INFO:root:Message received: \U0001f4cb **ƒEƒFƒ‹ƒJƒ€ƒƒbƒZ[ƒW‚ÌƒvƒŒƒrƒ…[**
+ÀÛ‚ÌƒƒbƒZ[ƒW‚ÍˆÈ‰º‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·F from DJ ƒAƒCƒY#4579
+2025-06-08 19:57:08,422:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:57:24,132:INFO:discord.client:logging in using static token
+2025-06-08 19:57:25,460:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 80f0c7881ccf5e32a0721dd3de98f003).
+2025-06-08 19:57:34,353:INFO:root:Message received: \U0001f4cb **ƒEƒFƒ‹ƒJƒ€ƒƒbƒZ[ƒW‚ÌƒvƒŒƒrƒ…[**
+ÀÛ‚ÌƒƒbƒZ[ƒW‚ÍˆÈ‰º‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·F from DJ ƒAƒCƒY#4579
+2025-06-08 19:57:34,652:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 19:58:09,255:INFO:root:Message received: ‚¨‚İ‚­‚¶ from tenchan_0517
+2025-06-08 19:58:09,566:INFO:root:Message received: \U0001f3e2 **DJƒAƒCƒYƒCƒ“ƒLƒ…ƒx[ƒ^[‚ÌƒXƒ^[ƒgƒAƒbƒv‚¨‚İ‚­‚¶** \U0001f3e2
+
+ƒJƒ‰ƒ“ƒRƒƒ“... \U0001f514
+@@@@ƒJƒ‰ƒ“ƒbI
+
+\u2728„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª\u2728
+@@@@@**‘å‹g** \U0001f680
+\u2728„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª\u2728
+
+\U0001f4ad **ƒCƒ“ƒLƒ…ƒx[ƒ^[‚©‚ç‚ÌƒƒbƒZ[ƒW**
+ƒ†ƒjƒR[ƒ“Šé‹Æ‚Ö‚Ì“¹‚ªŠJ‚©‚ê‚½I¡“ú‚ÍŠvV“I‚ÈƒAƒCƒfƒA‚ª—N‚«o‚é“ú‚Å‚·I
+
+\U0001f31f **¡“ú‚Ì‹N‹Æ‰ÆƒAƒhƒoƒCƒX**
+‹N‹Æ‰Æ¸_‚ÅV‚µ‚¢ƒrƒWƒlƒX‚Éƒ`ƒƒƒŒƒ“ƒW‚µ‚Ä‚İ‚Ä‚­‚¾‚³‚¢\u2728
+
+\U0001f340 **¡“ú‚ÌƒrƒWƒlƒXƒc[ƒ‹:** Figma
+
+\U0001f3e2 –¾“ú‚àZERO to ONE¸_‚ÅŠæ’£‚è‚Ü‚µ‚å‚¤ \U0001f3e2 from DJ ƒAƒCƒY#4579
+2025-06-08 19:58:09,663:INFO:root:ƒXƒ^[ƒgƒAƒbƒv‚¨‚İ‚­‚¶ was triggered by tenchan_0517
+2025-06-08 19:59:59,754:INFO:root:Message received: ‚æ‚¤‚±‚» <@557628352828014614> !
+‚Ü‚¸‚Í <#1236341604500111393> ‚ğŠm”F‚¢‚½‚¾‚¢‚½‚çAG’k‚È‚Ç‚É‚ÄƒRƒ~ƒ…ƒjƒeƒB‚ğ‚¨Šy‚µ‚İ‚­‚¾‚³‚¢I from ZERO to ONE ƒTƒ|[ƒ^[#3383
+2025-06-08 20:00:02,120:INFO:root:Message received: <@557628352828014614> from DJ ƒAƒCƒY#4579
+2025-06-08 20:00:22,151:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 20:00:47,180:INFO:root:Message received: <@1232977995673894937> —~‚µ‚ª‚Á‚Ä‚½ƒ‰ƒ“ƒuƒ‹‹@”\‚ğ’Ç‰Á‚µ‚Ü‚µ‚½\u21d3 from tenchan_0517
+2025-06-08 20:00:56,981:INFO:root:Message received:  from DJ ƒAƒCƒY#4579
+2025-06-08 20:02:06,956:INFO:root:Message received: / rumble ƒRƒ}ƒ“ƒh‚Æ•åWŠÔ‚ğ•b”‚Åw’è‚·‚ê‚ÎQ‰ÁÒ‚ª2lˆÈã‚¢‚ê‚ÎÀs‚³‚ê‚Ü‚· from tenchan_0517
