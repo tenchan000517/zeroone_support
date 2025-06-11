@@ -178,6 +178,7 @@ async def on_message(message):
     # コマンド処理を先に実行
     await client.process_commands(message)
 
+    # 天気予報システム（独立したコマンド）
     if '天気' in message.content and not message.content.startswith('DJアイズ'):
         await message.channel.send(f"{message.author.mention} どの県の天気を表示しますか？")
 
@@ -193,6 +194,7 @@ async def on_message(message):
             prefecture = random.choice(['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'])
             msg = await get_weather_information(prefecture)
             await message.channel.send(f"{message.author.mention} 時間内に県名が送信されなかったため、ランダムに選んだ {prefecture} の天気を表示します。")
+        return  # 天気予報処理後は他の処理をスキップ
 
     # 統一占いシステム: ZERO to ONE星座占い
     fortune_triggers = ['今日の運勢', '運勢教えて', '運勢チェック', '占って', '星に聞いて']
@@ -297,8 +299,6 @@ async def on_message(message):
                     msg = kumo_san + user_name + 'さん のダイス結果です\n' + dice.nDn(text)
                 elif text.find('って何') > -1 or text.find('ってなに') > -1:
                     msg = kumo_san + user_name + 'さん ' + wiki.wikipedia_search(text)
-                elif text.find('天気') > -1:
-                    msg = kumo_san + user_name + 'さん ' + await get_weather_information(text)
                 elif text.find('は素数') > -1:
                     msg = kumo_san + user_name + 'さん ' + primarity_test.primarity_test(text, 50)
                 elif text.find('おそうじ') > -1 or text.find('お掃除') > -1:
