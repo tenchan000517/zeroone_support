@@ -9995,3 +9995,5 @@ discord.app_commands.errors.CommandInvokeError: Command 'channel_intro_config' r
 2025-06-11 13:22:57,957:INFO:root:Message received: ‚Ä‚·‚Æ from tenchan_0517
 2025-06-11 13:22:58,281:INFO:root:Message received: ‚Ä‚·‚Æ from DJ ƒAƒCƒY#4579
 2025-06-11 13:22:58,367:INFO:root:Admin command executed: ‚Ä‚·‚Æ in channel 1236346121954132079
+2025-06-11 17:42:40,707:INFO:discord.client:logging in using static token
+2025-06-11 17:42:41,983:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 93eeebb7f0be384b0d90bc054b5b4ee1).

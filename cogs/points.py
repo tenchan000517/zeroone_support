@@ -52,11 +52,9 @@ class Points(commands.Cog):
         await ctx.send(embed=embed)
     
     @commands.command(name='ポイント付与')
+    @commands.has_permissions(administrator=True)
     async def add_points_admin(self, ctx, member: discord.Member, amount: int, *, reason: str = "管理者による付与"):
         """管理者がポイントを付与"""
-        if str(ctx.author.id) != ADMIN_ID:
-            await ctx.send("このコマンドは管理者のみ使用できます")
-            return
         
         if amount <= 0:
             await ctx.send("付与するポイントは1以上にしてください")
@@ -71,11 +69,9 @@ class Points(commands.Cog):
             await ctx.send("ポイントの付与に失敗しました")
     
     @commands.command(name='ポイント削除')
+    @commands.has_permissions(administrator=True)
     async def remove_points_admin(self, ctx, member: discord.Member, amount: int, *, reason: str = "管理者による削除"):
         """管理者がポイントを削除"""
-        if str(ctx.author.id) != ADMIN_ID:
-            await ctx.send("このコマンドは管理者のみ使用できます")
-            return
         
         if amount <= 0:
             await ctx.send("削除するポイントは1以上にしてください")
@@ -90,11 +86,9 @@ class Points(commands.Cog):
             await ctx.send("ポイントが不足しているか、エラーが発生しました")
     
     @commands.command(name='ポイント設定')
+    @commands.has_permissions(administrator=True)
     async def set_points_admin(self, ctx, member: discord.Member, amount: int):
         """管理者がポイントを直接設定"""
-        if str(ctx.author.id) != ADMIN_ID:
-            await ctx.send("このコマンドは管理者のみ使用できます")
-            return
         
         if amount < 0:
             await ctx.send("ポイントは0以上にしてください")

@@ -103,7 +103,7 @@ class RumbleView(discord.ui.View):
     @discord.ui.button(label="準備完了", style=discord.ButtonStyle.success, emoji="✅", custom_id="ready_button")
     async def ready_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         # 管理者チェック
-        if str(interaction.user.id) != self.admin_id:
+        if not interaction.user.guild_permissions.administrator:
             await interaction.response.send_message(
                 "このボタンは管理者のみ使用できます",
                 ephemeral=True
@@ -125,49 +125,50 @@ class RumbleView(discord.ui.View):
         if self.game.can_start():
             await self.start_game(interaction)
     
-    @discord.ui.button(label="テストユーザー追加", style=discord.ButtonStyle.secondary, emoji="🤖", custom_id="add_dummy_button")
-    async def add_dummy_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        # 管理者チェック
-        if str(interaction.user.id) != self.admin_id:
-            await interaction.response.send_message(
-                "このボタンは管理者のみ使用できます",
-                ephemeral=True
-            )
-            return
-        
-        # ダミーユーザーを作成
-        class DummyUser:
-            def __init__(self, user_id, name):
-                self.id = user_id
-                self.display_name = name
-                self.mention = f"@{name}"
-        
-        dummy_names = ["テストユーザー1", "テストユーザー2", "テストユーザー3", "テストユーザー4"]
-        added_count = 0
-        
-        for i, name in enumerate(dummy_names):
-            dummy_user = DummyUser(f"dummy_{i}", name)
-            # IDで重複チェック
-            if not any(p.id == dummy_user.id for p in self.game.players.keys()):
-                if self.game.add_player(dummy_user):
-                    self.game.ready_players.append(dummy_user)  # ダミーは自動準備完了
-                    added_count += 1
-        
-        if added_count > 0:
-            await interaction.response.send_message(
-                f"テストユーザー {added_count}人を追加しました",
-                ephemeral=True
-            )
-            await self.update_embed(interaction)
-            
-            # 自動開始チェック
-            if self.game.can_start():
-                await self.start_game(interaction)
-        else:
-            await interaction.response.send_message(
-                "すでに十分なテストユーザーが参加しています",
-                ephemeral=True
-            )
+    # テストユーザー機能は一時的にコメントアウト
+    # @discord.ui.button(label="テストユーザー追加", style=discord.ButtonStyle.secondary, emoji="🤖", custom_id="add_dummy_button")
+    # async def add_dummy_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+    #     # 管理者チェック
+    #     if not interaction.user.guild_permissions.administrator:
+    #         await interaction.response.send_message(
+    #             "このボタンは管理者のみ使用できます",
+    #             ephemeral=True
+    #         )
+    #         return
+    #     
+    #     # ダミーユーザーを作成
+    #     class DummyUser:
+    #         def __init__(self, user_id, name):
+    #             self.id = user_id
+    #             self.display_name = name
+    #             self.mention = f"@{name}"
+    #     
+    #     dummy_names = ["テストユーザー1", "テストユーザー2", "テストユーザー3", "テストユーザー4"]
+    #     added_count = 0
+    #     
+    #     for i, name in enumerate(dummy_names):
+    #         dummy_user = DummyUser(f"dummy_{i}", name)
+    #         # IDで重複チェック
+    #         if not any(p.id == dummy_user.id for p in self.game.players.keys()):
+    #             if self.game.add_player(dummy_user):
+    #                 self.game.ready_players.append(dummy_user)  # ダミーは自動準備完了
+    #                 added_count += 1
+    #     
+    #     if added_count > 0:
+    #         await interaction.response.send_message(
+    #             f"テストユーザー {added_count}人を追加しました",
+    #             ephemeral=True
+    #         )
+    #         await self.update_embed(interaction)
+    #         
+    #         # 自動開始チェック
+    #         if self.game.can_start():
+    #             await self.start_game(interaction)
+    #     else:
+    #         await interaction.response.send_message(
+    #             "すでに十分なテストユーザーが参加しています",
+    #             ephemeral=True
+    #         )
     
     async def update_embed(self, interaction: discord.Interaction):
         red_team, blue_team = self.game.get_teams()

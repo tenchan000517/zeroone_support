@@ -106,11 +106,10 @@ class RolePanelCog(commands.Cog):
         return partial_match
     
     @discord.app_commands.command(name='rolelist', description='サーバー内のロール一覧を表示')
+    @discord.app_commands.describe()
+    @discord.app_commands.default_permissions(administrator=True)
     async def list_roles(self, interaction: discord.Interaction):
         """サーバー内のロール一覧を表示"""
-        if str(interaction.user.id) != ADMIN_ID:
-            await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
-            return
         
         # @everyoneとボットロールを除外
         roles = [role for role in interaction.guild.roles 
@@ -158,11 +157,9 @@ class RolePanelCog(commands.Cog):
     
     @discord.app_commands.command(name='rolepanel', description='ロール付与パネルを作成')
     @discord.app_commands.describe(roles='ロール名をスペース区切りで指定 (例: Member VIP Moderator)')
+    @discord.app_commands.default_permissions(administrator=True)
     async def create_role_panel(self, interaction: discord.Interaction, roles: str):
         """ロール付与パネルを作成（改善版）"""
-        if str(interaction.user.id) != ADMIN_ID:
-            await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
-            return
         
         role_names = roles.split()
         if not role_names:

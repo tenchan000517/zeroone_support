@@ -201,11 +201,9 @@ class WelcomeCog(commands.Cog):
                 print(f"Error sending welcome message: {e}")
     
     @discord.app_commands.command(name='welcome_test', description='ウェルカムメッセージのテスト表示')
+    @discord.app_commands.default_permissions(administrator=True)
     async def test_welcome(self, interaction: discord.Interaction):
         """ウェルカムメッセージのテスト（管理者専用）"""
-        if str(interaction.user.id) != ADMIN_ID:
-            await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
-            return
         
         # テスト用のEmbedを作成
         embed = self.create_welcome_embed(interaction.user, interaction.guild)

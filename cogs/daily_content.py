@@ -544,11 +544,9 @@ class DailyContentCog(commands.Cog):
     # テスト用コマンド
     @discord.app_commands.command(name='daily_test', description='定期発信機能のテスト（管理者専用）')
     @discord.app_commands.describe(content_type='テストする内容タイプ')
+    @discord.app_commands.default_permissions(administrator=True)
     async def test_daily_content(self, interaction: discord.Interaction, content_type: str):
         """定期発信機能のテスト"""
-        if str(interaction.user.id) != ADMIN_ID:
-            await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
-            return
         
         guild = interaction.guild
         settings = self.settings_manager.get_guild_settings(str(guild.id))
@@ -574,6 +572,7 @@ class DailyContentCog(commands.Cog):
     
     # 設定用スラッシュコマンド
     @discord.app_commands.command(name='daily_config', description='定期発信機能の設定')
+    @discord.app_commands.default_permissions(administrator=True)
     @discord.app_commands.describe(
         action='実行するアクション',
         channel='送信先チャンネル',
@@ -595,10 +594,6 @@ class DailyContentCog(commands.Cog):
                           days: str = None):
         """定期発信機能の設定コマンド"""
         
-        # 管理者チェック
-        if str(interaction.user.id) != ADMIN_ID:
-            await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
-            return
         
         guild_id = str(interaction.guild.id)
         
