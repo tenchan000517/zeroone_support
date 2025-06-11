@@ -28,3 +28,4 @@ Flask==2.3.2
 google-generativeai
 sqlalchemy
 discord-py-interactions
+pytz

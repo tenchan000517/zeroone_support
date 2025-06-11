@@ -8996,3 +8996,1002 @@ Traceback (most recent call last):
   File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
     raise CommandInvokeError(self, e) from e
 discord.app_commands.errors.CommandInvokeError: Command 'rumble' raised an exception: HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+2025-06-11 11:24:46,655:INFO:discord.client:logging in using static token
+2025-06-11 11:24:47,830:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: e4aad280c455222d11142cf6f88a87ef).
+2025-06-11 11:24:49,972:ERROR:discord.ext.tasks:Unhandled exception in internal background task 'daily_channel_intro'.
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 309, in daily_channel_intro
+    has_role_panel, role_panels = self.check_role_panel_in_channel(channel)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 92, in check_role_panel_in_channel
+    return loop.run_until_complete(search_role_panels())
+  File "C:\Users\tench\anaconda3\lib\asyncio\base_events.py", line 625, in run_until_complete
+    self._check_running()
+  File "C:\Users\tench\anaconda3\lib\asyncio\base_events.py", line 584, in _check_running
+    raise RuntimeError('This event loop is already running')
+RuntimeError: This event loop is already running
+2025-06-11 11:26:29,812:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-13' coro=<Loop._loop() done, defined at C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py:200> exception=RuntimeError('This event loop is already running')>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 264, in _loop
+    raise exc
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 309, in daily_channel_intro
+    now = datetime.datetime.now()
+  File "C:\zeroone_support\cogs\channel_intro.py", line 92, in check_role_panel_in_channel
+    format='出力形式（message または markdown）'
+  File "C:\Users\tench\anaconda3\lib\asyncio\base_events.py", line 625, in run_until_complete
+    self._check_running()
+  File "C:\Users\tench\anaconda3\lib\asyncio\base_events.py", line 584, in _check_running
+    raise RuntimeError('This event loop is already running')
+RuntimeError: This event loop is already running
+2025-06-11 11:26:37,772:INFO:discord.client:logging in using static token
+2025-06-11 11:26:39,039:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 10d44ea397460ea976671af1052f6c8f).
+2025-06-11 11:26:57,317:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 11:26:58,046:INFO:root:Message received: 了解！今すぐチェックするね！  どんな雰囲気かな？ from DJ アイズ#4579
+2025-06-11 11:26:58,330:INFO:root:Message received: 了解！チャンネル見てみるね！  どんな話があるのかな？楽しみ！ from DJ アイズ#4579
+2025-06-11 11:26:58,415:INFO:root:Responded with: 了解！チャンネル見てみるね！  どんな話があるのかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 11:27:26,373:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: 「\U0001f530｜はじめに」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜ルール**: 「\U0001f530｜ルール」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜チャンネル紹介**: 「\U0001f530｜チャンネル紹介」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f514｜ロール取得**: 「\U0001f514｜ロール取得」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: 「動画編集」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル２**: 「ダミーチャンネル２」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル３**: 「ダミーチャンネル３」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル４**: 「ダミーチャンネル４」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（FIND TO DO, みんなの告知, イベント情報）を取得できます
+#\U0001f512｜bot-test で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:27:27,877:ERROR:discord.app_commands.tree:Ignoring exception in command 'channel_intro'
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\channel_intro.py", line 106, in channel_intro
+    permissions = channel.permissions_for_role(target_role)
+AttributeError: 'TextChannel' object has no attribute 'permissions_for_role'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'channel_intro' raised an exception: AttributeError: 'TextChannel' object has no attribute 'permissions_for_role'
+2025-06-11 11:28:32,562:ERROR:discord.app_commands.tree:Ignoring exception in command 'channel_intro'
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\channel_intro.py", line 106, in channel_intro
+    permissions = channel.permissions_for(target_role)
+AttributeError: 'TextChannel' object has no attribute 'permissions_for_role'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'channel_intro' raised an exception: AttributeError: 'TextChannel' object has no attribute 'permissions_for_role'
+2025-06-11 11:28:50,122:INFO:discord.client:logging in using static token
+2025-06-11 11:28:51,367:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: bc3aa51468217aa8f1257dc03694826c).
+2025-06-11 11:29:29,342:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: 「\U0001f530｜はじめに」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜ルール**: 「\U0001f530｜ルール」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜チャンネル紹介**: 「\U0001f530｜チャンネル紹介」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f514｜ロール取得**: 「\U0001f514｜ロール取得」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: 「動画編集」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル２**: 「ダミーチャンネル２」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル３**: 「ダミーチャンネル３」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル４**: 「ダミーチャンネル４」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（みんなの告知, FIND TO DO, イベント情報）を取得できます
+#\U0001f512｜bot-test で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:29:37,657:ERROR:discord.app_commands.tree:Ignoring exception in command 'channel_intro'
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\channel_intro.py", line 205, in channel_intro
+    await interaction.response.send_message("チャンネル紹介が長いため、複数回に分けて送信します。", ephemeral=True)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'channel_intro' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-06-11 11:30:03,603:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: 「\U0001f530｜はじめに」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜ルール**: 「\U0001f530｜ルール」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜チャンネル紹介**: 「\U0001f530｜チャンネル紹介」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f514｜ロール取得**: 「\U0001f514｜ロール取得」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: 「動画編集」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル２**: 「ダミーチャンネル２」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル３**: 「ダミーチャンネル３」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル４**: 「ダミーチャンネル４」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（みんなの告知, FIND TO DO, イベント情報）を取得できます
+#\U0001f512｜bot-test で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:30:11,523:ERROR:discord.app_commands.tree:Ignoring exception in command 'channel_intro'
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\channel_intro.py", line 205, in channel_intro
+    intro_text += "\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう\n\n"
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'channel_intro' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-06-11 11:35:48,604:INFO:discord.client:logging in using static token
+2025-06-11 11:35:49,913:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 988c54ead5eb891874e7084068392089).
+2025-06-11 11:36:18,387:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 11:36:19,062:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: 「\U0001f530｜はじめに」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜ルール**: 「\U0001f530｜ルール」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜チャンネル紹介**: 「\U0001f530｜チャンネル紹介」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f514｜ロール取得**: 「\U0001f514｜ロール取得」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: 「動画編集」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル２**: 「ダミーチャンネル２」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル３**: 「ダミーチャンネル３」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル４**: 「ダミーチャンネル４」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（イベント情報, FIND TO DO, みんなの告知）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:36:19,329:INFO:root:Message received: 了解です！チャンネル見てみますね！
+何か質問があったら教えてください！
+\U0001f60a from DJ アイズ#4579
+2025-06-11 11:36:19,459:INFO:root:Responded with: 了解です！チャンネル見てみますね！
+何か質問があったら教えてください！
+\U0001f60a
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 11:36:34,724:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 11:36:47,864:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: 「\U0001f530｜はじめに」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜ルール**: 「\U0001f530｜ルール」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f530｜チャンネル紹介**: 「\U0001f530｜チャンネル紹介」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#\U0001f514｜ロール取得**: 「\U0001f514｜ロール取得」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: 「動画編集」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル２**: 「ダミーチャンネル２」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル３**: 「ダミーチャンネル３」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 **#ダミーチャンネル４**: 「ダミーチャンネル４」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（イベント情報, FIND TO DO, みんなの告知）を取得できます
+#\U0001f512｜bot-test で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:37:09,459:INFO:root:Message received: メンバー同士で活発な交流を楽しみましょう！
+\u2022 <#1330557315991998504>: 「\U0001f3af｜プレミアムガチャ2」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+\u2022 <#1237003914952572978>: 「モニター様用チャンネル」に関連する話題を扱うチャンネルです。メンバー同士で活発な交流を楽しみましょう！
+
+**\U0001f514 通知ロール取得について**
+<#1381181997715816509> で通知ロール（イベント情報, FIND TO DO, みんなの告知）を取得できます
+<#1236346121954132079> で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:39:48,904:INFO:root:Message received: 凄笑 from wataru0620
+2025-06-11 11:43:36,577:INFO:root:Message received: どういう企業さんが参加してるんですか？ from wataru0620
+2025-06-11 11:44:44,716:INFO:discord.client:logging in using static token
+2025-06-11 11:44:45,902:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 8077d9f2886808da2ef8757e1458a8b8).
+2025-06-11 11:45:10,849:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 11:45:11,950:INFO:root:Message received: 了解！チャンネル確認するね！どんな話で盛り上がってるか楽しみだ！ from DJ アイズ#4579
+2025-06-11 11:45:12,109:INFO:root:Responded with: 了解！チャンネル確認するね！どんな話で盛り上がってるか楽しみだ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 11:45:15,631:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 **#\U0001f530｜ルール**: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 **#\U0001f530｜チャンネル紹介**: 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 **#\U0001f514｜ロール取得**: 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: このチャンネルで動画編集について話し合いましょう！
+\u2022 **#ダミーチャンネル２**: テスト用のチャンネルです。機能確認などに使用されています。
+\u2022 **#ダミーチャンネル３**: テスト用のチャンネルです。機能確認などに使用されています。
+\u2022 **#ダミーチャンネル４**: テスト用のチャンネルです。機能確認などに使用されています。
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:45:16,040:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 11:45:44,253:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 **#\U0001f530｜ルール**: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 **#\U0001f530｜チャンネル紹介**: 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 **#\U0001f514｜ロール取得**: 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: このチャンネルで動画編集について話し合いましょう！
+\u2022 **#ダミーチャンネル２**: テスト用のチャンネルです。機能確認などに使用されています。
+\u2022 **#ダミーチャンネル３**: テスト用のチャンネルです。機能確認などに使用されています。
+\u2022 **#ダミーチャンネル４**: テスト用のチャンネルです。機能確認などに使用されています。
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（イベント情報, みんなの告知, FIND TO DO）を取得できます
+#\U0001f512｜bot-test で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:45:48,137:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 <#1236341987272032316>: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 <#1236341604500111393>: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 <#1236346359087366277>: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 <#1381181997715816509>: 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿掲示板＿＿**
+\u2022 <#1250986185225015296>: お知らせはこちら！必ずチェックしてね:loudspeaker:
+\u2022 <#1236319713013792811>: 知って得する情報・使い方のヒントをまとめてるよ\U0001f4a1
+\u2022 <#1330790111259922513>: 誰でも使える告知板！イベントや募集もここでどうぞ\U0001f4dd
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798>: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416>: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479>: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 <#1359870243345797202>: このチャンネルで\U0001f4acフリートークについて話し合いましょう！
+\u2022 <#1359863781269967120>: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+\u2022 <#1359864032927944744>: このチャンネルで\U0001f4e3案件告知について話し合いましょう！
+
+**\U0001f4c2 ＿＿ヘルプデスク＿＿**
+\u2022 <#1382164561196744735>: 困ったこと・わからないことがあれば気軽にお聞きください:incoming_envelope:
+\u2022 <#1236343534349713518>: 案件・お仕事・コラボなどお気軽にご相談ください:briefcase:
+
+**\U0001f4c2 ＿＿エコノミー＿＿**
+\u2022 <#1322943739433451567>: 毎日1回運試し！ログイン感覚で引いてみて\U0001f381
+\u2022 <#1359864903145361448>: このチャンネルで\U0001fa99ポイント交換について話し合いましょう！
+
+**\U0001f4c2 ＿＿エンジニア＿＿**
+\u2022 <#1236345384457207818>: 分からないことがあれば気軽に質問してください。メンバー同士で助け合いましょう！
+\u2022 <#1242501761487343677>: このチャンネルで\U0001f4d1お仕事進捗公開部屋について話し合いましょう！
+\u2022 <#1240190278154059837>: このチャンネルで\U0001f3e8レッスンについて話し合いましょう！
+
+**\U0001f4c2 ＿＿朝活＿＿**
+\u2022 <#1330789784892997654>: このチャンネルで\U0001f4acスペースチャットについて話し合いましょう！
+
+**\U0001f4c2 ＿＿運営＿＿**
+\u2022 <#1236896775634288670>: このチャンネルで\U0001f512運営連絡用について話し合いましょう！
+\u2022 <#1236346048230985829>: このチャンネルで\U0001f512タスク雑記について話し合いましょう！
+\u2022 <#1236346121954132079>: ボットとの交流や機能テストを行うチャンネルです。様々なコマンドを試してみてください！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 <#1236345720076894318>: テスト用のチャンネルです。機能確認などに使用されています。
+
+**\U0001f4c2 ＿＿アーカイブ＿＿**
+\u2022 <#1330231419670368348>: このチャンネルで\U0001f3afプレミアムガチャについて話し合いましょう！
+\u2022 <#1330557315991998504>: このチャンネルで\U0001f3afプレミアムガチャ2について話し合いましょう！
+\u2022 <#1237003914952572978>: このチャンネルでモニター様用チャンネルについて話し合いましょう！
+
+**\U0001f514 通知ロール取得について**
+<#1381181997715816509> で通知ロール（イベント情報, みんなの告知, FIND TO DO）を取得できます
+<#1236346121954132079> で通知ロール（FIND TO DO from DJ アイズ#4579
+2025-06-11 11:45:48,612:INFO:root:Message received: ）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+\U0001f514 特定のメンバーに連絡したい時は @メンション を使いましょう
+\u26a0\ufe0f @everyone や大勢が該当するメンションは控えめに使いましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:48:35,980:INFO:root:Message received: \u26a0\ufe0f `@everyone` from tenchan_0517
+2025-06-11 11:48:36,302:INFO:root:Message received: `@everyone` from DJ アイズ#4579
+2025-06-11 11:48:36,414:INFO:root:Admin command executed: `@everyone` in channel 1236346121954132079
+2025-06-11 11:52:08,508:INFO:discord.client:logging in using static token
+2025-06-11 11:52:09,748:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 0dc43d6be69120d5c303d067e1913f3d).
+2025-06-11 11:52:16,550:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 11:52:50,340:INFO:root:Message received: ）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+\U0001f514 特定のメンバーに連絡したい時は @メンション を使いましょう
+\u26a0\ufe0f `@everyone` や大勢が該当するメンションは控えめに使いましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 11:53:17,272:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 11:55:17,263:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 11:59:05,181:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:15:13,863:INFO:discord.client:logging in using static token
+2025-06-11 12:15:16,349:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: ab4bc3e5991f40e0076bb180bc04dfe2).
+2025-06-11 12:15:48,636:INFO:root:Message received: **利用可能なアクション**:
+\u2022 `show` - 現在の設定を表示
+\u2022 `set` - 定期送信を設定
+\u2022 `disable` - 定期送信を無効化
+
+**使用例**:
+`/channel_intro_config action:set channel:#お知らせ interval_days:7` from DJ アイズ#4579
+2025-06-11 12:16:24,543:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:21:02,208:INFO:discord.client:logging in using static token
+2025-06-11 12:21:03,562:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 094d91e6956276818fe5e923552cc812).
+2025-06-11 12:21:05,601:ERROR:discord.ext.tasks:Unhandled exception in internal background task 'daily_channel_intro'.
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: channel_intro_settings.interval_hours
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 481, in daily_channel_intro
+    ).first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2819, in first
+    return self.limit(1)._iter().first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2903, in _iter
+    result = self.session.execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\session.py", line 1712, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1631, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\sql\elements.py", line 332, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1498, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1862, in _execute_context
+    self._handle_dbapi_exception(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 2043, in _handle_dbapi_exception
+    util.raise_(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\util\compat.py", line 208, in raise_
+    raise exception
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: channel_intro_settings.interval_hours
+[SQL: SELECT channel_intro_settings.guild_id AS channel_intro_settings_guild_id, channel_intro_settings.enabled AS channel_intro_settings_enabled, channel_intro_settings.channel_id AS channel_intro_settings_channel_id, channel_intro_settings.interval_hours AS channel_intro_settings_interval_hours, channel_intro_settings.last_sent AS channel_intro_settings_last_sent, channel_intro_settings.created_at AS channel_intro_settings_created_at, channel_intro_settings.updated_at AS channel_intro_settings_updated_at 
+FROM channel_intro_settings 
+WHERE channel_intro_settings.guild_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('1105397354049323059', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2025-06-11 12:22:45,760:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-13' coro=<Loop._loop() done, defined at C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py:200> exception=OperationalError('(sqlite3.OperationalError) no such column: channel_intro_settings.interval_hours')>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: channel_intro_settings.interval_hours
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 264, in _loop
+    raise exc
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 481, in daily_channel_intro
+    ).first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2819, in first
+    return self.limit(1)._iter().first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2903, in _iter
+    result = self.session.execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\session.py", line 1712, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1631, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\sql\elements.py", line 332, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1498, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1862, in _execute_context
+    self._handle_dbapi_exception(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 2043, in _handle_dbapi_exception
+    util.raise_(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\util\compat.py", line 208, in raise_
+    raise exception
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: channel_intro_settings.interval_hours
+[SQL: SELECT channel_intro_settings.guild_id AS channel_intro_settings_guild_id, channel_intro_settings.enabled AS channel_intro_settings_enabled, channel_intro_settings.channel_id AS channel_intro_settings_channel_id, channel_intro_settings.interval_hours AS channel_intro_settings_interval_hours, channel_intro_settings.last_sent AS channel_intro_settings_last_sent, channel_intro_settings.created_at AS channel_intro_settings_created_at, channel_intro_settings.updated_at AS channel_intro_settings_updated_at 
+FROM channel_intro_settings 
+WHERE channel_intro_settings.guild_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('1105397354049323059', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2025-06-11 12:22:53,466:INFO:discord.client:logging in using static token
+2025-06-11 12:22:54,725:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: fde25cc79822231d2ab03dc0b66f4e8f).
+2025-06-11 12:23:44,828:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 12:23:45,772:INFO:root:Message received: 了解！チャンネル確認するね！  楽しみだ！ from DJ アイズ#4579
+2025-06-11 12:23:46,070:INFO:root:Responded with: 了解！チャンネル確認するね！  楽しみだ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 12:24:01,567:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:26:02,979:INFO:discord.client:logging in using static token
+2025-06-11 12:26:04,233:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 12086aa6112be1969d47f77a3be45673).
+2025-06-11 12:26:21,152:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:33:03,724:INFO:discord.client:logging in using static token
+2025-06-11 12:33:05,008:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 99e57afb653d2b93295336f9797d1316).
+2025-06-11 12:33:07,072:ERROR:discord.ext.tasks:Unhandled exception in internal background task 'daily_channel_intro'.
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: channel_intro_settings.scheduled_minute
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 559, in daily_channel_intro
+    ).first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2819, in first
+    return self.limit(1)._iter().first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2903, in _iter
+    result = self.session.execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\session.py", line 1712, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1631, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\sql\elements.py", line 332, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1498, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1862, in _execute_context
+    self._handle_dbapi_exception(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 2043, in _handle_dbapi_exception
+    util.raise_(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\util\compat.py", line 208, in raise_
+    raise exception
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: channel_intro_settings.scheduled_minute
+[SQL: SELECT channel_intro_settings.guild_id AS channel_intro_settings_guild_id, channel_intro_settings.enabled AS channel_intro_settings_enabled, channel_intro_settings.channel_id AS channel_intro_settings_channel_id, channel_intro_settings.interval_hours AS channel_intro_settings_interval_hours, channel_intro_settings.scheduled_hour AS channel_intro_settings_scheduled_hour, channel_intro_settings.scheduled_minute AS channel_intro_settings_scheduled_minute, channel_intro_settings.last_sent AS channel_intro_settings_last_sent, channel_intro_settings.created_at AS channel_intro_settings_created_at, channel_intro_settings.updated_at AS channel_intro_settings_updated_at 
+FROM channel_intro_settings 
+WHERE channel_intro_settings.guild_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('1105397354049323059', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2025-06-11 12:34:15,994:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-13' coro=<Loop._loop() done, defined at C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py:200> exception=OperationalError('(sqlite3.OperationalError) no such column: channel_intro_settings.scheduled_minute')>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: channel_intro_settings.scheduled_minute
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 264, in _loop
+    raise exc
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ext\tasks\__init__.py", line 239, in _loop
+    await self.coro(*args, **kwargs)
+  File "C:\zeroone_support\cogs\channel_intro.py", line 559, in daily_channel_intro
+    ).first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2819, in first
+    return self.limit(1)._iter().first()
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\query.py", line 2903, in _iter
+    result = self.session.execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\orm\session.py", line 1712, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1631, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\sql\elements.py", line 332, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1498, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1862, in _execute_context
+    self._handle_dbapi_exception(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 2043, in _handle_dbapi_exception
+    util.raise_(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\util\compat.py", line 208, in raise_
+    raise exception
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\base.py", line 1819, in _execute_context
+    self.dialect.do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\sqlalchemy\engine\default.py", line 732, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: channel_intro_settings.scheduled_minute
+[SQL: SELECT channel_intro_settings.guild_id AS channel_intro_settings_guild_id, channel_intro_settings.enabled AS channel_intro_settings_enabled, channel_intro_settings.channel_id AS channel_intro_settings_channel_id, channel_intro_settings.interval_hours AS channel_intro_settings_interval_hours, channel_intro_settings.scheduled_hour AS channel_intro_settings_scheduled_hour, channel_intro_settings.scheduled_minute AS channel_intro_settings_scheduled_minute, channel_intro_settings.last_sent AS channel_intro_settings_last_sent, channel_intro_settings.created_at AS channel_intro_settings_created_at, channel_intro_settings.updated_at AS channel_intro_settings_updated_at 
+FROM channel_intro_settings 
+WHERE channel_intro_settings.guild_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('1105397354049323059', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+2025-06-11 12:34:26,482:INFO:discord.client:logging in using static token
+2025-06-11 12:34:27,649:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: ddad55be205d14a135513ee5262ec290).
+2025-06-11 12:35:04,048:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 12:35:04,973:INFO:root:Message received: 了解！早速行ってみるね！
+何か面白いことあったら教えてね！ from DJ アイズ#4579
+2025-06-11 12:35:05,030:INFO:root:Responded with: 了解！早速行ってみるね！
+何か面白いことあったら教えてね！
+  
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 12:35:19,112:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:37:13,655:INFO:discord.client:logging in using static token
+2025-06-11 12:37:14,910:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: af942a4037839abc79ed6d4bab1d1c5c).
+2025-06-11 12:37:34,477:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:39:45,616:INFO:discord.client:logging in using static token
+2025-06-11 12:39:46,862:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 42a15bfad6c0054981db332671fb3825).
+2025-06-11 12:39:59,161:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:43:03,138:INFO:discord.client:logging in using static token
+2025-06-11 12:43:04,267:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 57f63076af4a0f4ed8143036f850bb4b).
+2025-06-11 12:43:29,825:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 12:43:30,872:INFO:root:Message received: 了解！早速行ってみるね！
+どんなコミュニティかな？楽しみ！ from DJ アイズ#4579
+2025-06-11 12:43:31,020:INFO:root:Responded with: 了解！早速行ってみるね！
+どんなコミュニティかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 12:43:37,360:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:44:13,986:INFO:root:Message received: **\U0001f4cb ZERO to ONE サポート チャンネル紹介**
+
+**\U0001f4c2 ＿＿WELCOME＿＿**
+\u2022 **#\U0001f64c｜welcome**: 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 **#\U0001f530｜はじめに**: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 **#\U0001f530｜ルール**: コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 **#\U0001f530｜チャンネル紹介**: 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 **#\U0001f514｜ロール取得**: 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！ \U0001f514(通知ロール取得可能)
+
+**\U0001f4c2 ＿＿ラウンジ＿＿**
+\u2022 **#\U0001f4ac｜雑談**: ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 **#\U0001f464｜自己紹介**: 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 **#\U0001f4ac｜人生相談**: 悩みも迷いもここに吐き出してOK！みんなで考えよう\U0001fac2
+\u2022 **#\U0001f4ac｜やりたい事-共有**: 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**\U0001f4c2 ＿＿FIND to DO＿＿**
+\u2022 **#\U0001f4dd｜活動内容**: 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**\U0001f4c2 ＿＿ダミーチャンネル＿＿**
+\u2022 **#動画編集**: このチャンネルで動画編集について話し合いましょう！
+\u2022 **#ダミーチャンネル２**: テスト用のチャンネルです。機能確認などに使用されています。
+\u2022 **#ダミーチャンネル３**: テスト用のチャンネルです。機能確認などに使用されています。
+\u2022 **#ダミーチャンネル４**: テスト用のチャンネルです。機能確認などに使用されています。
+
+**\U0001f514 通知ロール取得について**
+#\U0001f514｜ロール取得 で通知ロール（FIND TO DO, イベント情報, みんなの告知）を取得できます
+#\U0001f512｜bot-test で通知ロール（FIND TO DO）を取得できます
+通知ロールを取得すると、重要なお知らせを見逃すことがありません！
+
+**\U0001f31f コミュニティガイド**
+\U0001f4ac 挨拶から始めて、気軽に会話に参加してください
+\U0001f4dd 各チャンネルのルールを守って楽しく利用しましょう
+
+**ZERO to ONE** \U0001f680 みんなで作る素敵なコミュニティ from DJ アイズ#4579
+2025-06-11 12:44:14,805:ERROR:discord.app_commands.tree:Ignoring exception in command 'channel_intro_config'
+Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\channel_intro.py", line 565, in channel_intro_config
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\channel_intro.py", line 610, in channel_intro_config
+    await interaction.response.send_message(f"エラーが発生しました: {str(e)}", ephemeral=True)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\interactions.py", line 801, in send_message
+    await adapter.create_interaction_response(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 827, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+  File "C:\zeroone_support\cogs\channel_intro.py", line 612, in channel_intro_config
+    await interaction.followup.send(f"エラーが発生しました: {str(e)}", ephemeral=True)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 1805, in send
+    data = await adapter.execute_webhook(
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\webhook\async_.py", line 219, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10015): Unknown Webhook
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\app_commands\commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'channel_intro_config' raised an exception: NotFound: 404 Not Found (error code: 10015): Unknown Webhook
+2025-06-11 12:46:28,518:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:48:37,585:INFO:discord.client:logging in using static token
+2025-06-11 12:48:38,999:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 53d5b8c684a8e2dd06a8ca0097ecd9f9).
+2025-06-11 12:48:50,591:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:49:08,391:INFO:root:Message received: **\U0001f514 ZERO to ONE サポート 通知ロール取得のご案内**
+
+**\U0001f4cd 通知ロールはこちらで取得できます：**
+\u2022 <#1381181997715816509> - みんなの告知, FIND TO DO, イベント情報
+\u2022 <#1236346121954132079> - FIND TO DO
+
+**\U0001f4a1 通知ロールを取得すると：**
+\u2705 重要なお知らせを見逃しません
+\u2705 イベント情報をいち早くキャッチ
+\u2705 コミュニティの最新情報をお届け
+
+**\U0001f4cb 主要チャンネル：**
+**＿＿WELCOME＿＿**
+\u2022 <#1236341987272032316> - 新しく参加されたメンバーを歓迎するチャンネルです。自己紹介や挨拶をお気軽にどうぞ！
+\u2022 <#1236341604500111393> - コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+\u2022 <#1236346359087366277> - コミュニティを楽しく利用するための大切な情報が記載されています。ぜひ一度お読みください！
+
+**＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798> - ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416> - 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479> - 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**ZERO to ONE** \U0001f680 コミュニティをお楽しみください！ from DJ アイズ#4579
+2025-06-11 12:49:08,917:INFO:root:Message received: \u2705 チャンネル紹介を送信しました！ from DJ アイズ#4579
+2025-06-11 12:57:49,488:INFO:discord.client:logging in using static token
+2025-06-11 12:57:50,837:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 7d90d2ab5bf6ab72590520a835cc77ce).
+2025-06-11 12:58:17,828:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-11 12:58:18,827:INFO:root:Message received: 了解！今すぐチャンネル確認するね！楽しみ！ from DJ アイズ#4579
+2025-06-11 12:58:18,898:INFO:root:Responded with: 了解！今すぐチャンネル確認するね！楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-11 12:58:32,989:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 12:58:43,452:INFO:root:Message received: \U0001f923 from heavenflourish
+2025-06-11 12:58:52,171:INFO:root:Message received: **\U0001f514 ZERO to ONE サポート 通知ロール取得のご案内**
+
+**\U0001f4cd 通知ロールはこちらで取得できます：**
+\u2022 <#1381181997715816509> - イベント情報, FIND TO DO, みんなの告知
+\u2022 <#1236346121954132079> - FIND TO DO
+
+**\U0001f4a1 通知ロールを取得すると：**
+\u2705 重要なお知らせを見逃しません
+\u2705 イベント情報をいち早くキャッチ
+\u2705 コミュニティの最新情報をお届け
+
+**\U0001f4cb 主要チャンネル：**
+**＿＿WELCOME＿＿**
+\u2022 <#1236343478951215215> - 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 <#1381181997715816509> - 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！
+
+**＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798> - ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416> - 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479> - 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+**＿＿FIND to DO＿＿**
+\u2022 <#1359863781269967120> - 過去の活動・実績・進行中のプロジェクトのまとめ\u2728
+
+**＿＿ダミーチャンネル＿＿**
+\u2022 <#1236345720076894318> - テスト用のチャンネルです。機能確認などに使用されています。
+
+
+\u2728 さあ、レッツゴー！\U0001f525  最高の1日を一緒に作ろう！\u2728  頑張るぞ！\U0001f4aa
+
+
+**ZERO to ONE** \U0001f680 コミュニティをお楽しみください！ from DJ アイズ#4579
+2025-06-11 12:58:52,884:INFO:root:Message received: \u2705 チャンネル紹介を送信しました！ from DJ アイズ#4579
+2025-06-11 12:59:59,148:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 13:00:29,276:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 13:00:52,462:INFO:root:Message received: **\U0001f514 ZERO to ONE サポート 通知ロール取得のご案内**
+
+**\U0001f4cd 通知ロールはこちらで取得できます：**
+\u2022 <#1381181997715816509> - イベント情報, FIND TO DO, みんなの告知
+\u2022 <#1236346121954132079> - FIND TO DO
+
+**\U0001f4a1 通知ロールを取得すると：**
+\u2705 重要なお知らせを見逃しません
+\u2705 イベント情報をいち早くキャッチ
+\u2705 コミュニティの最新情報をお届け
+
+**\U0001f4cb 主要チャンネル：**
+**＿＿WELCOME＿＿**
+\u2022 <#1236343478951215215> - 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 <#1381181997715816509> - 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！
+
+**＿＿掲示板＿＿**
+\u2022 <#1250986185225015296> - お知らせはこちら！必ずチェックしてね:loudspeaker:
+\u2022 <#1236319713013792811> - 知って得する情報・使い方のヒントをまとめてるよ\U0001f4a1
+\u2022 <#1330790111259922513> - 誰でも使える告知板！イベントや募集もここでどうぞ\U0001f4dd
+
+**＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798> - ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416> - 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479> - 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+
+\u2728 今日も一日、最高の音楽で最高の一日を！\u2728  レッツゴー！\U0001f525
+
+
+**ZERO to ONE** \U0001f680 コミュニティをお楽しみください！ from DJ アイズ#4579
+2025-06-11 13:00:53,051:INFO:root:Message received: \u2705 チャンネル紹介を送信しました！ from DJ アイズ#4579
+2025-06-11 13:04:54,543:INFO:discord.client:logging in using static token
+2025-06-11 13:04:55,857:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 8244973bb9ed351f424858a58b38c57c).
+2025-06-11 13:05:16,532:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 13:05:38,241:INFO:root:Message received: **\U0001f514 ZERO to ONE サポート 通知ロール取得のご案内**
+
+**\U0001f4cd 通知ロールはこちらで取得できます：**
+\u2022 <#1381181997715816509> - FIND TO DO, みんなの告知, イベント情報
+
+**\U0001f4a1 通知ロールを取得すると：**
+\u2705 重要なお知らせを見逃しません
+\u2705 イベント情報をいち早くキャッチ
+\u2705 コミュニティの最新情報をお届け
+
+**\U0001f4cb 主要チャンネル：**
+**＿＿WELCOME＿＿**
+\u2022 <#1236343478951215215> - 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 <#1381181997715816509> - 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！
+
+**＿＿掲示板＿＿**
+\u2022 <#1250986185225015296> - お知らせはこちら！必ずチェックしてね:loudspeaker:
+\u2022 <#1236319713013792811> - 知って得する情報・使い方のヒントをまとめてるよ\U0001f4a1
+\u2022 <#1330790111259922513> - 誰でも使える告知板！イベントや募集もここでどうぞ\U0001f4dd
+
+**＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798> - ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416> - 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479> - 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+
+**\U0001f4ac 今日のひとこと**
+\u2728 最高の1日を！\u2728  みんな、一緒に頑張ろう！\U0001f4aa
+
+\u2728 今日を最高にしよう！\U0001f60a\u2728  小さな幸せを見つけようね！\U0001f31f
+
+\u2728 みんな、元気？\U0001f604  今日も一緒に楽しい時間を過ごそうね！\U0001f389
+
+
+**ZERO to ONE** \U0001f680 コミュニティをお楽しみください！ from DJ アイズ#4579
+2025-06-11 13:05:40,382:INFO:root:Message received: \u2705 チャンネル紹介を送信しました！ from DJ アイズ#4579
+2025-06-11 13:07:37,657:INFO:discord.client:logging in using static token
+2025-06-11 13:07:38,897:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 7ce39ea147d832207f0c580b5bed3e1d).
+2025-06-11 13:07:54,808:INFO:root:Message received: python main.py from tenchan_0517
+2025-06-11 13:07:55,211:INFO:root:Message received: main.py from DJ アイズ#4579
+2025-06-11 13:07:55,257:INFO:root:Admin command executed: main.py in channel 1236346121954132079
+2025-06-11 13:08:07,970:INFO:discord.client:logging in using static token
+2025-06-11 13:08:09,157:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 3e77a4d6ebfe3d532a6dbd59fcf55c8b).
+2025-06-11 13:08:24,271:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-11 13:08:45,436:INFO:root:Message received: **\U0001f514 ZERO to ONE サポート 通知ロール取得のご案内**
+
+**\U0001f4cd 通知ロールはこちらで取得できます：**
+\u2022 <#1381181997715816509> - みんなの告知, イベント情報, FIND TO DO
+
+**\U0001f4a1 通知ロールを取得すると：**
+\u2705 重要なお知らせを見逃しません
+\u2705 イベント情報をいち早くキャッチ
+\u2705 コミュニティの最新情報をお届け
+
+**\U0001f4cb 主要チャンネル：**
+**＿＿WELCOME＿＿**
+\u2022 <#1236343478951215215> - 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 <#1381181997715816509> - 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！
+
+**＿＿掲示板＿＿**
+\u2022 <#1250986185225015296> - お知らせはこちら！必ずチェックしてね:loudspeaker:
+\u2022 <#1236319713013792811> - 知って得する情報・使い方のヒントをまとめてるよ\U0001f4a1
+\u2022 <#1330790111259922513> - 誰でも使える告知板！イベントや募集もここでどうぞ\U0001f4dd
+
+**＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798> - ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416> - 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479> - 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+
+**\U0001f4ac 今日のひとこと**
+\u2728 大丈夫！一歩ずつでOK！\u2728  今日も頑張ろうね！\U0001f60a
+
+\u2728 ゼロからイチへ！\U0001f680  皆さんの挑戦、応援してるよ！\U0001f4aa
+
+\u2728 みんなー！今日もよろしくね！\U0001f60a  最高の１日にしよう！\u2728
+
+
+**ZERO to ONE** \U0001f680 コミュニティをお楽しみください！ from DJ アイズ#4579
+2025-06-11 13:08:45,840:INFO:root:Message received: \u2705 チャンネル紹介を送信しました！ from DJ アイズ#4579
+2025-06-11 13:12:47,477:INFO:root:Message received: Xが更新されました！
+<https://twitter.com/shien_iida/status/1932651838039601244> from ZERO to ONE サポーター#3383
+2025-06-11 13:12:48,031:INFO:root:Message received: Xが更新されました！
+<https://twitter.com/shien_iida/status/1932652157821690208> from ZERO to ONE サポーター#3383
+2025-06-11 13:14:15,614:INFO:root:Message received: test from tenchan_0517
+2025-06-11 13:14:15,987:INFO:root:Message received: test from DJ アイズ#4579
+2025-06-11 13:14:16,031:INFO:root:Admin command executed: test in channel 1236346121954132079
+2025-06-11 13:14:32,792:INFO:root:Message received: テスト from tenchan_0517
+2025-06-11 13:14:33,054:INFO:root:Message received: テスト from DJ アイズ#4579
+2025-06-11 13:14:33,077:INFO:root:Admin command executed: テスト in channel 1236346121954132079
+2025-06-11 13:14:51,700:INFO:root:Message received: test from tenchan_0517
+2025-06-11 13:19:10,743:INFO:discord.client:logging in using static token
+2025-06-11 13:19:11,943:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d3c4af06b5d11c82067bbe632fffa1eb).
+2025-06-11 13:19:29,570:INFO:root:Message received: 今日はなかなか暑いね\U0001f525 from tenchan_0517
+2025-06-11 13:20:23,917:INFO:root:Message received: テスト from tenchan_0517
+2025-06-11 13:20:24,440:INFO:root:Message received: テスト from DJ アイズ#4579
+2025-06-11 13:20:24,460:INFO:root:Admin command executed: テスト in channel 1236346121954132079
+2025-06-11 13:20:54,862:INFO:discord.client:logging in using static token
+2025-06-11 13:20:56,058:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: a0e424e99dd239504d9da5b86bad08fb).
+2025-06-11 13:21:01,459:INFO:root:Message received: テスト from tenchan_0517
+2025-06-11 13:21:01,806:INFO:root:Message received: テスト from DJ アイズ#4579
+2025-06-11 13:21:01,846:INFO:root:Admin command executed: テスト in channel 1236346121954132079
+2025-06-11 13:22:38,568:INFO:discord.client:logging in using static token
+2025-06-11 13:22:39,899:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d26dccffe6b270469e2895f80d352492).
+2025-06-11 13:22:57,957:INFO:root:Message received: てすと from tenchan_0517
+2025-06-11 13:22:58,281:INFO:root:Message received: てすと from DJ アイズ#4579
+2025-06-11 13:22:58,367:INFO:root:Admin command executed: てすと in channel 1236346121954132079

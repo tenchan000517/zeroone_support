@@ -1,0 +1,20 @@
+# Discord Bot Settings
+DISCORD_BOT_TOKEN=your_discord_bot_token_here
+ADMIN_ID=your_discord_user_id_here
+
+# Channel IDs (optional for testing)
+MAIN_CHAT_CHANNEL=123456789
+BOT_SALON_CHANNEL=123456789
+BACK_MODE_CHANNEL=123456789
+GRAVE_CHANNEL=123456789
+STORM_CHANNEL=123456789
+DEV_CHANNEL=123456789
+POKEMON_CHANNEL=123456789
+
+# API Keys (optional)
+WEATHER_API_KEY=your_weather_api_key
+GEMINI_API_KEY=your_gemini_api_key
+DOORKEEPER_API_TOKEN=your_doorkeeper_token
+
+# Database (optional - defaults to sqlite:///bot_data.db)
+# DATABASE_URL=sqlite:///bot_data.db

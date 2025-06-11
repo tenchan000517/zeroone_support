@@ -223,16 +223,29 @@ async def on_message(message):
         return  # 犯罪係数処理後は他の処理をスキップ
 
     # 管理者専用バックモード
+    print(f"DEBUG: message.channel.id = {message.channel.id}")
+    print(f"DEBUG: BACK_MODE_CHANNEL = {BACK_MODE_CHANNEL}")
+    print(f"DEBUG: message.author.id = {message.author.id}")
+    print(f"DEBUG: ADMIN_ID = {ADMIN_ID}")
+    
     if message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
+        print("DEBUG: バックモード条件に一致しました")
         try:
             text = message.content
+            print(f"DEBUG: 受信メッセージ = '{text}'")
             selector = int(BOT_SALON_CHANNEL)
-            index_st = text.find(' ')+1
-            index_ed = text.find(' ')
-            search_channel = text[:index_ed]
-            search_text = text[index_st:]
-            print(search_channel)
-            print(search_text)
+            print(f"DEBUG: デフォルトselector = {selector}")
+            # メッセージ形式: "チャンネル名 送信したいテキスト"
+            space_index = text.find(' ')
+            if space_index == -1:
+                # スペースがない場合は全体をテキストとして扱う
+                search_channel = ""
+                search_text = text
+            else:
+                search_channel = text[:space_index]
+                search_text = text[space_index + 1:]
+            print(f"DEBUG: search_channel = '{search_channel}'")
+            print(f"DEBUG: search_text = '{search_text}'")
             if search_channel == 'bot' or search_channel == 'bot_salon':
                 selector = int(BOT_SALON_CHANNEL)
             elif search_channel == 'main' or search_channel == 'main_chat':
