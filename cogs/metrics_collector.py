@@ -420,9 +420,15 @@ class MetricsCollector(commands.Cog):
         
         try:
             print(f"🔗 DB接続テスト開始...")
-            print(f"🔗 self.db_url: {self.db_url}")
+            print(f"🔗 self.db_url: {repr(self.db_url)}")
             print(f"🔗 URL長さ: {len(self.db_url) if self.db_url else 0}")
             print(f"🔗 URLの最初50文字: {self.db_url[:50] if self.db_url else 'None'}")
+            
+            # 環境変数を直接確認
+            import os
+            direct_url = os.getenv('NEON_DATABASE_URL')
+            print(f"🔗 直接環境変数: {repr(direct_url)}")
+            print(f"🔗 直接環境変数長さ: {len(direct_url) if direct_url else 0}")
             
             if not self.db_url:
                 await interaction.followup.send("❌ NEON_DATABASE_URL 環境変数が設定されていません")
