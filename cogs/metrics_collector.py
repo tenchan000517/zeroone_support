@@ -419,10 +419,10 @@ class MetricsCollector(commands.Cog):
         await interaction.response.defer()
         
         try:
-            logger.info(f"🔗 DB接続テスト開始...")
-            logger.info(f"🔗 self.db_url: {self.db_url}")
-            logger.info(f"🔗 URL長さ: {len(self.db_url) if self.db_url else 0}")
-            logger.info(f"🔗 URLの最初50文字: {self.db_url[:50] if self.db_url else 'None'}")
+            print(f"🔗 DB接続テスト開始...")
+            print(f"🔗 self.db_url: {self.db_url}")
+            print(f"🔗 URL長さ: {len(self.db_url) if self.db_url else 0}")
+            print(f"🔗 URLの最初50文字: {self.db_url[:50] if self.db_url else 'None'}")
             
             if not self.db_url:
                 await interaction.followup.send("❌ NEON_DATABASE_URL 環境変数が設定されていません")
@@ -459,8 +459,9 @@ class MetricsCollector(commands.Cog):
                 await conn.close()
                 
         except Exception as e:
-            logger.error(f"❌ DB接続エラー詳細: {type(e).__name__}: {str(e)}")
-            logger.error(f"❌ エラー引数: {e.args}")
+            print(f"❌ DB接続エラー詳細: {type(e).__name__}: {str(e)}")
+            print(f"❌ エラー引数: {e.args}")
+            print(f"❌ エラー詳細情報: {repr(e)}")
             await interaction.followup.send(f"❌ DB接続エラー: {str(e)}\n詳細: {type(e).__name__}")
     
     @tasks.loop(time=time(hour=0, minute=0, tzinfo=timezone(timedelta(hours=9))))  # 日本時間0:00に実行
