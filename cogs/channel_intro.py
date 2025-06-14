@@ -183,6 +183,7 @@ class ChannelIntroCog(commands.Cog):
             return False, []
 
     @discord.app_commands.command(name='channel_intro', description='サーバー内全チャンネル紹介を表示')
+    @discord.app_commands.default_permissions(administrator=True)
     @discord.app_commands.describe(
         role='表示対象となるロール（省略時は実行者のロールで判定）',
         format='出力形式（message または markdown）',

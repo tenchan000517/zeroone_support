@@ -74,7 +74,7 @@ async def on_ready():
         gemini_chat = None
     
     # Cogsをロード
-    for cog in ['cogs.points', 'cogs.role_panel', 'cogs.rumble', 'cogs.welcome', 'cogs.weekly_content', 'cogs.help_system', 'cogs.channel_intro']:
+    for cog in ['cogs.points', 'cogs.role_panel', 'cogs.rumble', 'cogs.welcome', 'cogs.weekly_content', 'cogs.help_system', 'cogs.channel_intro', 'cogs.metrics_collector', 'cogs.announcement_detector']:
         try:
             await client.load_extension(cog)
             print(f'Loaded {cog}')

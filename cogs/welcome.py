@@ -8,6 +8,8 @@ from config.config import ADMIN_ID
 class WelcomeCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        # Welcomeメッセージ送信遅延時間（秒）
+        self.WELCOME_DELAY = 7  # Mee6より後に送信するため
     
     def categorize_channels(self, guild: discord.Guild) -> dict:
         """チャンネルを自動分類"""
@@ -171,7 +173,7 @@ class WelcomeCog(commands.Cog):
         guild = member.guild
         
         # Mee6などの他ボットより後に送信されるよう遅延
-        await asyncio.sleep(3)
+        await asyncio.sleep(self.WELCOME_DELAY)
         
         # システムチャンネルまたは一般チャンネルを取得
         welcome_channel = None
@@ -234,6 +236,54 @@ class WelcomeCog(commands.Cog):
                 color=discord.Color.blue()
             )
             await interaction.followup.send(embed=detail_embed, ephemeral=True)
+    
+    @discord.app_commands.command(name="welcome_delay", description="Welcomeメッセージの遅延時間設定")
+    @discord.app_commands.default_permissions(administrator=True)
+    @discord.app_commands.describe(
+        action="設定アクション（get: 現在値確認, set: 新しい値設定）",
+        seconds="遅延時間（秒）- setアクション時のみ必要"
+    )
+    async def welcome_delay_config(self, interaction: discord.Interaction, action: str, seconds: int = None):
+        """Welcomeメッセージ遅延時間の設定・確認"""
+        if action == "get":
+            embed = discord.Embed(
+                title="⏰ Welcomeメッセージ遅延設定",
+                description=f"現在の遅延時間: **{self.WELCOME_DELAY}秒**",
+                color=discord.Color.blue()
+            )
+            embed.add_field(
+                name="📝 説明", 
+                value="Mee6などの他ボットより後にWelcomeメッセージを送信するための遅延時間です。", 
+                inline=False
+            )
+            await interaction.response.send_message(embed=embed)
+        
+        elif action == "set":
+            if seconds is None:
+                await interaction.response.send_message("❌ 遅延時間（秒）を指定してください。", ephemeral=True)
+                return
+            
+            if not (1 <= seconds <= 30):
+                await interaction.response.send_message("❌ 遅延時間は1-30秒の範囲で設定してください。", ephemeral=True)
+                return
+            
+            old_delay = self.WELCOME_DELAY
+            self.WELCOME_DELAY = seconds
+            
+            embed = discord.Embed(
+                title="⏰ Welcomeメッセージ遅延設定更新",
+                description=f"遅延時間を **{old_delay}秒** → **{seconds}秒** に変更しました。",
+                color=discord.Color.green()
+            )
+            embed.add_field(
+                name="💡 推奨値", 
+                value="• 3-5秒: 高速応答\n• 7-10秒: Mee6より確実に後（推奨）\n• 15-30秒: 非常に安全", 
+                inline=False
+            )
+            await interaction.response.send_message(embed=embed)
+        
+        else:
+            await interaction.response.send_message("❌ actionは 'get' または 'set' を指定してください。", ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(WelcomeCog(bot))

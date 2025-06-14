@@ -9997,3 +9997,931 @@ discord.app_commands.errors.CommandInvokeError: Command 'channel_intro_config' r
 2025-06-11 13:22:58,367:INFO:root:Admin command executed: てすと in channel 1236346121954132079
 2025-06-11 17:42:40,707:INFO:discord.client:logging in using static token
 2025-06-11 17:42:41,983:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 93eeebb7f0be384b0d90bc054b5b4ee1).
+2025-06-14 15:52:55,651:INFO:discord.client:logging in using static token
+2025-06-14 15:52:56,870:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 17dbd7f6a1322ba1ae8e4828c84e54a6).
+2025-06-14 15:52:59,162:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 15:52:59,164:INFO:cogs.metrics_collector:\U0001f680 定期メトリクス収集タスク開始
+2025-06-14 15:52:59,165:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集実行
+2025-06-14 15:52:59,165:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 15:52:59,165:ERROR:cogs.metrics_collector:\u274c サーバーが見つかりません
+2025-06-14 15:52:59,165:ERROR:cogs.metrics_collector:\u274c メトリクス収集エラー: サーバーが見つかりません
+2025-06-14 15:52:59,165:ERROR:cogs.metrics_collector:\u274c 定期メトリクス収集エラー: サーバーが見つかりません
+2025-06-14 15:53:05,320:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 15:53:05,966:INFO:root:Message received: 了解！チャンネル見てみるね！どんな感じかな？楽しみ！ from DJ アイズ#4579
+2025-06-14 15:53:06,277:INFO:root:Message received: 了解！チャンネル、早速チェックしてみるね！  楽しみだ！ from DJ アイズ#4579
+2025-06-14 15:53:06,390:INFO:root:Responded with: 了解！チャンネル、早速チェックしてみるね！  楽しみだ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 15:54:37,456:INFO:root:Message received: !test_db from tenchan_0517
+2025-06-14 15:54:37,590:INFO:root:Message received: !test_db from DJ アイズ#4579
+2025-06-14 15:54:54,009:INFO:root:Message received: !metrics from tenchan_0517
+2025-06-14 15:54:54,114:INFO:root:Message received: !metrics from DJ アイズ#4579
+2025-06-14 15:55:05,647:INFO:root:Message received: DJアイズ test_d from tenchan_0517
+2025-06-14 15:55:05,648:ERROR:discord.ext.commands.bot:Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "test_d" is not found
+2025-06-14 15:55:05,846:INFO:root:Message received: test_d from DJ アイズ#4579
+2025-06-14 15:57:23,209:INFO:discord.client:logging in using static token
+2025-06-14 15:57:24,561:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: b8b484cb2159a20f80ae405702672b26).
+2025-06-14 15:57:26,788:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 15:57:26,789:INFO:cogs.metrics_collector:\U0001f680 定期メトリクス収集タスク開始
+2025-06-14 15:57:26,790:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集実行
+2025-06-14 15:57:26,790:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 15:57:26,790:ERROR:cogs.metrics_collector:\u274c サーバーが見つかりません
+2025-06-14 15:57:26,790:ERROR:cogs.metrics_collector:\u274c メトリクス収集エラー: サーバーが見つかりません
+2025-06-14 15:57:26,790:ERROR:cogs.metrics_collector:\u274c 定期メトリクス収集エラー: サーバーが見つかりません
+2025-06-14 15:57:43,951:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 15:57:44,576:INFO:root:Message received: ありがとう！チャンネル覗いてみるね！
+何か面白いことあったら教えてね！
+\U0001f60a from DJ アイズ#4579
+2025-06-14 15:57:44,903:INFO:root:Message received: 了解！  チャンネル見てくるね！  どんな感じかな？楽しみ！ from DJ アイズ#4579
+2025-06-14 15:57:45,052:INFO:root:Responded with: 了解！  チャンネル見てくるね！  どんな感じかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 15:57:58,378:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 15:57:59,595:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 15:58:02,181:ERROR:cogs.metrics_collector:\u274c データベース保存エラー: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 06:58:01.908, 2025-06-14 06:58:01.908).
+2025-06-14 15:59:33,762:INFO:discord.client:logging in using static token
+2025-06-14 15:59:34,945:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 596d05a98394b5778ef18c5097bf6177).
+2025-06-14 15:59:37,195:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 15:59:37,196:INFO:cogs.metrics_collector:\U0001f680 定期メトリクス収集タスク開始
+2025-06-14 15:59:37,206:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集実行
+2025-06-14 15:59:37,206:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 15:59:37,206:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 15:59:37,206:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 15:59:37,206:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 15:59:37,207:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 15:59:38,305:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 15:59:38,701:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 15:59:38,701:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 15:59:39,237:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 15:59:39,237:ERROR:cogs.metrics_collector:\u274c データベース保存エラー詳細: NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 06:59:39.087, 2025-06-14 06:59:39.087).
+2025-06-14 15:59:39,239:ERROR:cogs.metrics_collector:スタックトレース: Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\metrics_collector.py", line 205, in save_metrics_to_db
+    result = await conn.execute("""
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 352, in execute
+    _, status, _ = await self._execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1864, in _execute
+    result, _ = await self.__execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1961, in __execute
+    result, stmt = await self._do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 2024, in _do_execute
+    result = await executor(stmt, None)
+  File "asyncpg\\protocol\\protocol.pyx", line 206, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 06:59:39.087, 2025-06-14 06:59:39.087).
+
+2025-06-14 15:59:39,239:ERROR:cogs.metrics_collector:\u274c 定期メトリクス収集失敗
+2025-06-14 16:00:00,771:INFO:root:Message received: **\U0001f514 ZERO to ONE サポート 通知ロール取得のご案内**
+
+**\U0001f4cd 通知ロールはこちらで取得できます：**
+\u2022 <#1381181997715816509> - イベント情報, みんなの告知, FIND TO DO
+
+**\U0001f4a1 通知ロールを取得すると：**
+\u2705 重要なお知らせを見逃しません
+\u2705 イベント情報をいち早くキャッチ
+\u2705 コミュニティの最新情報をお届け
+
+**\U0001f4cb 主要チャンネル：**
+**＿＿WELCOME＿＿**
+\u2022 <#1236343478951215215> - 各チャンネルの使い方や目的が分かります。迷った時はここをチェック！
+\u2022 <#1381181997715816509> - 通知ロールを取得して、大切なお知らせを見逃さないようにしましょう！
+
+**＿＿掲示板＿＿**
+\u2022 <#1250986185225015296> - お知らせはこちら！必ずチェックしてね:loudspeaker:
+\u2022 <#1236319713013792811> - 知って得する情報・使い方のヒントをまとめてるよ\U0001f4a1
+\u2022 <#1330790111259922513> - 誰でも使える告知板！イベントや募集もここでどうぞ\U0001f4dd
+
+**＿＿ラウンジ＿＿**
+\u2022 <#1236344090086342798> - ゆる～くなんでもおしゃべりしよう\u2615気軽に書き込んでね！
+\u2022 <#1373946891334844416> - 初めましてはこちらから！あなたのことを教えてね\U0001f3a4
+\u2022 <#1373949473247592479> - 夢・目標・やってみたいことを語ろう\U0001f525一緒に応援し合える場所！
+
+
+\u2728 大丈夫！一歩ずつでOK\u2728  今日だってきっと楽しい一日になるよ！\U0001f60a
+
+
+**ZERO to ONE** \U0001f680 コミュニティをお楽しみください！ from DJ アイズ#4579
+2025-06-14 16:00:14,159:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:00:14,230:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:00:15,513:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:00:15,930:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:00:15,930:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:00:16,555:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:00:16,555:ERROR:cogs.metrics_collector:\u274c データベース保存エラー詳細: NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:00:16.31, 2025-06-14 07:00:16.31).
+2025-06-14 16:00:16,555:ERROR:cogs.metrics_collector:スタックトレース: Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\metrics_collector.py", line 205, in save_metrics_to_db
+    result = await conn.execute("""
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 352, in execute
+    _, status, _ = await self._execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1864, in _execute
+    result, _ = await self.__execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1961, in __execute
+    result, stmt = await self._do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 2024, in _do_execute
+    result = await executor(stmt, None)
+  File "asyncpg\\protocol\\protocol.pyx", line 206, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:00:16.31, 2025-06-14 07:00:16.31).
+
+2025-06-14 16:01:55,193:INFO:discord.client:logging in using static token
+2025-06-14 16:01:56,402:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: aa5d0df11ca0889a2d88664e483bf7b9).
+2025-06-14 16:01:58,727:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 16:01:58,728:INFO:cogs.metrics_collector:\U0001f680 定期メトリクス収集タスク開始
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集実行
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:01:58,738:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:01:59,816:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:02:00,165:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:02:00,165:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:02:00,693:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:02:00,693:ERROR:cogs.metrics_collector:\u274c データベース保存エラー詳細: NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:02:00.547, 2025-06-14 07:02:00.547).
+2025-06-14 16:02:00,694:ERROR:cogs.metrics_collector:スタックトレース: Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\metrics_collector.py", line 205, in save_metrics_to_db
+    result = await conn.execute("""
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 352, in execute
+    _, status, _ = await self._execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1864, in _execute
+    result, _ = await self.__execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1961, in __execute
+    result, stmt = await self._do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 2024, in _do_execute
+    result = await executor(stmt, None)
+  File "asyncpg\\protocol\\protocol.pyx", line 206, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:02:00.547, 2025-06-14 07:02:00.547).
+
+2025-06-14 16:02:00,694:ERROR:cogs.metrics_collector:\u274c 定期メトリクス収集失敗
+2025-06-14 16:02:00,920:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:02:00,980:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:02:00,980:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:02:00,981:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:02:02,081:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:02:02,433:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:02:02,433:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:02:03,264:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:02:03,264:ERROR:cogs.metrics_collector:\u274c データベース保存エラー詳細: NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:02:02.817, 2025-06-14 07:02:02.817).
+2025-06-14 16:02:03,265:ERROR:cogs.metrics_collector:スタックトレース: Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\metrics_collector.py", line 205, in save_metrics_to_db
+    result = await conn.execute("""
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 352, in execute
+    _, status, _ = await self._execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1864, in _execute
+    result, _ = await self.__execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1961, in __execute
+    result, stmt = await self._do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 2024, in _do_execute
+    result = await executor(stmt, None)
+  File "asyncpg\\protocol\\protocol.pyx", line 206, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:02:02.817, 2025-06-14 07:02:02.817).
+
+2025-06-14 16:02:39,773:INFO:discord.client:logging in using static token
+2025-06-14 16:02:41,154:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 9086f4f819e64b736e5e1380f58000ba).
+2025-06-14 16:02:43,373:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 16:02:43,374:INFO:cogs.metrics_collector:\U0001f680 定期メトリクス収集タスク開始
+2025-06-14 16:02:43,375:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集実行
+2025-06-14 16:02:43,375:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:02:43,375:ERROR:cogs.metrics_collector:\u274c サーバーが見つかりません
+2025-06-14 16:02:43,375:ERROR:cogs.metrics_collector:\u274c メトリクス収集エラー: サーバーが見つかりません
+2025-06-14 16:02:43,375:ERROR:cogs.metrics_collector:\u274c 定期メトリクス収集エラー: サーバーが見つかりません
+2025-06-14 16:02:47,128:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 16:02:48,050:INFO:root:Message received: 了解！チャンネル見てくるね！  どんな話してるのかな？楽しみ！ from DJ アイズ#4579
+2025-06-14 16:02:48,149:INFO:root:Responded with: 了解！チャンネル見てくるね！  どんな話してるのかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 16:02:58,170:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:03:19,260:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:03:35,770:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:03:35,807:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:03:35,808:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:03:36,951:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:03:37,321:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:03:37,321:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:03:37,875:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:03:37,875:ERROR:cogs.metrics_collector:\u274c データベース保存エラー詳細: NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:03:37.712, 2025-06-14 07:03:37.712).
+2025-06-14 16:03:37,877:ERROR:cogs.metrics_collector:スタックトレース: Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\metrics_collector.py", line 205, in save_metrics_to_db
+    result = await conn.execute("""
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 352, in execute
+    _, status, _ = await self._execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1864, in _execute
+    result, _ = await self.__execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 1961, in __execute
+    result, stmt = await self._do_execute(
+  File "C:\Users\tench\anaconda3\lib\site-packages\asyncpg\connection.py", line 2024, in _do_execute
+    result = await executor(stmt, None)
+  File "asyncpg\\protocol\\protocol.pyx", line 206, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id" of relation "discord_metrics" violates not-null constraint
+DETAIL:  Failing row contains (null, 2025-06-14, 185, 0, 0, 0, 15, 8, 0, 2025-06-14 07:03:37.712, 2025-06-14 07:03:37.712).
+
+2025-06-14 16:07:28,190:INFO:discord.client:logging in using static token
+2025-06-14 16:07:29,542:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d1dedb836b0378ad9350889878ddce19).
+2025-06-14 16:07:31,789:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 16:07:31,790:INFO:cogs.metrics_collector:\U0001f680 定期メトリクス収集タスク開始
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集実行
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:07:31,801:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:07:31,802:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:07:31,802:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:07:31,802:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:07:32,942:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:07:33,311:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:07:33,311:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:07:33,682:INFO:cogs.metrics_collector:SQL実行結果: INSERT 0 1
+2025-06-14 16:07:33,682:INFO:cogs.metrics_collector:\u2705 メトリクス保存完了: 2025-06-14
+2025-06-14 16:07:33,865:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:07:33,866:INFO:cogs.metrics_collector:\U0001f389 定期メトリクス収集成功
+2025-06-14 16:07:36,829:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:07:36,907:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:07:36,908:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:07:36,909:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:07:38,187:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:07:38,604:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:07:38,604:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:07:39,021:INFO:cogs.metrics_collector:SQL実行結果: INSERT 0 1
+2025-06-14 16:07:39,021:INFO:cogs.metrics_collector:\u2705 メトリクス保存完了: 2025-06-14
+2025-06-14 16:07:39,228:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:09:32,136:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:09:32,443:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:09:32,443:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f4dd 推定日次メッセージ数: 0
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数: 0
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f916 AI使用回数: 15
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f4b0 ポイント取引数: 8
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:\U0001f4be データベース保存開始...
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:保存データ: {'date': datetime.date(2025, 6, 14), 'member_count': 185, 'online_count': 0, 'daily_messages': 0, 'active_users': 0, 'ai_interactions': 15, 'point_transactions': 8, 'engagement_score': 0.0}
+2025-06-14 16:09:32,444:INFO:cogs.metrics_collector:DB接続開始: postgres://neondb_owner:npg_VKJPW8pIfQq0@ep-calm-b...
+2025-06-14 16:09:33,746:INFO:cogs.metrics_collector:\u2705 DB接続成功
+2025-06-14 16:09:34,111:INFO:cogs.metrics_collector:テーブル存在確認: True
+2025-06-14 16:09:34,112:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:09:34,480:INFO:cogs.metrics_collector:SQL実行結果: INSERT 0 1
+2025-06-14 16:09:34,480:INFO:cogs.metrics_collector:\u2705 メトリクス保存完了: 2025-06-14
+2025-06-14 16:09:34,662:INFO:cogs.metrics_collector:DB接続クローズ
+2025-06-14 16:45:03,910:INFO:discord.client:logging in using static token
+2025-06-14 16:45:05,077:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 1dd04b01d542987f4dc496523d1380aa).
+2025-06-14 16:45:30,328:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 16:45:31,360:INFO:root:Message received: 了解です！チャンネル確認してきますね！楽しみ！ from DJ アイズ#4579
+2025-06-14 16:45:31,509:INFO:root:Responded with: 了解です！チャンネル確認してきますね！楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 16:46:01,149:INFO:discord.client:logging in using static token
+2025-06-14 16:46:02,364:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: af3d30e2a0e73285fb932b3aca23e9b5).
+2025-06-14 16:50:05,567:INFO:discord.client:logging in using static token
+2025-06-14 16:50:06,702:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 2a79db86ff2e65eb85267b481936989a).
+2025-06-14 16:50:09,105:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 16:50:09,107:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集開始...
+2025-06-14 16:50:09,107:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:50:09,107:ERROR:cogs.metrics_collector:\u274c サーバーが見つかりません
+2025-06-14 16:50:13,926:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 16:50:14,843:INFO:root:Message received: 了解！チャンネル見てくるね！  どんな感じかな？楽しみ！ from DJ アイズ#4579
+2025-06-14 16:50:14,946:INFO:root:Responded with: 了解！チャンネル見てくるね！  どんな感じかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 16:50:22,737:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:50:22,811:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 16:50:22,812:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 16:50:22,813:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 16:50:22,813:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:50:22,813:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 16:50:22,815:ERROR:cogs.metrics_collector:\u274c データベース保存エラー: __aenter__
+2025-06-14 16:53:23,916:INFO:discord.client:logging in using static token
+2025-06-14 16:53:25,279:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: faf493f9b1c403ee077eadfbe87b555d).
+2025-06-14 16:53:27,527:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 16:53:27,538:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集開始...
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 16:53:27,539:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 16:53:27,540:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 16:53:27,540:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 16:53:27,540:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:53:27,540:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 16:53:29,319:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 16:53:29,787:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:53:30,219:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 16:53:30,428:INFO:cogs.metrics_collector:\U0001f4dd メッセージカウントをリセットしました
+2025-06-14 16:53:30,428:INFO:cogs.metrics_collector:\u2705 定期メトリクス収集・保存完了
+2025-06-14 16:53:31,403:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 16:53:31,461:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:53:31,461:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 16:53:31,462:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 16:53:31,463:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 16:53:31,463:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:53:31,463:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 16:53:32,771:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 16:53:33,201:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:53:33,626:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 16:53:33,893:INFO:cogs.metrics_collector:\U0001f4dd メッセージカウントをリセットしました
+2025-06-14 16:58:01,436:INFO:discord.client:logging in using static token
+2025-06-14 16:58:02,770:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 1c075f61ad23e29dffc6bca233b9d1fe).
+2025-06-14 16:58:05,047:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 16:58:05,061:INFO:cogs.metrics_collector:\u23f0 定期メトリクス収集開始...
+2025-06-14 16:58:05,061:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:58:05,062:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:58:05,062:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 16:58:05,062:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 16:58:05,062:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 16:58:05,063:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 16:58:05,063:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 16:58:05,063:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 16:58:05,063:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 16:58:05,064:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 16:58:05,064:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:58:05,064:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 16:58:06,183:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 16:58:06,546:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:58:06,906:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 16:58:07,087:INFO:cogs.metrics_collector:\U0001f4dd メッセージカウントをリセットしました
+2025-06-14 16:58:07,087:INFO:cogs.metrics_collector:\u2705 定期メトリクス収集・保存完了
+2025-06-14 16:58:21,659:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 16:58:22,485:INFO:root:Message received: 了解！チャンネル見てみるね！楽しみ！ from DJ アイズ#4579
+2025-06-14 16:58:22,535:INFO:root:Responded with: 了解！チャンネル見てみるね！楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f9ea テスト用自動メトリクス収集開始...
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 16:58:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 16:58:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 16:58:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 16:58:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 16:58:37,265:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 16:58:37,265:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 16:58:37,265:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 16:58:37,532:INFO:root:Message received: \U0001f9ea 自動保存テスト開始（2分間隔で実行中） from DJ アイズ#4579
+2025-06-14 16:58:38,389:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 16:58:38,792:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 16:58:39,150:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 16:58:39,327:INFO:cogs.metrics_collector:\u2705 テスト用自動保存成功
+2025-06-14 17:00:37,273:INFO:cogs.metrics_collector:\U0001f9ea テスト用自動メトリクス収集開始...
+2025-06-14 17:00:37,273:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 17:00:37,273:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 17:00:37,274:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 17:00:37,275:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 17:00:37,275:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 17:00:38,403:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 17:00:38,771:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 17:00:39,137:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 17:00:39,342:INFO:cogs.metrics_collector:\u2705 テスト用自動保存成功
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f9ea テスト用自動メトリクス収集開始...
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 17:02:37,265:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 17:02:37,266:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 17:02:37,266:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 17:02:37,266:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 17:02:37,266:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 17:02:37,266:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 17:02:38,324:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 17:02:38,665:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 17:02:39,008:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 17:02:39,179:INFO:cogs.metrics_collector:\u2705 テスト用自動保存成功
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f9ea テスト用自動メトリクス収集開始...
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 17:04:37,263:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 17:04:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 17:04:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 17:04:37,264:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 17:04:37,264:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 17:04:37,264:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 17:04:37,264:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 17:04:38,606:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 17:04:38,960:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 17:04:39,317:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 17:04:39,495:INFO:cogs.metrics_collector:\u2705 テスト用自動保存成功
+2025-06-14 17:06:37,273:INFO:cogs.metrics_collector:\U0001f9ea テスト用自動メトリクス収集開始...
+2025-06-14 17:06:37,273:INFO:cogs.metrics_collector:\U0001f4ca KPI収集開始...
+2025-06-14 17:06:37,273:INFO:cogs.metrics_collector:\U0001f4cd 対象サーバー: ZERO to ONE サポート (ID: 1236319711113777233)
+2025-06-14 17:06:37,273:INFO:cogs.metrics_collector:\U0001f465 ロール イベント情報: 7人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール みんなの告知: 4人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール FIND TO DO: 100人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール 経営幹部: 0人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール 学生: 0人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール フリーランス: 0人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 ロール エンジョイ: 0人
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f465 アクティブユーザー数（運営除く）: 0
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\U0001f4c8 エンゲージメントスコア: 0.00
+2025-06-14 17:06:37,274:INFO:cogs.metrics_collector:\u2705 メトリクス収集完了: 2025-06-14
+2025-06-14 17:06:38,549:INFO:cogs.metrics_collector:\U0001f4ca DB接続成功
+2025-06-14 17:06:38,965:INFO:cogs.metrics_collector:SQL実行開始...
+2025-06-14 17:06:39,383:INFO:cogs.metrics_collector:\u2705 データベース保存成功: INSERT 0 1
+2025-06-14 17:06:39,590:INFO:cogs.metrics_collector:\u2705 テスト用自動保存成功
+2025-06-14 17:08:27,970:INFO:discord.client:logging in using static token
+2025-06-14 17:08:29,207:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: c1bb1828701da89ad48f20b762088a13).
+2025-06-14 17:08:31,502:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 17:08:39,393:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 17:08:40,270:INFO:root:Message received: 了解！チャンネル確認するね！  楽しみ！ from DJ アイズ#4579
+2025-06-14 17:08:40,329:INFO:root:Responded with: 了解！チャンネル確認するね！  楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 17:08:51,934:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:33:08,105:INFO:discord.client:logging in using static token
+2025-06-14 17:33:09,284:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: ba924bb4d158c0c63a2b40da72d67c4c).
+2025-06-14 17:33:11,684:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 17:33:11,691:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 17:33:20,418:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 17:33:21,431:INFO:root:Message received: 了解！チャンネル見てくるね！  どんな話してるのかな？楽しみ！ from DJ アイズ#4579
+2025-06-14 17:33:21,502:INFO:root:Responded with: 了解！チャンネル見てくるね！  どんな話してるのかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 17:33:29,245:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:33:39,487:INFO:root:Message received: 参加者が不足のため、ランブル募集を終了しました from DJ アイズ#4579
+2025-06-14 17:39:48,424:INFO:discord.client:logging in using static token
+2025-06-14 17:39:49,653:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: b3465d25575df3dc5f549c27bafab680).
+2025-06-14 17:39:51,978:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 17:39:51,979:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 17:40:07,920:INFO:root:Message received: ようこそ <@1216246537647292486> !
+まずは <#1236341604500111393> を確認いただいたら、雑談などにてコミュニティをお楽しみください！ from ZERO to ONE サポーター#3383
+2025-06-14 17:40:08,805:INFO:root:Message received: 了解！チャンネル見てくるね！  どんな話してるのかな？楽しみ！ from DJ アイズ#4579
+2025-06-14 17:40:08,894:INFO:root:Responded with: 了解！チャンネル見てくるね！  どんな話してるのかな？楽しみ！
+ to ZERO to ONE サポーター#3383 in channel \U0001f64c｜welcome
+2025-06-14 17:40:20,118:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:20,658:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 17:40:24,795:ERROR:discord.ui.view:Ignoring exception in view <AdminRumbleView timeout=300 children=2> for item <Button style=<ButtonStyle.secondary: 2> url=None disabled=False label='テストユーザー追加' emoji=<PartialEmoji animated=False name='\U0001f916' id=None> row=None>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ui\view.py", line 427, in _scheduled_task
+    await item.callback(interaction)
+  File "C:\zeroone_support\cogs\rumble.py", line 149, in add_dummy_button
+    await self.main_view.update_embed_from_admin()
+AttributeError: 'RumbleView' object has no attribute 'update_embed_from_admin'
+2025-06-14 17:40:24,799:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 17:40:30,952:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:34,315:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:37,640:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:40,965:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:44,345:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:47,797:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:40:50,182:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:44:16,306:INFO:root:Message received: ありがとうございます\U0001f62d
+同年代の方とお知り合いになりたい\U0001f924 from tnkhr.aaaau_49718
+2025-06-14 17:58:54,716:INFO:discord.client:logging in using static token
+2025-06-14 17:58:56,006:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: f8e65eb656bf77a636b24803e722188e).
+2025-06-14 17:58:58,256:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 17:58:58,258:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 17:59:05,037:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:59:05,702:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 17:59:08,310:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 17:59:16,416:INFO:root:Message received: <@1103677154971095213> がランブルに参加しました！（チーム: 青） from DJ アイズ#4579
+2025-06-14 17:59:23,717:INFO:root:Message received: 全員を準備完了状態にしました from DJ アイズ#4579
+2025-06-14 17:59:24,785:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:59:45,204:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:59:47,587:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:59:49,905:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 17:59:52,273:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:12,609:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:15,051:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:17,559:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:19,851:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:40,515:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:43,161:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:45,526:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:00:48,046:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:01:08,557:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:01:10,936:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:01:13,317:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:01:15,695:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:01:18,117:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:43:33,418:INFO:discord.client:logging in using static token
+2025-06-14 18:43:34,729:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: c58cb0216f8ef6b1d1f892ba74439514).
+2025-06-14 18:43:37,005:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 18:43:37,007:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 18:43:41,177:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:43:41,575:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 18:43:43,686:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 18:43:45,693:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 18:43:51,834:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:43:55,204:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:43:58,608:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:44:01,953:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:44:05,254:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:44:08,731:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:44:11,031:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:46:59,120:INFO:discord.client:logging in using static token
+2025-06-14 18:47:00,343:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 85fed890f3e55d603b454acc135ea034).
+2025-06-14 18:47:02,560:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 18:47:02,561:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 18:48:46,043:INFO:discord.client:logging in using static token
+2025-06-14 18:48:47,249:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 4d381e38054bb554e5ced3c9b25d8f57).
+2025-06-14 18:48:49,490:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 18:48:49,491:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 18:48:54,564:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:48:54,858:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 18:48:56,926:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 18:48:59,632:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 18:49:05,178:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:25,587:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:27,920:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:30,204:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:32,597:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:52,949:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:55,293:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:57,639:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:49:59,965:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:20,411:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:22,813:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:25,116:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:27,424:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:47,759:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:50,070:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:52,457:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:54,754:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:57,034:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:50:57,380:INFO:root:Message received: \U0001f38a おめでとうございます！ <@976427276340166696> @テストユーザー2 @テストユーザー4
+素晴らしいチームワークでした！ from DJ アイズ#4579
+2025-06-14 18:51:00,668:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:51:01,093:INFO:root:Message received: \U0001f38a\u2728 @テストユーザー2 さん、MVP受賞おめでとうございます！\u2728\U0001f38a
+あなたの活躍は皆の目標です！ from DJ アイズ#4579
+2025-06-14 18:51:01,214:ERROR:asyncio:Task exception was never retrieved
+future: <Task finished name='Task-20' coro=<RumbleCog._handle_time_limit() done, defined at C:\zeroone_support\cogs\rumble.py:775> exception=AttributeError("'TextChannel' object has no attribute 'client'")>
+Traceback (most recent call last):
+  File "C:\zeroone_support\cogs\rumble.py", line 791, in _handle_time_limit
+    await self.auto_start_game(interaction.channel, game)
+  File "C:\zeroone_support\cogs\rumble.py", line 827, in auto_start_game
+    await view.run_career_rounds(channel, red_team, blue_team)
+  File "C:\zeroone_support\cogs\rumble.py", line 353, in run_career_rounds
+    await self.announce_mvp(channel, all_players_scores)
+  File "C:\zeroone_support\cogs\rumble.py", line 526, in announce_mvp
+    rumble_cog = self.get_cog_instance(channel)
+  File "C:\zeroone_support\cogs\rumble.py", line 540, in get_cog_instance
+    for guild in channel.client.guilds:
+AttributeError: 'TextChannel' object has no attribute 'client'
+2025-06-14 18:57:37,763:INFO:root:Message received: Xが更新されました！
+<https://twitter.com/shien_iida/status/1933817754722922922> from ZERO to ONE サポーター#3383
+2025-06-14 18:57:46,393:INFO:discord.client:logging in using static token
+2025-06-14 18:57:47,519:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 152b0e99438ebfb4a31faaeb16adb541).
+2025-06-14 18:57:49,780:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 18:57:49,781:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 18:57:56,141:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:57:56,482:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 18:57:58,344:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 18:58:00,691:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 18:58:02,787:INFO:root:Message received: 全員を準備完了状態にしました from DJ アイズ#4579
+2025-06-14 18:58:03,928:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:24,267:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:27,822:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:30,277:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:32,695:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:53,120:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:55,489:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:58:57,840:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:00,260:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:20,603:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:22,941:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:25,259:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:27,664:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:48,016:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:50,402:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:52,784:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 18:59:55,132:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:15,541:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:17,890:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:20,250:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:22,807:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:43,314:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:45,770:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:48,116:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:50,498:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:52,845:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:53,334:INFO:root:Message received: \U0001f38a おめでとうございます！ <@976427276340166696> @テストユーザー2 @テストユーザー4
+素晴らしいチームワークでした！ from DJ アイズ#4579
+2025-06-14 19:00:56,772:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:00:57,174:INFO:root:Message received: \U0001f38a\u2728 @テストユーザー4 さん、MVP受賞おめでとうございます！\u2728\U0001f38a
+あなたの活躍は皆の目標です！ from DJ アイズ#4579
+2025-06-14 19:00:57,296:ERROR:discord.ui.view:Ignoring exception in view <AdminRumbleView timeout=300 children=4> for item <Button style=<ButtonStyle.success: 3> url=None disabled=False label='準備完了' emoji=<PartialEmoji animated=False name='\u2705' id=None> row=None>
+Traceback (most recent call last):
+  File "C:\Users\tench\anaconda3\lib\site-packages\discord\ui\view.py", line 427, in _scheduled_task
+    await item.callback(interaction)
+  File "C:\zeroone_support\cogs\rumble.py", line 568, in ready_button
+  File "C:\zeroone_support\cogs\rumble.py", line 191, in start_game
+    await self.run_career_rounds(interaction.channel, red_team, blue_team)
+  File "C:\zeroone_support\cogs\rumble.py", line 353, in run_career_rounds
+    await self.announce_mvp(channel, all_players_scores)
+  File "C:\zeroone_support\cogs\rumble.py", line 526, in announce_mvp
+    """RumbleCogインスタンスを取得"""
+  File "C:\zeroone_support\cogs\rumble.py", line 540, in get_cog_instance
+    # 参加者全員を準備完了にする
+AttributeError: 'TextChannel' object has no attribute 'client'
+2025-06-14 19:06:54,010:INFO:discord.client:logging in using static token
+2025-06-14 19:06:55,299:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 685254928797f2b3b8786d9ff1b23975).
+2025-06-14 19:06:57,532:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 19:06:57,534:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 19:07:03,616:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:04,102:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 19:07:06,218:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 19:07:07,291:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:27,615:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:29,892:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:32,172:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:34,484:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:54,936:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:57,374:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:07:59,665:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:01,930:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:22,409:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:24,674:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:27,064:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:29,435:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:49,801:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:52,180:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:54,580:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:08:56,888:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:17,212:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:19,588:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:21,925:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:24,227:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:44,547:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:46,859:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:49,278:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:51,690:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:54,033:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:54,338:INFO:root:Message received: \U0001f38a おめでとうございます！ @テストユーザー1 @テストユーザー3
+素晴らしいチームワークでした！ from DJ アイズ#4579
+2025-06-14 19:09:57,707:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:09:58,046:INFO:root:Message received: \U0001f38a\u2728 @テストユーザー4 さん、MVP受賞おめでとうございます！\u2728\U0001f38a
+あなたの活躍は皆の目標です！ from DJ アイズ#4579
+2025-06-14 19:10:15,358:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:10:15,714:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 19:10:17,607:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 19:10:20,065:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 19:10:23,136:INFO:root:Message received: 全員を準備完了状態にしました from DJ アイズ#4579
+2025-06-14 19:10:24,043:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:10:44,371:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:10:46,778:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:10:49,085:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:10:51,368:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:11,699:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:13,977:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:16,426:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:19,340:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:39,740:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:42,040:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:44,479:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:11:47,173:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:07,784:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:10,091:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:12,434:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:14,819:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:35,167:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:37,466:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:39,794:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:12:42,165:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:02,492:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:04,811:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:07,153:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:09,525:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:11,824:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:12,094:INFO:root:Message received: \U0001f38a おめでとうございます！ @テストユーザー1 @テストユーザー3
+素晴らしいチームワークでした！ from DJ アイズ#4579
+2025-06-14 19:13:15,429:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:13:15,735:INFO:root:Message received: \U0001f38a\u2728 @テストユーザー1 さん、MVP受賞おめでとうございます！\u2728\U0001f38a
+あなたの活躍は皆の目標です！ from DJ アイズ#4579
+2025-06-14 19:21:30,350:INFO:discord.client:logging in using static token
+2025-06-14 19:21:31,518:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 3efddc18829f3e468b8a8eb0d56e7878).
+2025-06-14 19:21:33,767:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 19:21:33,769:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 19:21:39,276:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:21:39,666:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 19:21:41,860:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 19:21:43,902:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 19:21:46,834:INFO:root:Message received: 全員を準備完了状態にしました from DJ アイズ#4579
+2025-06-14 19:21:47,806:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:08,256:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:10,665:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:12,994:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:15,322:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:35,669:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:38,021:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:40,313:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:22:42,615:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:02,951:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:05,278:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:07,593:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:09,923:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:30,265:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:32,594:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:34,961:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:37,333:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:23:57,712:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:00,154:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:02,542:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:04,907:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:25,345:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:27,725:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:30,130:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:32,437:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:24:34,749:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:27:10,296:INFO:discord.client:logging in using static token
+2025-06-14 19:27:11,523:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: d327be3a75b9571100abbb6bd248b543).
+2025-06-14 19:27:13,789:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 19:27:13,790:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 19:28:01,725:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:28:02,272:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 19:28:05,068:INFO:root:Message received: <@976427276340166696> がランブルに参加しました！（チーム: 赤） from DJ アイズ#4579
+2025-06-14 19:28:07,179:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 19:28:09,238:INFO:root:Message received: 全員を準備完了状態にしました from DJ アイズ#4579
+2025-06-14 19:28:10,300:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:28:31,075:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:28:33,353:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:28:35,749:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:28:38,113:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:28:58,570:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:00,940:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:03,342:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:05,739:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:26,157:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:28,553:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:31,068:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:33,446:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:53,795:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:56,050:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:29:58,393:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:00,716:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:21,100:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:23,480:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:25,820:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:28,144:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:48,456:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:50,769:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:53,129:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:55,459:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:57,955:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:30:58,422:INFO:root:Message received: \U0001f38a おめでとうございます！ <@976427276340166696> @テストユーザー2 @テストユーザー4
+素晴らしいチームワークでした！ from DJ アイズ#4579
+2025-06-14 19:31:01,787:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:31:02,207:INFO:root:Message received: \U0001f38a\u2728 <@976427276340166696> @テストユーザー3
+同点MVP受賞おめでとうございます！\u2728\U0001f38a
+互いを高め合う素晴らしい戦いでした！ from DJ アイズ#4579
+2025-06-14 19:38:56,182:INFO:discord.client:logging in using static token
+2025-06-14 19:38:58,147:INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: adc8ad89e38976f5dbf404aba0723862).
+2025-06-14 19:39:00,376:INFO:cogs.metrics_collector:\U0001f4ca MetricsCollector初期化完了
+2025-06-14 19:39:00,377:INFO:cogs.announcement_detector:\U0001f4e2 AnnouncementDetector初期化完了
+2025-06-14 19:39:04,619:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:39:04,997:INFO:root:Message received: \U0001f527 **管理者専用コントロール**
+ランブルの管理を行えます。 from DJ アイズ#4579
+2025-06-14 19:39:07,600:INFO:root:Message received: テストユーザー 4人を追加しました from DJ アイズ#4579
+2025-06-14 19:39:08,684:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:39:29,086:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:39:31,409:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:39:33,720:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:39:36,140:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:39:56,608:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:00,624:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:03,017:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:05,422:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:25,737:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:28,056:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:30,415:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:32,825:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:53,138:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:55,498:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:40:57,964:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:00,239:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:20,572:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:22,870:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:25,208:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:27,693:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:48,087:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:50,508:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:52,891:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:55,229:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:57,545:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:41:57,862:INFO:root:Message received: \U0001f38a おめでとうございます！ @テストユーザー1 @テストユーザー3
+素晴らしいチームワークでした！ from DJ アイズ#4579
+2025-06-14 19:42:01,191:INFO:root:Message received:  from DJ アイズ#4579
+2025-06-14 19:42:01,575:INFO:root:Message received: \U0001f38a\u2728 @テストユーザー1 @テストユーザー2
+同点MVP受賞おめでとうございます！\u2728\U0001f38a
+互いを高め合う素晴らしい戦いでした！ from DJ アイズ#4579
