@@ -21,7 +21,9 @@ class MetricsCollector(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        self.db_url = os.getenv('NEON_DATABASE_URL')
+        # 環境変数から改行文字を削除
+        db_url_raw = os.getenv('NEON_DATABASE_URL')
+        self.db_url = db_url_raw.replace('\n', '').replace(' ', '') if db_url_raw else None
         
         # ロールIDの定義
         self.VIEWABLE_ROLE_ID = 1236344630132473946  # 閲覧可能ロール
