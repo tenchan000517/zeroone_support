@@ -163,7 +163,7 @@ class MetricsCollector(commands.Cog):
         return role_counts
     
     async def count_active_users(self, guild: discord.Guild) -> int:
-        """アクティブユーザー数をカウント（運営を除く）"""
+        """アクティブユーザー数をカウント（運営※エグゼクティブマネージャーなどを除く）"""
         try:
             staff_role = guild.get_role(self.STAFF_ROLE_ID)
             
