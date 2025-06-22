@@ -183,7 +183,7 @@ class AIChatSystem(commands.Cog):
     async def _conduct_ai_conversation(self, channel: discord.TextChannel, participants: List[AICharacter], topic: str):
         """AIキャラクター同士の会話を実行"""
         try:
-            max_turns = random.randint(10, 18)  # 10-18回のやり取りでランダム（より長い会話を保証）
+            max_turns = random.randint(12, 20)  # 12-20回のやり取りでランダム（より長い会話を保証）
             
             for i in range(max_turns):
                 # 改善されたキャラクター選択ロジック
@@ -228,11 +228,22 @@ class AIChatSystem(commands.Cog):
                             speaker = random.choice(available_speakers)
                         logging.info(f"ランダム選択: {speaker.display_name}, {i+1}回目")
                 
+                # クロージングフェーズ判定（8回目以降）
+                conversation_length = len(self.conversation_history.get(channel.id, []))
+                is_closing_phase = conversation_length >= 8
+                
                 # 会話内容を生成
                 interests_text = "、".join(speaker.interests[:2])  # 興味の上位2つを含める
                 
                 if i == 0:
                     # 最初の発言：カジュアルで親しみやすい会話開始
+                    # 山田メンターは最初の発言者にしない（質問・指導役なので）
+                    if speaker.id == "ai_yamada":
+                        # 山田メンターが最初に選ばれた場合は他のキャラクターに変更
+                        other_participants = [p for p in participants if p.id != "ai_yamada"]
+                        if other_participants:
+                            speaker = random.choice(other_participants)
+                            interests_text = "、".join(speaker.interests[:2])
                     
                     prompt = f"あなたは{speaker.name}です。今、カフェで仲のいい友達とリラックスしておしゃべり中です。\n\n" \
                              f"あなたの性格: {speaker.personality}\n" \
@@ -256,8 +267,8 @@ class AIChatSystem(commands.Cog):
                         has_question = any('？' in msg['content'] or 'どう' in msg['content'] or 'どんな' in msg['content'] 
                                          for msg in recent_messages)
                         
-                        # 山田メンターのクロージングフェーズ特別処理
-                        if is_closing_phase and speaker.id == "ai_yamada_mentor" and random.random() < 0.7:
+                        # 山田メンターの知識ベース特別処理（2回目以降の会話でのみ適用）
+                        if speaker.id == "ai_yamada" and i >= 1 and random.random() < 0.6:
                             # 山田メンターが知識ベースから提案
                             knowledge_base = [
                                 "アドラー心理学", "7つの習慣", "0秒思考", "ISSUE DRIVEN",
@@ -265,15 +276,30 @@ class AIChatSystem(commands.Cog):
                             ]
                             selected_knowledge = random.choice(knowledge_base)
                             
-                            prompt = f"あなたは山田メンターです。経験豊富なメンターで、いつも本質を見抜く質問をします。\n\n" \
-                                     f"今の会話:\n{full_context}\n\n" \
-                                     f"この会話から、「{selected_knowledge}」の知識を活かして、みんなにとって価値のある提案やまとめをしてください。\n" \
-                                     f"会話を締めくくるような、建設的で実践的なアドバイスをお願いします。\n\n" \
-                                     f"注意事項:\n" \
-                                     f"- 上から目線ではなく、友達として\n" \
-                                     f"- 具体的で実践的な提案\n" \
-                                     f"- 「{selected_knowledge}」の考え方を自然に織り込む\n" \
-                                     f"- 50-90文字でお願いします"
+                            # クロージングフェーズかどうかで内容を変更
+                            if is_closing_phase:
+                                prompt = f"あなたは山田メンターです。経験豊富なメンターで、いつも本質を見抜く質問をします。\n\n" \
+                                         f"今の会話:\n{full_context}\n\n" \
+                                         f"この会話から、「{selected_knowledge}」の知識を活かして、みんなにとって価値のある提案やまとめをしてください。\n" \
+                                         f"会話を締めくくるような、建設的で実践的なアドバイスをお願いします。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 上から目線ではなく、友達として\n" \
+                                         f"- 具体的で実践的な提案\n" \
+                                         f"- 「{selected_knowledge}」の考え方を自然に織り込む\n" \
+                                         f"- 50-90文字でお願いします"
+                            else:
+                                # 通常の会話でのメンターらしい質問・提案
+                                last_message = recent_messages[-1] if recent_messages else {"content": ""}
+                                prompt = f"あなたは山田メンターです。経験豊富なメンターで、「解の質より問いの質」を重視し、本質を見抜く質問をします。\n\n" \
+                                         f"直前の発言: \"{last_message['content']}\"\n" \
+                                         f"発言者: {last_message.get('speaker', '')}\n\n" \
+                                         f"「{selected_knowledge}」の考え方を参考に、この発言の本質を掘り下げる質問や、" \
+                                         f"より良い視点を提供してください。メンターらしく、相手の思考を深めるような問いかけをしてください。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 「本質は〜だ」「問いの質はどうだ？」などメンターらしい口調\n" \
+                                         f"- 「{selected_knowledge}」の要素を自然に織り込む\n" \
+                                         f"- 友達として親しみやすく、でも深い洞察を提供\n" \
+                                         f"- 30-70文字でお願いします"
                         # キング・ダイナカの自然な反応パターン  
                         elif speaker.id == "ai_king_dynaka":
                             # キング・ダイナカ用の会話連続性重視プロンプト
@@ -390,12 +416,8 @@ class AIChatSystem(commands.Cog):
                     'timestamp': datetime.now()
                 })
                 
-                # クロージングフェーズ判定（8回目以降）
-                conversation_length = len(self.conversation_history.get(channel.id, []))
-                is_closing_phase = conversation_length >= 8
-                
-                # 改善された会話終了判定（3回目以降）
-                if i >= 2:
+                # 改善された会話終了判定（7回目以降）
+                if i >= 6:
                     # 明確な終了意図のキーワードのみ検出（終了意図が明確なもののみ）
                     strong_ending_keywords = [
                         "また今度", "じゃあ", "それじゃ", "バイバイ", "お疲れ様", 
@@ -408,29 +430,17 @@ class AIChatSystem(commands.Cog):
                     # 会話の流れを考慮した終了判定
                     conversation_depth = len(self.conversation_history.get(channel.id, []))
                     
-                    # クロージングフェーズ考慮の終了確率
-                    if is_closing_phase:
-                        # クロージングフェーズでは終了確率を上げる
-                        if i <= 7:  # 8回目まで
-                            end_probability = 0.15  # 15%
-                        elif i == 8:  # 9回目
-                            end_probability = 0.30  # 30%
-                        elif i == 9:  # 10回目  
-                            end_probability = 0.45  # 45%
-                        elif i >= 10:  # 11回目以降
-                            end_probability = 0.65  # 65%
-                        else:
-                            end_probability = 0.05  # 5%
-                    else:
-                        # 通常フェーズの段階的な終了確率
-                        if i <= 5:  # 6回目まではほぼ終了しない
-                            end_probability = 0.02  # 2%
-                        elif i == 6:  # 7回目
-                            end_probability = 0.05  # 5%
-                        elif i == 7:  # 8回目
-                            end_probability = 0.08  # 8%
-                        else:
-                            end_probability = 0.15  # 15%
+                    # 段階的な終了確率設定
+                    if i <= 8:  # 9回目まではほぼ終了しない
+                        end_probability = 0.02  # 2%
+                    elif i == 9:  # 10回目
+                        end_probability = 0.10  # 10%
+                    elif i == 10:  # 11回目
+                        end_probability = 0.25  # 25%
+                    elif i == 11:  # 12回目
+                        end_probability = 0.45  # 45%
+                    else:  # 13回目以降
+                        end_probability = 0.70  # 70%
                     
                     # 全キャラクターの参加状況をチェック
                     participated_characters = set(
@@ -441,14 +451,90 @@ class AIChatSystem(commands.Cog):
                     
                     # 全キャラクターが参加するまでは終了を大幅に抑制
                     if participated_count < total_participants:
-                        end_probability *= 0.1  # 90%減
+                        if i < 8:  # 9回目以前なら完全に終了を防ぐ
+                            end_probability = 0.0  # 0%
+                        else:
+                            end_probability *= 0.1  # 90%減
                         logging.info(f"キャラクター参加状況: {participated_count}/{total_participants} - 終了確率抑制")
-                    elif participated_count < total_participants and i < 6:
-                        end_probability *= 0.3  # 70%減
                     
                     # 終了判定のログ出力を追加
                     random_value = random.random()
                     logging.info(f"終了判定: i={i+1}, should_end={should_end}, probability={end_probability:.2f}, random={random_value:.2f}")
+                    
+                    # 山田メンターによるクロージング（10回目以降で確率的に実行）
+                    if i >= 9 and not should_end and random.random() < 0.4:  # 40%の確率
+                        yamada_mentor = next((p for p in participants if p.id == "ai_yamada"), None)
+                        if yamada_mentor and speaker.id != "ai_yamada":
+                            # 山田メンターに会話をまとめてもらう
+                            await asyncio.sleep(random.randint(2, 4))
+                            
+                            # 会話の内容を要約してクロージング
+                            recent_messages = self.conversation_history.get(channel.id, [])[-5:]
+                            conversation_summary = "\n".join([f"{msg['speaker']}: {msg['content'][:50]}..." for msg in recent_messages])
+                            
+                            closing_prompt = f"あなたは山田メンターです。経験豊富なメンターで、相手の成長を促す指導者です。\n\n" \
+                                           f"今回の会話:\n{conversation_summary}\n\n" \
+                                           f"この会話から重要なポイントを抽出し、みんなが次に取るべきアクションの方向性を" \
+                                           f"メンターとして具体的に示してください。『今日の会話から〜』で始めて、" \
+                                           f"「次は〜してみよう」「〜を意識してみるといい」のような行動指針を含めてください。" \
+                                           f"学びを受ける側ではなく、指導する側の立場で発言してください。"
+                            
+                            if self.gemini_chat:
+                                closing_response = self.gemini_chat.get_response(f"closing_{channel.id}_{i}", closing_prompt)
+                                if closing_response:
+                                    await self._send_as_character(channel, yamada_mentor, closing_response)
+                                    
+                                    # 会話履歴に追加
+                                    self.conversation_history[channel.id].append({
+                                        'speaker': yamada_mentor.display_name,
+                                        'content': closing_response,
+                                        'timestamp': datetime.now()
+                                    })
+                                    
+                                    # クロージング後の反応フェーズ（全員が反応）
+                                    await asyncio.sleep(random.randint(3, 5))
+                                    
+                                    # 山田メンター以外の全員が反応
+                                    other_participants = [p for p in participants if p.id != "ai_yamada"]
+                                    if other_participants:
+                                        reaction_count = len(other_participants)  # 全員反応
+                                        random.shuffle(other_participants)
+                                        
+                                        for j in range(reaction_count):
+                                            reactor = other_participants[j]
+                                            
+                                            # 反応プロンプト
+                                            if reactor.id == "ai_king_dynaka":
+                                                reaction_prompt = f"あなたはキング・ダイナカです。山田メンターから具体的なアクションプランの提案をもらいました。\n\n" \
+                                                               f"山田メンターの提案: 「{closing_response}\"\n\n" \
+                                                               f"この提案に対して、筋トレやモチベーションの視点から実践への意気込みを表現してください。" \
+                                                               f"「やってみるッス！」「実践するッス！」など前向きな実行意思を「〜ッス！」口調で表現してください。" \
+                                                               f"20-40文字程度でお願いします。"
+                                            else:
+                                                reaction_prompt = f"あなたは{reactor.name}です。山田メンターから具体的なアクションプランの提案をもらいました。\n\n" \
+                                                               f"あなたの性格: {reactor.personality}\n" \
+                                                               f"山田メンターの提案: 「{closing_response}\"\n\n" \
+                                                               f"この提案に対して、実践への意気込みや決意を表現してください。" \
+                                                               f"「やってみます」「実践します」「意識します」など前向きな実行意思を示してください。" \
+                                                               f"20-40文字程度で、行動への意欲を表現してください。"
+                                            
+                                            reaction_response = self.gemini_chat.get_response(f"reaction_{reactor.id}_{i}_{j}", reaction_prompt)
+                                            if reaction_response:
+                                                await self._send_as_character(channel, reactor, reaction_response)
+                                                
+                                                # 会話履歴に追加
+                                                self.conversation_history[channel.id].append({
+                                                    'speaker': reactor.display_name,
+                                                    'content': reaction_response,
+                                                    'timestamp': datetime.now()
+                                                })
+                                                
+                                                # 複数反応の場合は間隔を空ける
+                                                if j < reaction_count - 1:
+                                                    await asyncio.sleep(random.randint(2, 4))
+                                    
+                                    logging.info(f"山田メンターによるクロージング完了（{i+1}回目、反応{reaction_count}件）")
+                                    break
                     
                     if should_end or random_value < end_probability:
                         end_reason = "keyword" if should_end else "probability"
