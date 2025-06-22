@@ -140,8 +140,8 @@ class WeeklyContentCog(commands.Cog):
                 regions = self.settings_manager.get_regions_list(str(guild.id))
                 embed = await self.create_events_embed(regions)
             elif content_type == "connpass":
-                regions = self.settings_manager.get_regions_list(str(guild.id))
-                embed = await self.create_connpass_embed(regions)
+                embeds = await self.create_connpass_embeds()
+                embed = embeds  # send_to_guildでリスト判定される
             elif content_type == "mindset":
                 embed = await self.create_mindset_embed()
             else:
@@ -462,32 +462,38 @@ class WeeklyContentCog(commands.Cog):
         
         return embed
     
-    async def create_connpass_embed(self, regions):
-        """connpassオンライン講座のEmbed作成"""
+    async def create_connpass_embeds(self):
+        """connpassオンライン講座のEmbed作成（複数embed対応）"""
         try:
-            courses = await self.connpass_manager.get_online_courses(regions, days_ahead=14)
-            embed_data = self.connpass_manager.format_courses_for_embed(courses)
+            embeds_data = await self.connpass_manager.get_events_embed()
             
-            embed = discord.Embed(
-                title=embed_data["title"],
-                description=embed_data["description"],
-                color=embed_data["color"]
-            )
-            
-            for field in embed_data["fields"]:
-                embed.add_field(
-                    name=field["name"],
-                    value=field["value"],
-                    inline=field.get("inline", False)
+            # 各embed_dataをdiscord.Embedに変換
+            embeds = []
+            for embed_data in embeds_data:
+                embed = discord.Embed(
+                    title=embed_data["title"],
+                    description=embed_data["description"],
+                    color=embed_data["color"]
                 )
+                
+                for field in embed_data["fields"]:
+                    embed.add_field(
+                        name=field["name"],
+                        value=field["value"],
+                        inline=field.get("inline", False)
+                    )
+                
+                if "footer" in embed_data:
+                    embed.set_footer(text=embed_data["footer"]["text"])
+                else:
+                    embed.set_footer(text="ZERO to ONE 💻 オンライン学習で未来を切り拓こう")
+                
+                embeds.append(embed)
             
-            if "footer" in embed_data:
-                embed.set_footer(text=embed_data["footer"]["text"])
-            else:
-                embed.set_footer(text="ZERO to ONE 💻 オンライン学習で未来を切り拓こう")
+            return embeds
             
         except Exception as e:
-            print(f"Error creating connpass embed: {e}")
+            print(f"Error creating connpass embeds: {e}")
             # フォールバック用の簡単なEmbed
             embed = discord.Embed(
                 title="💻 今週のオンライン講座情報",
@@ -500,8 +506,8 @@ class WeeklyContentCog(commands.Cog):
                 inline=False
             )
             embed.set_footer(text="ZERO to ONE 💻 オンライン学習で未来を切り拓こう")
-        
-        return embed
+            
+            return [embed]
     
     def get_weekday_mention_text(self, guild, weekday):
         """曜日別のメンションテキストを取得"""
@@ -518,8 +524,8 @@ class WeeklyContentCog(commands.Cog):
         
         return ""
     
-    async def send_to_guild(self, guild, settings, embed, weekday=None):
-        """個別ギルドに送信"""
+    async def send_to_guild(self, guild, settings, embeds, weekday=None):
+        """個別ギルドに送信（単一embedまたは複数embed対応）"""
         try:
             target_channel = self.settings_manager.get_target_channel(guild, settings)
             if target_channel:
@@ -531,10 +537,22 @@ class WeeklyContentCog(commands.Cog):
                 if not mention_text:
                     mention_text = self.settings_manager.get_mention_text(guild, settings)
                 
-                if mention_text:
-                    await target_channel.send(mention_text, embed=embed)
+                # embedsがリストかどうか判定
+                if isinstance(embeds, list):
+                    # 複数のembedを送信
+                    for i, embed in enumerate(embeds):
+                        if i == 0 and mention_text:
+                            # 最初のメッセージのみメンション付き
+                            await target_channel.send(mention_text, embed=embed)
+                        else:
+                            # 2回目以降はメンションなし
+                            await target_channel.send(embed=embed)
                 else:
-                    await target_channel.send(embed=embed)
+                    # 単一embed（従来の動作）
+                    if mention_text:
+                        await target_channel.send(mention_text, embed=embeds)
+                    else:
+                        await target_channel.send(embed=embeds)
         except discord.Forbidden:
             pass  # 送信権限がない場合はスキップ
         except Exception as e:
@@ -574,8 +592,8 @@ class WeeklyContentCog(commands.Cog):
                 regions = self.settings_manager.get_regions_list(str(interaction.guild.id))
                 embed = await self.create_events_embed(regions)
             elif content_type in ['connpass', 'オンライン講座']:
-                regions = self.settings_manager.get_regions_list(str(interaction.guild.id))
-                embed = await self.create_connpass_embed(regions)
+                embeds = await self.create_connpass_embeds()
+                embed = embeds  # send_to_guildでリスト判定される
             elif content_type in ['mindset', 'マインド']:
                 embed = await self.create_mindset_embed()
             else:

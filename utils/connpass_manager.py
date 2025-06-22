@@ -82,6 +82,11 @@ class ConnpassManager:
         
         # 日付範囲でフィルタリング
         date_filtered_events = []
+        parse_errors = 0
+        no_date_count = 0
+        
+        print(f"DEBUG: Filtering {len(filtered_online_events)} events by date range: {today.strftime('%Y-%m-%d')} to {one_week_later.strftime('%Y-%m-%d')}")
+        
         for event in filtered_online_events:
             started_at_str = event.get('started_at', '')
             if started_at_str:
@@ -93,12 +98,20 @@ class ConnpassManager:
                     # 今日から1週間以内かチェック
                     if today <= event_date <= one_week_later:
                         date_filtered_events.append(event)
-                except ValueError:
+                        print(f"DEBUG: Added event '{event.get('title', 'No title')[:50]}...' on {event_date.strftime('%Y-%m-%d')}")
+                    else:
+                        print(f"DEBUG: Skipped event '{event.get('title', 'No title')[:50]}...' on {event_date.strftime('%Y-%m-%d')} (outside date range)")
+                except ValueError as e:
                     # 日付パースエラーの場合はスキップ
+                    parse_errors += 1
+                    print(f"DEBUG: Date parse error for '{started_at_str}': {e}")
                     continue
             else:
                 # 日付情報がない場合もスキップ
+                no_date_count += 1
                 continue
+        
+        print(f"DEBUG: Date filtering results - kept: {len(date_filtered_events)}, parse errors: {parse_errors}, no date: {no_date_count}")
         
         print(f"Date-filtered to {len(date_filtered_events)} events within 1 week from today")
         
@@ -274,10 +287,10 @@ class ConnpassManager:
         
         return fallback_courses
     
-    def format_courses_for_embed(self, courses: List[Dict]) -> Dict:
+    def format_courses_for_embed(self, courses: List[Dict]) -> List[Dict]:
         """オンライン講座情報をEmbed用にフォーマット"""
         if not courses:
-            return {
+            return [{
                 "title": "💻 今週のオンライン講座情報",
                 "description": "connpassから最新のオンライン講座をお届けします！",
                 "fields": [
@@ -288,13 +301,13 @@ class ConnpassManager:
                     }
                 ],
                 "color": 0x3498DB
-            }
+            }]
         
         # フォールバックデータかチェック
         is_fallback = any(course.get('event_id', '').startswith('fallback_') for course in courses)
         
         if is_fallback:
-            return {
+            return [{
                 "title": "💻 今週のオンライン講座情報",
                 "description": "⚠️ **現在、条件に合うイベントが見つかりませんでした**\n\n以下は参考として、よくあるオンライン講座のタイプをご紹介します：",
                 "fields": [
@@ -313,19 +326,17 @@ class ConnpassManager:
                 "footer": {
                     "text": "💪 来週こそ素敵なイベントが見つかりますように！"
                 }
-            }
+            }]
         
-        # 講座情報を整形（Discord 1024文字制限対応）
-        course_list = []
-        total_length = 0
-        max_field_length = 1000
+        # 上位5件と下位5件に分割して2つのembedを作成
+        print(f"DEBUG: format_courses_for_embed received {len(courses)} courses")
         
-        for i, course in enumerate(courses[:10], 1):  # 最大10件表示
+        def create_course_info(course):
+            """個別のコース情報を作成"""
             try:
                 # 日時をパース
                 started_at_str = course.get('started_at', '')
                 if started_at_str:
-                    # connpassの日時形式をパース
                     started_at = datetime.datetime.fromisoformat(
                         started_at_str.replace('+09:00', '')
                     )
@@ -333,16 +344,16 @@ class ConnpassManager:
                 else:
                     date_str = "日時未定"
                 
-                # タイトルを短縮（35文字制限に拡張）
-                title = course.get('title', 'タイトル未定')
+                # タイトルを短縮（35文字制限）
+                title = course.get('title') or 'タイトル未定'
                 if len(title) > 35:
                     title = title[:32] + "..."
                 
                 course_info = f"**{title}**\n📅 {date_str}"
                 
                 # キャッチコピーまたはdescriptionから要約を追加
-                catch = course.get('catch', '').strip()
-                description = course.get('description', '').strip()
+                catch = (course.get('catch') or '').strip()
+                description = (course.get('description') or '').strip()
                 
                 summary_text = ""
                 if catch:
@@ -352,57 +363,54 @@ class ConnpassManager:
                     import re
                     clean_desc = re.sub(r'<[^>]+>', '', description)
                     clean_desc = re.sub(r'\s+', ' ', clean_desc).strip()
-                    # 最初の文または100文字を抽出
                     if clean_desc:
                         sentences = clean_desc.split('。')
-                        first_sentence = sentences[0]
-                        if len(first_sentence) > 80:
-                            summary_text = first_sentence[:77] + "..."
+                        first_sentence = sentences[0] if sentences else ""
+                        if len(first_sentence) > 60:
+                            summary_text = first_sentence[:57] + "..."
                         else:
                             summary_text = first_sentence + '。' if first_sentence else ""
                 
                 if summary_text:
-                    if len(summary_text) > 80:
-                        summary_text = summary_text[:77] + "..."
+                    if len(summary_text) > 60:
+                        summary_text = summary_text[:57] + "..."
                     course_info += f"\n💡 {summary_text}"
                 
-                # 場所情報
-                place = course.get('place', 'オンライン')
+                # 場所情報（簡略化）
+                place = course.get('place') or 'オンライン'
                 if place and place != 'オンライン':
-                    if len(place) > 15:
-                        place = place[:12] + "..."
+                    if len(place) > 12:
+                        place = place[:9] + "..."
                     course_info += f"\n📍 {place}"
                 else:
-                    course_info += f"\n📍 オンライン開催"
+                    course_info += f"\n📍 オンライン"
                 
-                # API v2では event_url が url に変更
+                # URL
                 url = course.get('url') or course.get('event_url')
                 if url:
                     course_info += f"\n🔗 [詳細・申込]({url})"
                 
-                # 文字数チェック
-                if total_length + len(course_info) + 2 > max_field_length:
-                    break
-                
-                course_list.append(course_info)
-                total_length += len(course_info) + 2
+                return course_info
                 
             except Exception as e:
                 print(f"Error formatting course: {e}")
-                continue
+                return None
         
-        return {
-            "title": "💻 今週のオンライン講座情報",
+        # 上位5件用のembed
+        first_courses = courses[:5]
+        first_course_list = []
+        for course in first_courses:
+            course_info = create_course_info(course)
+            if course_info:
+                first_course_list.append(course_info)
+        
+        first_embed = {
+            "title": "💻 今週のオンライン講座情報 (1/2)",
             "description": "**connpass**から厳選したオンライン講座をお届けします！\n新しいスキルを身につけるチャンス✨",
             "fields": [
                 {
-                    "name": "📚 注目の講座",
-                    "value": "\n\n".join(course_list) if course_list else "講座情報の取得に失敗しました",
-                    "inline": False
-                },
-                {
-                    "name": "🎯 オンライン学習のメリット",
-                    "value": "• 自宅から気軽に参加可能\n• 移動時間ゼロで効率的\n• 録画視聴で復習も安心\n• 全国の講師から学べる",
+                    "name": "📚 注目の講座 (1-5位)",
+                    "value": "\n\n".join(first_course_list) if first_course_list else "講座情報の取得に失敗しました",
                     "inline": False
                 }
             ],
@@ -411,3 +419,76 @@ class ConnpassManager:
                 "text": "💡 気になる講座があれば早めの申込みがおすすめです！"
             }
         }
+        
+        # 下位5件用のembed（6件以上ある場合のみ）
+        embeds = [first_embed]
+        
+        if len(courses) > 5:
+            second_courses = courses[5:10]
+            second_course_list = []
+            for course in second_courses:
+                course_info = create_course_info(course)
+                if course_info:
+                    second_course_list.append(course_info)
+            
+            if second_course_list:
+                second_embed = {
+                    "title": "💻 今週のオンライン講座情報 (2/2)",
+                    "description": "続いて、こちらの講座もチェックしてみてください！",
+                    "fields": [
+                        {
+                            "name": "📚 注目の講座 (6-10位)",
+                            "value": "\n\n".join(second_course_list),
+                            "inline": False
+                        },
+                        {
+                            "name": "🎯 オンライン学習のメリット",
+                            "value": "• 自宅から気軽に参加可能\n• 移動時間ゼロで効率的\n• 録画視聴で復習も安心\n• 全国の講師から学べる",
+                            "inline": False
+                        }
+                    ],
+                    "color": 0x3498DB
+                }
+                embeds.append(second_embed)
+        else:
+            # 5件以下の場合は1つ目のembedにメリット情報を追加
+            first_embed["fields"].append({
+                "name": "🎯 オンライン学習のメリット",
+                "value": "• 自宅から気軽に参加可能\n• 移動時間ゼロで効率的\n• 録画視聴で復習も安心\n• 全国の講師から学べる",
+                "inline": False
+            })
+        
+        return embeds
+    
+    async def get_weekly_courses(self):
+        """今週のオンラインコースを取得"""
+        try:
+            # 既存のget_online_coursesメソッドを使用
+            all_events = await self.get_online_courses(regions=[], days_ahead=7)
+            return all_events
+        except Exception as e:
+            print(f"Error getting weekly courses: {e}")
+            return []
+    
+    async def get_events_embed(self):
+        """connpassから今週のイベント情報を取得してEmbed形式で返す"""
+        try:
+            courses = await self.get_weekly_courses()
+            embeds = self.format_courses_for_embed(courses)
+            return embeds
+            
+        except Exception as e:
+            print(f"Error creating connpass embed: {e}")
+            # エラー時のフォールバック
+            return [{
+                "title": "💻 今週のオンライン講座情報",
+                "description": "申し訳ございません。現在、講座情報の取得に問題が発生しています。",
+                "fields": [
+                    {
+                        "name": "🔄 再試行のお願い",
+                        "value": "しばらく時間をおいてから再度お試しください。\nまたは[connpass](https://connpass.com/)で直接検索してみてください。",
+                        "inline": False
+                    }
+                ],
+                "color": 0xFF6B6B  # 赤色（エラー）
+            }]
