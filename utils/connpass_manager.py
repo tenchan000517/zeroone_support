@@ -18,6 +18,20 @@ class ConnpassManager:
             "勉強会", "ハンズオン", "ワークショップ", "LT", "もくもく会"
         ]
         
+        # 初心者・学習向けフィルタリングキーワード（キャリア関連を追加）
+        self.filter_keywords = [
+            "初心者", "学ぶ", "スキル", "入門", "AI", "アプリ", "Web",
+            "ハンズオン", "プログラミング", "Claude code", "データドリブン",
+            "セキュリティ", "勉強会", "エンジニア", "キャリア", "就活", "転職", "就職"
+        ]
+        
+        # オンライン開催のplace値パターン
+        self.online_place_patterns = [
+            "オンライン", "リモート", "Google Meet", "Zoom",
+            "YouTube", "gather", "twitch", "Teams", "オンライン開催",
+            "オンライン配信", "リモート開催", "バーチャル", "ウェビナー"
+        ]
+        
         # 都道府県マッピング
         self.prefecture_map = {
             "愛知": "愛知県", "愛知県": "愛知県",
@@ -34,7 +48,7 @@ class ConnpassManager:
         all_events = []
         
         # 複数のキーワードで検索
-        for keyword in self.search_keywords[:5]:  # 上位5キーワード
+        for keyword in self.search_keywords[:10]:  # 上位10キーワード
             events = await self._search_events(
                 keyword=keyword,
                 days_ahead=days_ahead
@@ -47,23 +61,52 @@ class ConnpassManager:
         # 重複除去（event_idベース）
         unique_events = {}
         for event in all_events:
-            event_id = event.get('event_id', event.get('title', ''))
+            event_id = event.get('id') or event.get('event_id') or event.get('title') or ''
             unique_events[event_id] = event
         
         filtered_events = list(unique_events.values())
         
-        # フィルタリング無効化（デバッグ用）
-        online_events = filtered_events
+        # オンラインイベントのフィルタリング
+        online_events = self._filter_online_events(filtered_events)
+        
+        # 初心者・学習向けキーワードでフィルタリング
+        filtered_online_events = self._filter_by_keywords(online_events)
         
         # イベントがない場合はフォールバック
-        if not online_events:
-            online_events = self._get_fallback_courses()
+        if not filtered_online_events:
+            filtered_online_events = self._get_fallback_courses()
         
-        # 日付順にソート
-        online_events.sort(key=lambda x: x.get('started_at', ''))
+        # 今日から1週間以内のイベントのみフィルタリング
+        today = datetime.datetime.now()
+        one_week_later = today + datetime.timedelta(days=7)
         
-        # 最大12件に制限
-        return online_events[:12]
+        # 日付範囲でフィルタリング
+        date_filtered_events = []
+        for event in filtered_online_events:
+            started_at_str = event.get('started_at', '')
+            if started_at_str:
+                try:
+                    # connpassの日時形式をパース
+                    event_date = datetime.datetime.fromisoformat(
+                        started_at_str.replace('+09:00', '')
+                    )
+                    # 今日から1週間以内かチェック
+                    if today <= event_date <= one_week_later:
+                        date_filtered_events.append(event)
+                except ValueError:
+                    # 日付パースエラーの場合はスキップ
+                    continue
+            else:
+                # 日付情報がない場合もスキップ
+                continue
+        
+        print(f"Date-filtered to {len(date_filtered_events)} events within 1 week from today")
+        
+        # 日付昇順でソート（6/22が最初に来るように）
+        date_filtered_events.sort(key=lambda x: x.get('started_at', ''))
+        
+        # 最大50件に制限
+        return date_filtered_events[:50]
     
     async def _search_events(self, keyword: str, days_ahead: int) -> List[Dict]:
         """Connpass APIでイベント検索"""
@@ -76,10 +119,9 @@ class ConnpassManager:
         
         params = {
             'keyword': keyword,
-            'ymd': f"{ymd_start},{ymd_end}",  # 日付範囲で検索
+            'ym': today.strftime("%Y%m"),  # 今月のイベントを検索
             'count': 100,  # 多めに取得
             'order': 2,  # 開催日時順
-            'format': 'json'
         }
         
         try:
@@ -126,20 +168,66 @@ class ConnpassManager:
         for event in events:
             address = event.get('address') or ''
             place = event.get('place') or ''
+            title = (event.get('title') or '').lower()
             
-            # addressまたはplaceに'オンライン'が含まれる
-            is_online = ('オンライン' in address or 'オンライン' in place or 
-                        'zoom' in place.lower() or 'teams' in place.lower() or 
-                        'google meet' in place.lower())
+            # placeフィールドでオンライン判定
+            is_online = False
+            for pattern in self.online_place_patterns:
+                if pattern in place or pattern in address:
+                    is_online = True
+                    break
             
-            # addressとplaceが両方空の場合もオンラインとみなす
-            if not address and not place:
+            # 小文字変換してより厳密にチェック
+            place_lower = place.lower()
+            address_lower = address.lower()
+            
+            if not is_online:
+                online_keywords = ['zoom', 'discord', 'meet', 'teams', 'slack', 'online', 'remote']
+                for keyword in online_keywords:
+                    if keyword in place_lower or keyword in address_lower or keyword in title:
+                        is_online = True
+                        break
+            
+            # addressとplaceが両方空または「-」の場合もオンラインとみなす
+            if not is_online and (not address.strip() or address.strip() == '-') and (not place.strip() or place.strip() == '-'):
                 is_online = True
             
             if is_online:
                 online_events.append(event)
         
+        print(f"Filtered to {len(online_events)} online events from {len(events)} total events")
         return online_events
+    
+    def _filter_by_keywords(self, events: List[Dict]) -> List[Dict]:
+        """初心者・学習向けキーワードでフィルタリング"""
+        filtered_events = []
+        
+        for event in events:
+            title = (event.get('title') or '').lower()
+            catch = (event.get('catch') or '').lower()
+            description = (event.get('description') or '').lower()
+            
+            # イベント情報全体のテキスト
+            event_text = f"{title} {catch} {description}"
+            
+            # キーワードマッチング
+            match_count = 0
+            matched_keywords = []
+            for keyword in self.filter_keywords:
+                if keyword.lower() in event_text:
+                    match_count += 1
+                    matched_keywords.append(keyword)
+            
+            # 1つ以上のキーワードがマッチした場合に選択
+            if match_count > 0:
+                # マッチスコアをイベント情報に追加
+                event['_match_score'] = match_count
+                event['_matched_keywords'] = matched_keywords
+                filtered_events.append(event)
+                print(f"✓ Matched event: {event.get('title', 'N/A')} (matches: {match_count})")
+        
+        print(f"Keyword-filtered to {len(filtered_events)} events from {len(events)} online events")
+        return filtered_events
     
     def _get_fallback_courses(self) -> List[Dict]:
         """API利用不可時のフォールバックコース"""
@@ -154,7 +242,9 @@ class ConnpassManager:
                 "url": "https://connpass.com/event/example1/",
                 "place": "オンライン開催",
                 "address": "",
-                "description": "<p>Python基礎からWebアプリ開発まで学べる実践的なオンライン講座です。</p><p>プログラミング未経験者でも安心の丁寧な指導で、実際のプロジェクトを通して学習できます。</p>"
+                "description": "<p>Python基礎からWebアプリ開発まで学べる実践的なオンライン講座です。</p><p>プログラミング未経験者でも安心の丁寧な指導で、実際のプロジェクトを通して学習できます。</p>",
+                "_match_score": 5,
+                "_matched_keywords": ["初心者", "スキル", "Web", "プログラミング", "エンジニア"]
             },
             {
                 "event_id": "fallback_2", 
@@ -164,7 +254,9 @@ class ConnpassManager:
                 "url": "https://connpass.com/event/example2/",
                 "place": "オンライン配信",
                 "address": "",
-                "description": "<p>HTML/CSS/JavaScriptを使った実践的なWeb制作技術を学習できます。</p><p>レスポンシブデザインやモダンな開発手法も含めて幅広くカバーします。</p>"
+                "description": "<p>HTML/CSS/JavaScriptを使った実践的なWeb制作技術を学習できます。</p><p>レスポンシブデザインやモダンな開発手法も含めて幅広くカバーします。</p>",
+                "_match_score": 4,
+                "_matched_keywords": ["スキル", "Web", "プログラミング", "エンジニア"]
             },
             {
                 "event_id": "fallback_3",
@@ -174,7 +266,9 @@ class ConnpassManager:
                 "url": "https://connpass.com/event/example3/",
                 "place": "リモート開催",
                 "address": "",
-                "description": "<p>ビジネスに活かせるデータ分析スキルをオンラインで身につけられます。</p><p>ExcelからPython、統計解析まで段階的に学習し、実務で使える技術を習得できます。</p>"
+                "description": "<p>ビジネスに活かせるデータ分析スキルをオンラインで身につけられます。</p><p>ExcelからPython、統計解析まで段階的に学習し、実務で使える技術を習得できます。</p>",
+                "_match_score": 6,
+                "_matched_keywords": ["学ぶ", "スキル", "入門", "AI", "プログラミング", "エンジニア"]
             }
         ]
         
@@ -196,12 +290,37 @@ class ConnpassManager:
                 "color": 0x3498DB
             }
         
+        # フォールバックデータかチェック
+        is_fallback = any(course.get('event_id', '').startswith('fallback_') for course in courses)
+        
+        if is_fallback:
+            return {
+                "title": "💻 今週のオンライン講座情報",
+                "description": "⚠️ **現在、条件に合うイベントが見つかりませんでした**\n\n以下は参考として、よくあるオンライン講座のタイプをご紹介します：",
+                "fields": [
+                    {
+                        "name": "🎯 人気のオンライン講座カテゴリ",
+                        "value": "• **Python/プログラミング入門**\n• **Web制作・デザイン**\n• **データ分析・AI活用**\n• **キャリアアップ・転職支援**",
+                        "inline": False
+                    },
+                    {
+                        "name": "💡 イベントを探すコツ",
+                        "value": "• [connpass](https://connpass.com/)で直接検索\n• 「オンライン」「初心者」などのキーワードで絞り込み\n• 興味のある技術分野で検索してみましょう！",
+                        "inline": False
+                    }
+                ],
+                "color": 0xFFA500,  # オレンジ色（注意喚起）
+                "footer": {
+                    "text": "💪 来週こそ素敵なイベントが見つかりますように！"
+                }
+            }
+        
         # 講座情報を整形（Discord 1024文字制限対応）
         course_list = []
         total_length = 0
-        max_field_length = 900
+        max_field_length = 1000
         
-        for i, course in enumerate(courses[:6], 1):  # 最大6件表示
+        for i, course in enumerate(courses[:10], 1):  # 最大10件表示
             try:
                 # 日時をパース
                 started_at_str = course.get('started_at', '')
