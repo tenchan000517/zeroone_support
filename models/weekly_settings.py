@@ -25,15 +25,15 @@ class WeeklyContentSettings(Base):
     monday_hour = Column(Integer, default=7)
     monday_minute = Column(Integer, default=0)
     
-    # 火曜: ビジネストレンド
+    # 火曜: オンライン講座情報
     tuesday_enabled = Column(Boolean, default=True)
-    tuesday_content = Column(String, default="trends")
+    tuesday_content = Column(String, default="connpass")
     tuesday_hour = Column(Integer, default=7)
     tuesday_minute = Column(Integer, default=0)
     
-    # 水曜: スキルアップTips
+    # 水曜: ビジネストレンド速報
     wednesday_enabled = Column(Boolean, default=True)
-    wednesday_content = Column(String, default="tips")
+    wednesday_content = Column(String, default="trends")
     wednesday_hour = Column(Integer, default=7)
     wednesday_minute = Column(Integer, default=0)
     

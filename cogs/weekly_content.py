@@ -5,10 +5,12 @@ import random
 import datetime
 import asyncio
 import aiohttp
-from config.config import ADMIN_ID
+from config.config import ADMIN_ID, WEEKLY_MENTION_ROLES
 from utils.weekly_settings_manager import WeeklySettingsManager
 from utils.event_manager import EventManager
 from utils.news_manager import NewsManager
+from utils.connpass_manager import ConnpassManager
+from utils.trends_manager import TrendsManager
 
 class WeeklyContentCog(commands.Cog):
     def __init__(self, bot):
@@ -16,6 +18,8 @@ class WeeklyContentCog(commands.Cog):
         self.settings_manager = WeeklySettingsManager()
         self.event_manager = EventManager()
         self.news_manager = NewsManager()
+        self.connpass_manager = ConnpassManager()
+        self.trends_manager = TrendsManager()
         # 送信済み記録（重複防止用）
         self.sent_today = set()
         
@@ -77,10 +81,10 @@ class WeeklyContentCog(commands.Cog):
                 abs(now.minute - target_minute) <= 10):
                 
                 # コンテンツを送信
-                await self.send_daily_content(guild, content_info['content_type'])
+                await self.send_daily_content(guild, content_info['content_type'], current_weekday)
                 self.sent_today.add(guild_id)
     
-    async def send_daily_content(self, guild, content_type):
+    async def send_daily_content(self, guild, content_type, weekday):
         """日次コンテンツを送信"""
         settings = self.settings_manager.get_guild_settings(str(guild.id))
         
@@ -98,12 +102,15 @@ class WeeklyContentCog(commands.Cog):
             elif content_type == "events":
                 regions = self.settings_manager.get_regions_list(str(guild.id))
                 embed = await self.create_events_embed(regions)
+            elif content_type == "connpass":
+                regions = self.settings_manager.get_regions_list(str(guild.id))
+                embed = await self.create_connpass_embed(regions)
             elif content_type == "mindset":
                 embed = await self.create_mindset_embed()
             else:
                 return  # 未知のコンテンツタイプ
             
-            await self.send_to_guild(guild, settings, embed)
+            await self.send_to_guild(guild, settings, embed, weekday)
             
         except Exception as e:
             print(f"Error sending daily content to {guild.name}: {e}")
@@ -160,50 +167,49 @@ class WeeklyContentCog(commands.Cog):
         return embed
     
     async def create_trends_embed(self):
-        """ビジネストレンドのEmbed作成"""
-        trends = [
-            {
-                "category": "🤖 AI・テクノロジー",
-                "trend": "生成AI市場が急拡大中",
-                "detail": "ChatGPTをはじめとした生成AIツールが企業の業務効率化を大幅に向上させています。",
-                "action": "自社業務でのAI活用可能性を検討してみましょう。"
-            },
-            {
-                "category": "💚 サステナビリティ",
-                "trend": "ESG投資の重要性が増加",
-                "detail": "環境・社会・ガバナンスを重視した企業への投資が世界的なトレンドとなっています。",
-                "action": "自社のサステナビリティ取り組みを見直してみましょう。"
-            },
-            {
-                "category": "🏠 リモートワーク",
-                "trend": "ハイブリッドワークが定着",
-                "detail": "完全リモートから、オフィスとリモートを組み合わせた働き方にシフトしています。",
-                "action": "効率的なハイブリッドワーク環境を整備しましょう。"
-            }
-        ]
-        
-        trend_data = random.choice(trends)
-        
-        embed = discord.Embed(
-            title="📊 ビジネストレンド速報",
-            color=discord.Color.purple()
-        )
-        embed.add_field(
-            name=f"{trend_data['category']}",
-            value=f"**{trend_data['trend']}**",
-            inline=False
-        )
-        embed.add_field(
-            name="📰 トレンド詳細",
-            value=trend_data['detail'],
-            inline=False
-        )
-        embed.add_field(
-            name="💡 アクションポイント",
-            value=trend_data['action'],
-            inline=False
-        )
-        embed.set_footer(text="ZERO to ONE 📈 トレンドを先取りして競争優位を築こう")
+        """ビジネストレンドのEmbed作成（GoogleTrends RSS）"""
+        try:
+            # GoogleTrendsからリアルタイムトレンド取得
+            trends = await self.trends_manager.get_business_trends(max_trends=5)
+            embed_data = self.trends_manager.format_trends_for_embed(trends)
+            
+            embed = discord.Embed(
+                title=embed_data["title"],
+                description=embed_data["description"],
+                color=embed_data["color"]
+            )
+            
+            for field in embed_data["fields"]:
+                embed.add_field(
+                    name=field["name"],
+                    value=field["value"],
+                    inline=field.get("inline", False)
+                )
+            
+            if "footer" in embed_data:
+                embed.set_footer(text=embed_data["footer"]["text"])
+            else:
+                embed.set_footer(text="ZERO to ONE 📈 トレンドを先取りして競争優位を築こう")
+                
+        except Exception as e:
+            print(f"Error creating trends embed: {e}")
+            # フォールバック用の従来のEmbed
+            embed = discord.Embed(
+                title="📊 ビジネストレンド速報",
+                description="最新のビジネストレンド情報をお届けします",
+                color=discord.Color.purple()
+            )
+            embed.add_field(
+                name="🤖 AI・テクノロジー",
+                value="**生成AI市場が急拡大中**\nChatGPTをはじめとした生成AIツールが企業の業務効率化を大幅に向上させています。",
+                inline=False
+            )
+            embed.add_field(
+                name="💡 アクションポイント",
+                value="自社業務でのAI活用可能性を検討してみましょう。",
+                inline=False
+            )
+            embed.set_footer(text="ZERO to ONE 📈 トレンドを先取りして競争優位を築こう")
         
         return embed
     
@@ -419,12 +425,75 @@ class WeeklyContentCog(commands.Cog):
         
         return embed
     
-    async def send_to_guild(self, guild, settings, embed):
+    async def create_connpass_embed(self, regions):
+        """connpassオンライン講座のEmbed作成"""
+        try:
+            courses = await self.connpass_manager.get_online_courses(regions, days_ahead=14)
+            embed_data = self.connpass_manager.format_courses_for_embed(courses)
+            
+            embed = discord.Embed(
+                title=embed_data["title"],
+                description=embed_data["description"],
+                color=embed_data["color"]
+            )
+            
+            for field in embed_data["fields"]:
+                embed.add_field(
+                    name=field["name"],
+                    value=field["value"],
+                    inline=field.get("inline", False)
+                )
+            
+            if "footer" in embed_data:
+                embed.set_footer(text=embed_data["footer"]["text"])
+            else:
+                embed.set_footer(text="ZERO to ONE 💻 オンライン学習で未来を切り拓こう")
+            
+        except Exception as e:
+            print(f"Error creating connpass embed: {e}")
+            # フォールバック用の簡単なEmbed
+            embed = discord.Embed(
+                title="💻 今週のオンライン講座情報",
+                description="connpassのオンライン講座情報の取得に失敗しました。",
+                color=0x3498DB
+            )
+            embed.add_field(
+                name="📚 お知らせ",
+                value="connpassで開催される様々なオンライン講座をチェックしてみてください！\n技術系からビジネス系まで幅広い講座が見つかります。",
+                inline=False
+            )
+            embed.set_footer(text="ZERO to ONE 💻 オンライン学習で未来を切り拓こう")
+        
+        return embed
+    
+    def get_weekday_mention_text(self, guild, weekday):
+        """曜日別のメンションテキストを取得"""
+        role_id = WEEKLY_MENTION_ROLES.get(weekday)
+        if not role_id:
+            return ""
+        
+        try:
+            role = guild.get_role(int(role_id))
+            if role:
+                return f"{role.mention} "
+        except (ValueError, AttributeError):
+            print(f"Invalid role ID for weekday {weekday}: {role_id}")
+        
+        return ""
+    
+    async def send_to_guild(self, guild, settings, embed, weekday=None):
         """個別ギルドに送信"""
         try:
             target_channel = self.settings_manager.get_target_channel(guild, settings)
             if target_channel:
-                mention_text = self.settings_manager.get_mention_text(guild, settings)
+                # 曜日別メンションを優先、なければ通常設定を使用
+                mention_text = ""
+                if weekday is not None:
+                    mention_text = self.get_weekday_mention_text(guild, weekday)
+                
+                if not mention_text:
+                    mention_text = self.settings_manager.get_mention_text(guild, settings)
+                
                 if mention_text:
                     await target_channel.send(mention_text, embed=embed)
                 else:
@@ -462,16 +531,22 @@ class WeeklyContentCog(commands.Cog):
             elif content_type in ['events', 'イベント']:
                 regions = self.settings_manager.get_regions_list(str(interaction.guild.id))
                 embed = await self.create_events_embed(regions)
+            elif content_type in ['connpass', 'オンライン講座']:
+                regions = self.settings_manager.get_regions_list(str(interaction.guild.id))
+                embed = await self.create_connpass_embed(regions)
             elif content_type in ['mindset', 'マインド']:
                 embed = await self.create_mindset_embed()
             else:
                 await interaction.edit_original_response(
-                    content="利用可能なタイプ: quotes, trends, tips, tech, challenge, events, mindset"
+                    content="利用可能なタイプ: quotes, trends, tips, tech, challenge, events, connpass, mindset"
                 )
                 return
             
             settings = self.settings_manager.get_guild_settings(str(interaction.guild.id))
-            await self.send_to_guild(interaction.guild, settings, embed)
+            
+            # テスト用に現在の曜日を取得（曜日別メンションテスト用）
+            current_weekday = datetime.datetime.now().weekday()
+            await self.send_to_guild(interaction.guild, settings, embed, current_weekday)
             await interaction.edit_original_response(content=f"{content_type}コンテンツを送信しました")
             
         except Exception as e:
@@ -690,7 +765,7 @@ class WeeklyContentCog(commands.Cog):
             value=(
                 "`/weekly_config schedule weekday:monday content_type:quotes hour:7 minute:0 enabled:True`\n"
                 "**曜日**: monday-sunday\n"
-                "**コンテンツ**: quotes, trends, tips, tech, challenge, events, mindset"
+                "**コンテンツ**: quotes, trends, tips, tech, challenge, events, connpass, mindset"
             ),
             inline=False
         )
@@ -701,6 +776,7 @@ class WeeklyContentCog(commands.Cog):
             value=(
                 "`/weekly_test quotes` - 起業家格言テスト\n"
                 "`/weekly_test events` - イベント情報テスト\n"
+                "`/weekly_test connpass` - オンライン講座テスト\n"
                 "`/weekly_test tech` - テックニュース（リアルタイム）"
             ),
             inline=False
@@ -711,8 +787,8 @@ class WeeklyContentCog(commands.Cog):
             name="📋 デフォルトスケジュール",
             value=(
                 "月: 起業家格言 (7:00)\n"
-                "火: ビジネストレンド (7:00)\n"
-                "水: スキルアップTips (7:00)\n"
+                "火: オンライン講座情報 (7:00)\n"
+                "水: ビジネストレンド速報 (7:00)\n"
                 "木: テック・イノベーション (7:00)\n"
                 "金: 今日のチャレンジ (7:00)\n"
                 "土: 地域イベント情報 (7:00)\n"
