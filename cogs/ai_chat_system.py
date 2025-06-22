@@ -180,53 +180,131 @@ class AIChatSystem(commands.Cog):
             logging.error(f"トピック生成エラー: {e}")
             return "最近の話題について"  # 最終フォールバック
     
+    def _detect_question_and_target(self, message_content: str, participants: List[AICharacter]) -> tuple:
+        """質問とその対象者を検出する"""
+        has_question = False
+        target_character = None
+        
+        # 質問マーカーの検出（より包括的に）
+        question_markers = [
+            '？', '?',  # 疑問符
+            'どう', 'どんな', 'なぜ', 'なに', 'なん', 'だれ', '誰', 'いつ', 'どこ', 'どれ',  # 疑問詞
+            'ですか', 'ますか', 'ですか？', 'ますか？',  # 敬語の疑問形
+            'んですか', 'んですか？', 'でしょうか', 'でしょうか？',  # その他の疑問形
+            'かな', 'かな？', 'のかな', 'んかな'  # 推測疑問
+        ]
+        has_question = any(marker in message_content for marker in question_markers)
+        
+        if has_question:
+            # 特定人物への質問かチェック（名前が言及されているか）
+            for participant in participants:
+                # 名前またはキャラクター特有の言葉で言及されているかチェック
+                name_mentions = [
+                    participant.name,
+                    participant.display_name.replace('アプリ', '').strip(),
+                    participant.display_name
+                ]
+                
+                # キング・ダイナカの場合の特別処理
+                if participant.id == "ai_king_dynaka":
+                    name_mentions.extend(["ダイナカ", "キング", "筋トレ", "プロテイン"])
+                elif participant.id == "ai_yamada":
+                    name_mentions.extend(["メンター", "山田", "先生", "指導"])
+                elif participant.id == "ai_suzuki":
+                    name_mentions.extend(["美咲", "鈴木", "デザイン"])
+                elif participant.id == "ai_sato":
+                    name_mentions.extend(["健太", "佐藤", "プログラム"])
+                elif participant.id == "ai_takahashi":
+                    name_mentions.extend(["誠", "高橋", "ビジネス"])
+                
+                # メッセージ内で名前が言及されているかチェック
+                for mention in name_mentions:
+                    if mention in message_content and len(mention) > 1:  # 1文字以上の意味のある名前
+                        target_character = participant
+                        break
+                
+                if target_character:
+                    break
+        
+        return has_question, target_character
+
     async def _conduct_ai_conversation(self, channel: discord.TextChannel, participants: List[AICharacter], topic: str):
         """AIキャラクター同士の会話を実行"""
         try:
-            max_turns = random.randint(12, 20)  # 12-20回のやり取りでランダム（より長い会話を保証）
+            max_turns = random.randint(16, 22)  # 16-22回のやり取りでランダム（クロージングフェーズを保証）
             
             for i in range(max_turns):
+                # 直前のメッセージから質問応答の必要性をチェック
+                previous_question_target = None
+                if i > 0 and self.conversation_history.get(channel.id):
+                    last_message = self.conversation_history[channel.id][-1]
+                    has_question, target_character = self._detect_question_and_target(
+                        last_message['content'], participants
+                    )
+                    
+                    if has_question:
+                        logging.info(f"質問検出: \"{last_message['content'][:50]}...\"")
+                        if target_character:
+                            # 特定の人への質問なら、その人が答える
+                            previous_question_target = target_character
+                            logging.info(f"特定質問検出: {target_character.display_name} が回答予定")
+                        else:
+                            # 一般的な質問なら、前回発言者以外が答える
+                            last_speaker_name = last_message['speaker']
+                            available_answerers = [p for p in participants if p.display_name != last_speaker_name]
+                            if available_answerers:
+                                previous_question_target = random.choice(available_answerers)
+                                logging.info(f"一般質問検出: {previous_question_target.display_name} が回答予定")
+                    else:
+                        logging.info(f"質問なし: \"{last_message['content'][:50]}...\"")
+                
                 # 改善されたキャラクター選択ロジック
                 participated_chars = set(
                     msg.get('speaker') for msg in self.conversation_history.get(channel.id, [])
                 )
                 
-                # 未参加キャラクターを優先的に選択
-                unparticipated_chars = [p for p in participants if p.display_name not in participated_chars]
-                
-                if unparticipated_chars and i >= 1:  # 2回目以降で未参加者優先
-                    # キング・ダイナカが未参加なら最優先
-                    king_dynaka = next((p for p in unparticipated_chars if p.id == "ai_king_dynaka"), None)
-                    if king_dynaka:
-                        speaker = king_dynaka
-                        logging.info(f"キング・ダイナカを優先選択: {i+1}回目")
-                    else:
-                        speaker = unparticipated_chars[0]  # 他の未参加者を選択
-                        logging.info(f"未参加者を優先選択: {speaker.display_name}, {i+1}回目")
+                # 質問への回答が必要な場合は最優先（他のロジックより優先）
+                if previous_question_target:
+                    speaker = previous_question_target
+                    logging.info(f"質問応答優先選択: {speaker.display_name}, {i+1}回目")
                 else:
-                    # 全員参加済みまたは1回目の場合
-                    if i == 0:
-                        # 1回目はランダム選択
-                        speaker = random.choice(participants)
-                        logging.info(f"開始キャラクター選択: {speaker.display_name}, {i+1}回目")
-                    else:
-                        # 2回目以降で全員参加済みの場合は重み付きランダム選択
-                        available_speakers = participants.copy()
-                        # 前回の発言者を除外（連続発言を避ける）
-                        if self.conversation_history.get(channel.id):
-                            last_speaker_name = self.conversation_history[channel.id][-1]['speaker']
-                            available_speakers = [p for p in participants if p.display_name != last_speaker_name]
-                            if not available_speakers:  # 全員が前回発言者の場合（1人だけの場合）
-                                available_speakers = participants
-                        
-                        # キング・ダイナカの出現率を上げる（40%の確率で優先選択）
-                        king_dynaka = next((p for p in available_speakers if p.id == "ai_king_dynaka"), None)
-                        if king_dynaka and random.random() < 0.4:
+                    # 質問応答がない場合のみ通常の選択ロジックを適用
+                    # 未参加キャラクターを優先的に選択
+                    unparticipated_chars = [p for p in participants if p.display_name not in participated_chars]
+                    
+                    if unparticipated_chars and i >= 1:  # 2回目以降で未参加者優先
+                        # キング・ダイナカが未参加なら最優先
+                        king_dynaka = next((p for p in unparticipated_chars if p.id == "ai_king_dynaka"), None)
+                        if king_dynaka:
                             speaker = king_dynaka
-                            logging.info(f"キング・ダイナカを重み付き選択: {i+1}回目")
+                            logging.info(f"キング・ダイナカを優先選択: {i+1}回目")
                         else:
-                            speaker = random.choice(available_speakers)
-                        logging.info(f"ランダム選択: {speaker.display_name}, {i+1}回目")
+                            speaker = unparticipated_chars[0]  # 他の未参加者を選択
+                            logging.info(f"未参加者を優先選択: {speaker.display_name}, {i+1}回目")
+                    else:
+                        # 全員参加済みまたは1回目の場合
+                        if i == 0:
+                            # 1回目はランダム選択
+                            speaker = random.choice(participants)
+                            logging.info(f"開始キャラクター選択: {speaker.display_name}, {i+1}回目")
+                        else:
+                            # 2回目以降で全員参加済みの場合は重み付きランダム選択
+                            available_speakers = participants.copy()
+                            # 前回の発言者を除外（質問応答の場合は除外しない）
+                            if self.conversation_history.get(channel.id):
+                                last_speaker_name = self.conversation_history[channel.id][-1]['speaker']
+                                available_speakers = [p for p in participants if p.display_name != last_speaker_name]
+                                if not available_speakers:  # 全員が前回発言者の場合（1人だけの場合）
+                                    available_speakers = participants
+                            
+                            # キング・ダイナカの出現率を上げる（40%の確率で優先選択）
+                            king_dynaka = next((p for p in available_speakers if p.id == "ai_king_dynaka"), None)
+                            if king_dynaka and random.random() < 0.4:
+                                speaker = king_dynaka
+                                logging.info(f"キング・ダイナカを重み付き選択: {i+1}回目")
+                            else:
+                                speaker = random.choice(available_speakers)
+                            logging.info(f"ランダム選択: {speaker.display_name}, {i+1}回目")
                 
                 # クロージングフェーズ判定（8回目以降）
                 conversation_length = len(self.conversation_history.get(channel.id, []))
@@ -249,11 +327,12 @@ class AIChatSystem(commands.Cog):
                              f"あなたの性格: {speaker.personality}\n" \
                              f"あなたの話し方: {speaker.speaking_style}\n" \
                              f"あなたの好きなこと: {interests_text}\n\n" \
-                             f"話題「{topic}」について、あなたの経験や思いをカジュアルに話してください。\n\n" \
+                             f"あなたが会話を始めます。話題「{topic}」について、あなたの経験や最近の出来事から自然に話題を振ってください。\n" \
+                             f"誰かの発言に反応するのではなく、あなたから話題を提供してください。\n\n" \
                              f"注意事項:\n" \
-                             f"- 友達とのリラックスした会話なので、簡単な言葉で話してください\n" \
-                             f"- 難しい専門用語やビジネス用語は使わないでください\n" \
-                             f"- あなたの体験や感想を自然に話してください\n" \
+                             f"- 「最近〜」「この前〜」「昨日〜」など、具体的な経験から始める\n" \
+                             f"- 友達との会話なので、簡単で親しみやすい言葉で\n" \
+                             f"- 質問や反応ではなく、あなたの体験談から話を始める\n" \
                              f"- 20-50文字程度でお願いします"
                 else:
                     # 継続的な会話：より豊富なコンテキストで個性を発揮
@@ -267,8 +346,18 @@ class AIChatSystem(commands.Cog):
                         has_question = any('？' in msg['content'] or 'どう' in msg['content'] or 'どんな' in msg['content'] 
                                          for msg in recent_messages)
                         
+                        # 質問への回答かどうかをチェック
+                        is_answering_question = False
+                        question_content = ""
+                        questioner_name = ""
+                        
+                        if previous_question_target and speaker == previous_question_target:
+                            is_answering_question = True
+                            question_content = recent_messages[-1]['content'] if recent_messages else ""
+                            questioner_name = recent_messages[-1].get('speaker', '') if recent_messages else ""
+                        
                         # 山田メンターの知識ベース特別処理（2回目以降の会話でのみ適用）
-                        if speaker.id == "ai_yamada" and i >= 1 and random.random() < 0.6:
+                        if speaker.id == "ai_yamada" and i >= 1 and random.random() < 0.6 and not is_answering_question:
                             # 山田メンターが知識ベースから提案
                             knowledge_base = [
                                 "アドラー心理学", "7つの習慣", "0秒思考", "ISSUE DRIVEN",
@@ -300,6 +389,31 @@ class AIChatSystem(commands.Cog):
                                          f"- 「{selected_knowledge}」の要素を自然に織り込む\n" \
                                          f"- 友達として親しみやすく、でも深い洞察を提供\n" \
                                          f"- 30-70文字でお願いします"
+                        # 質問への回答専用プロンプト
+                        elif is_answering_question:
+                            if speaker.id == "ai_king_dynaka":
+                                prompt = f"あなたはキング・ダイナカです。{questioner_name}から質問されました。\n\n" \
+                                         f"質問: \"{question_content}\"\n\n" \
+                                         f"この質問に対して、筋トレやモチベーションの視点から具体的に答えてください。\n" \
+                                         f"「〜ッス！」口調で、体験談や具体的なアドバイスを含めて回答してください。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 質問に直接答える\n" \
+                                         f"- 筋トレやモチベーションの経験談を交える\n" \
+                                         f"- 具体的で実用的なアドバイス\n" \
+                                         f"- 30-80文字でお願いします"
+                            else:
+                                interests_text = "、".join(speaker.interests[:2])
+                                prompt = f"あなたは{speaker.name}です。{questioner_name}から質問されました。\n\n" \
+                                         f"あなたの性格: {speaker.personality}\n" \
+                                         f"あなたの話し方: {speaker.speaking_style}\n" \
+                                         f"あなたの専門分野: {interests_text}\n\n" \
+                                         f"質問: \"{question_content}\"\n\n" \
+                                         f"この質問に対して、あなたの経験や専門知識を活かして具体的に答えてください。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 質問に直接答える\n" \
+                                         f"- あなたの専門分野や経験から具体例を出す\n" \
+                                         f"- 実用的なアドバイスや情報を提供\n" \
+                                         f"- 30-80文字でお願いします"
                         # キング・ダイナカの自然な反応パターン  
                         elif speaker.id == "ai_king_dynaka":
                             # キング・ダイナカ用の会話連続性重視プロンプト
@@ -416,8 +530,8 @@ class AIChatSystem(commands.Cog):
                     'timestamp': datetime.now()
                 })
                 
-                # 改善された会話終了判定（7回目以降）
-                if i >= 6:
+                # 改善された会話終了判定（10回目以降）
+                if i >= 9:
                     # 明確な終了意図のキーワードのみ検出（終了意図が明確なもののみ）
                     strong_ending_keywords = [
                         "また今度", "じゃあ", "それじゃ", "バイバイ", "お疲れ様", 
@@ -430,17 +544,17 @@ class AIChatSystem(commands.Cog):
                     # 会話の流れを考慮した終了判定
                     conversation_depth = len(self.conversation_history.get(channel.id, []))
                     
-                    # 段階的な終了確率設定
-                    if i <= 8:  # 9回目まではほぼ終了しない
-                        end_probability = 0.02  # 2%
-                    elif i == 9:  # 10回目
-                        end_probability = 0.10  # 10%
-                    elif i == 10:  # 11回目
-                        end_probability = 0.25  # 25%
-                    elif i == 11:  # 12回目
-                        end_probability = 0.45  # 45%
-                    else:  # 13回目以降
-                        end_probability = 0.70  # 70%
+                    # 段階的な終了確率設定（より保守的に調整）
+                    if i <= 13:  # 14回目まではほぼ終了しない
+                        end_probability = 0.001  # 0.1%（ほぼ終了しない）
+                    elif i == 14:  # 15回目
+                        end_probability = 0.05  # 5%（まだ低い確率）
+                    elif i == 15:  # 16回目
+                        end_probability = 0.15  # 15%
+                    elif i == 16:  # 17回目
+                        end_probability = 0.35  # 35%
+                    else:  # 18回目以降
+                        end_probability = 0.60  # 60%
                     
                     # 全キャラクターの参加状況をチェック
                     participated_characters = set(
@@ -449,20 +563,17 @@ class AIChatSystem(commands.Cog):
                     total_participants = len(participants)
                     participated_count = len(participated_characters)
                     
-                    # 全キャラクターが参加するまでは終了を大幅に抑制
+                    # 全キャラクターが参加するまでは終了を完全に防ぐ
                     if participated_count < total_participants:
-                        if i < 8:  # 9回目以前なら完全に終了を防ぐ
-                            end_probability = 0.0  # 0%
-                        else:
-                            end_probability *= 0.1  # 90%減
-                        logging.info(f"キャラクター参加状況: {participated_count}/{total_participants} - 終了確率抑制")
+                        end_probability = 0.0  # 完全に防ぐ
+                        logging.info(f"キャラクター参加状況: {participated_count}/{total_participants} - 終了完全防止")
                     
                     # 終了判定のログ出力を追加
                     random_value = random.random()
                     logging.info(f"終了判定: i={i+1}, should_end={should_end}, probability={end_probability:.2f}, random={random_value:.2f}")
                     
-                    # 山田メンターによるクロージング（10回目以降で確率的に実行）
-                    if i >= 9 and not should_end and random.random() < 0.4:  # 40%の確率
+                    # 山田メンターによるクロージング（12回目以降で確率的に実行）
+                    if i >= 11 and not should_end and random.random() < 0.8:  # 80%の確率（より確実に実行）
                         yamada_mentor = next((p for p in participants if p.id == "ai_yamada"), None)
                         if yamada_mentor and speaker.id != "ai_yamada":
                             # 山田メンターに会話をまとめてもらう
@@ -540,6 +651,12 @@ class AIChatSystem(commands.Cog):
                         end_reason = "keyword" if should_end else "probability"
                         logging.info(f"AI会話が終了（{i+1}回, 理由: {end_reason}）")
                         break
+                
+                # ターン数とキャラクター参加状況をログ出力
+                participated_chars = set(
+                    msg.get('speaker') for msg in self.conversation_history.get(channel.id, [])
+                )
+                logging.info(f"ターン{i+1}: {speaker.display_name}, 参加者: {len(participated_chars)}/{len(participants)}")
                 
                 # 会話の間隔を設ける（ランダム）
                 await asyncio.sleep(random.randint(3, 6))
