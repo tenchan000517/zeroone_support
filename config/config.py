@@ -40,3 +40,13 @@ WEEKLY_MENTION_ROLES = {
     5: "1381201663045668906",  # 土曜: events（地域イベント情報）
     6: None   # 日曜: メンションなし
 }
+
+# AIキャラクター会話設定
+AI_CHAT_CONFIG = {
+    "enabled": True,
+    "target_channel_id": "1236344090086342798",  # AIキャラクター会話専用チャンネル
+    "spontaneous_chat_times": [8, 13, 20],  # 自発的会話の時刻（朝昼晩）
+    "user_interaction_enabled": True,  # ユーザーとのインタラクション機能
+    "max_responses_per_conversation": 3,  # 1つの会話での最大応答回数
+    "conversation_timeout_minutes": 30  # 会話コンテキストのタイムアウト（分）
+}
