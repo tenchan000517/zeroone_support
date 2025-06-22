@@ -204,29 +204,46 @@ class AIChatSystem(commands.Cog):
                         speaker = unparticipated_chars[0]  # 他の未参加者を選択
                         logging.info(f"未参加者を優先選択: {speaker.display_name}, {i+1}回目")
                 else:
-                    # 全員参加済みまたは1回目の場合は順番制
-                    speaker = participants[i % len(participants)]
-                    logging.info(f"順番制選択: {speaker.display_name}, {i+1}回目")
+                    # 全員参加済みまたは1回目の場合
+                    if i == 0:
+                        # 1回目はランダム選択
+                        speaker = random.choice(participants)
+                        logging.info(f"開始キャラクター選択: {speaker.display_name}, {i+1}回目")
+                    else:
+                        # 2回目以降で全員参加済みの場合は重み付きランダム選択
+                        available_speakers = participants.copy()
+                        # 前回の発言者を除外（連続発言を避ける）
+                        if self.conversation_history.get(channel.id):
+                            last_speaker_name = self.conversation_history[channel.id][-1]['speaker']
+                            available_speakers = [p for p in participants if p.display_name != last_speaker_name]
+                            if not available_speakers:  # 全員が前回発言者の場合（1人だけの場合）
+                                available_speakers = participants
+                        
+                        # キング・ダイナカの出現率を上げる（40%の確率で優先選択）
+                        king_dynaka = next((p for p in available_speakers if p.id == "ai_king_dynaka"), None)
+                        if king_dynaka and random.random() < 0.4:
+                            speaker = king_dynaka
+                            logging.info(f"キング・ダイナカを重み付き選択: {i+1}回目")
+                        else:
+                            speaker = random.choice(available_speakers)
+                        logging.info(f"ランダム選択: {speaker.display_name}, {i+1}回目")
                 
                 # 会話内容を生成
                 interests_text = "、".join(speaker.interests[:2])  # 興味の上位2つを含める
                 
                 if i == 0:
-                    # 最初の発言：より詳細なコンテキストでキャラクターの個性を強調
-                    participants_names = ', '.join([p.name for p in participants])
-                    other_participants = [p for p in participants if p.id != speaker.id][:2]
-                    other_interests = []
-                    for p in other_participants:
-                        other_interests.extend(p.interests[:1])
-                    other_interests_text = "、".join(other_interests) if other_interests else "様々な話題"
+                    # 最初の発言：カジュアルで親しみやすい会話開始
                     
-                    prompt = f"【設定】あなたは{speaker.name}です。カフェで{participants_names}の{len(participants)}人でリラックスして会話中。\n" \
-                             f"【あなたの性格】{speaker.personality}\n" \
-                             f"【話し方の特徴】{speaker.speaking_style}\n" \
-                             f"【あなたの興味】{interests_text}\n" \
-                             f"【他の参加者の興味】{other_interests_text}\n" \
-                             f"【話題】「{topic}」について、あなたの個性と興味を活かして自然に話題を振ってください。\n" \
-                             f"【条件】20-50文字で、あなたらしい口調で話しかけてください。質問形式でも意見でもOK。"
+                    prompt = f"あなたは{speaker.name}です。今、カフェで仲のいい友達とリラックスしておしゃべり中です。\n\n" \
+                             f"あなたの性格: {speaker.personality}\n" \
+                             f"あなたの話し方: {speaker.speaking_style}\n" \
+                             f"あなたの好きなこと: {interests_text}\n\n" \
+                             f"話題「{topic}」について、あなたの経験や思いをカジュアルに話してください。\n\n" \
+                             f"注意事項:\n" \
+                             f"- 友達とのリラックスした会話なので、簡単な言葉で話してください\n" \
+                             f"- 難しい専門用語やビジネス用語は使わないでください\n" \
+                             f"- あなたの体験や感想を自然に話してください\n" \
+                             f"- 20-50文字程度でお願いします"
                 else:
                     # 継続的な会話：より豊富なコンテキストで個性を発揮
                     recent_messages = self.conversation_history.get(channel.id, [])[-3:]  # 直近3件の会話
@@ -235,37 +252,124 @@ class AIChatSystem(commands.Cog):
                         full_context = "\n".join(context_messages)
                         participants_names = ', '.join([p.name for p in participants])
                         
-                        # キング・ダイナカの特別な反応パターン
-                        if speaker.id == "ai_king_dynaka":
-                            prompt = f"【設定】あなたはキング・ダイナカです。超ポジティブで筋トレ愛好家のキャラクター。\n" \
-                                     f"【性格】{speaker.personality}\n" \
-                                     f"【話し方】{speaker.speaking_style}\n" \
-                                     f"【会話履歴】\n{full_context}\n" \
-                                     f"【指示】この会話に筋トレやモチベーション要素を絡めて参加してください。" \
-                                     f"「〜ッス！」口調で、前向きでエネルギッシュに応答。30-60文字程度。"
+                        # 質問があるかどうかをチェック
+                        has_question = any('？' in msg['content'] or 'どう' in msg['content'] or 'どんな' in msg['content'] 
+                                         for msg in recent_messages)
+                        
+                        # 山田メンターのクロージングフェーズ特別処理
+                        if is_closing_phase and speaker.id == "ai_yamada_mentor" and random.random() < 0.7:
+                            # 山田メンターが知識ベースから提案
+                            knowledge_base = [
+                                "アドラー心理学", "7つの習慣", "0秒思考", "ISSUE DRIVEN",
+                                "失敗の本質", "コトラーのマーケティング", "ドラッカーのマネジメント"
+                            ]
+                            selected_knowledge = random.choice(knowledge_base)
+                            
+                            prompt = f"あなたは山田メンターです。経験豊富なメンターで、いつも本質を見抜く質問をします。\n\n" \
+                                     f"今の会話:\n{full_context}\n\n" \
+                                     f"この会話から、「{selected_knowledge}」の知識を活かして、みんなにとって価値のある提案やまとめをしてください。\n" \
+                                     f"会話を締めくくるような、建設的で実践的なアドバイスをお願いします。\n\n" \
+                                     f"注意事項:\n" \
+                                     f"- 上から目線ではなく、友達として\n" \
+                                     f"- 具体的で実践的な提案\n" \
+                                     f"- 「{selected_knowledge}」の考え方を自然に織り込む\n" \
+                                     f"- 50-90文字でお願いします"
+                        # キング・ダイナカの自然な反応パターン  
+                        elif speaker.id == "ai_king_dynaka":
+                            # キング・ダイナカ用の会話連続性重視プロンプト
+                            last_message = recent_messages[-1] if recent_messages else {"content": ""}
+                            last_speaker = last_message.get('speaker', '')
+                            
+                            # 山田メンターの提案に対する反応かチェック
+                            if is_closing_phase and last_speaker == "山田メンター" and any(word in last_message['content'] for word in ["提案", "アドバイス", "まとめ", "実践", "習慣", "心理学"]):
+                                prompt = f"あなたはキング・ダイナカです。山田メンターから価値のある提案をもらいました。\n\n" \
+                                         f"山田メンターの提案: \"{last_message['content']}\"\n\n" \
+                                         f"この提案に対して、筋トレやモチベーションの視点から、どう感じますか？\n" \
+                                         f"感謝の気持ちと、筋トレや目標達成に絡めた前向きな反応をしてください。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 「〜ッス！」口調で元気よく\n" \
+                                         f"- 筋トレやモチベーションに絡めて\n" \
+                                         f"- 「やってみるッス！」など前向きな反応\n" \
+                                         f"- 30-70文字でお願いします"
+                            else:
+                                prompt = f"あなたはキング・ダイナカです。筋トレとモチベーションが大好きで、いつも元気いっぱいです。\n\n" \
+                                         f"直前の発言: \"{last_message['content']}\"\n" \
+                                         f"発言者: {last_message.get('speaker', '')}\n\n" \
+                                         f"この発言に対して、あなたならどう反応しますか？\n" \
+                                         f"「へぇー」「なるほど」などの曖昧な相槌ではなく、具体的に反応してください。\n" \
+                                         f"筋トレやモチベーションの話を絡めてもいいですし、共感や体験談でもOKです。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 「〜ッス！」口調で元気よく\n" \
+                                         f"- 「へぇー」「なるほど」などの曖昧な相槌は避ける\n" \
+                                         f"- 具体的な体験談や共感を表現\n" \
+                                         f"- 30-70文字でお願いします"
                         else:
-                            prompt = f"【設定】あなたは{speaker.name}です。カフェで{participants_names}と会話中。\n" \
-                                     f"【性格】{speaker.personality}\n" \
-                                     f"【話し方の特徴】{speaker.speaking_style}\n" \
-                                     f"【興味分野】{interests_text}\n" \
-                                     f"【会話履歴】\n{full_context}\n" \
-                                     f"【指示】会話の流れを読んで、あなたの専門性や興味を活かした発言をしてください。" \
-                                     f"他の参加者に質問したり、意見を述べたり、自然に会話してください。25-55文字程度。"
+                            # 一般キャラクター用の会話連続性重視プロンプト
+                            last_message = recent_messages[-1] if recent_messages else {"content": ""}
+                            last_speaker = last_message.get('speaker', '')
+                            
+                            # 山田メンターの提案に対する反応かチェック
+                            if is_closing_phase and last_speaker == "山田メンター" and any(word in last_message['content'] for word in ["提案", "アドバイス", "まとめ", "実践", "習慣", "心理学"]):
+                                prompt = f"あなたは{speaker.name}です。山田メンターから価値のある提案をもらいました。\n\n" \
+                                         f"あなたの性格: {speaker.personality}\n" \
+                                         f"あなたの話し方: {speaker.speaking_style}\n\n" \
+                                         f"山田メンターの提案: \"{last_message['content']}\"\n\n" \
+                                         f"この提案に対して、あなたならどう感じますか？\n" \
+                                         f"感謝の気持ちや、実践への意気込み、共感などを表現してください。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 感謝や共感を具体的に表現\n" \
+                                         f"- 「やってみる」「参考になる」など前向きな反応\n" \
+                                         f"- 自然な会話の終わりを意識\n" \
+                                         f"- 30-60文字でお願いします"
+                            else:
+                                prompt = f"あなたは{speaker.name}です。今、カフェで仲のいい友達とおしゃべり中です。\n\n" \
+                                         f"あなたの性格: {speaker.personality}\n" \
+                                         f"あなたの話し方: {speaker.speaking_style}\n" \
+                                         f"あなたの好きなこと: {interests_text}\n\n" \
+                                         f"直前の発言: \"{last_message['content']}\"\n" \
+                                         f"発言者: {last_message.get('speaker', '')}\n\n" \
+                                         f"この発言に対して、あなたならどう反応しますか？\n" \
+                                         f"「へぇー」「なるほど」などの曖昧な相槌ではなく、具体的に反応してください。\n" \
+                                         f"自分の経験や思いを交えて自然に話してください。\n\n" \
+                                         f"注意事項:\n" \
+                                         f"- 「へぇー」「なるほど」などの曖昧な相槌は避ける\n" \
+                                         f"- 難しい専門用語やビジネス用語は使わない\n" \
+                                         f"- 具体的な体験談や共感を表現\n" \
+                                         f"- 30-70文字でお願いします"
                     else:
-                        participants_names = ', '.join([p.name for p in participants])
-                        prompt = f"【設定】あなたは{speaker.name}です。{participants_names}とカフェで会話中。\n" \
-                                 f"【性格】{speaker.personality}\n" \
-                                 f"【話し方】{speaker.speaking_style}\n" \
-                                 f"【話題】「{topic}」についてあなたらしくコメントしてください。20-50文字程度。"
+                        # 初回以外で会話履歴がない場合
+                        prompt = f"あなたは{speaker.name}です。カフェで友達とおしゃべり中です。\n\n" \
+                                 f"あなたの性格: {speaker.personality}\n" \
+                                 f"あなたの話し方: {speaker.speaking_style}\n" \
+                                 f"あなたの好きなこと: {interests_text}\n\n" \
+                                 f"話題「{topic}」について、あなたの体験や思いをカジュアルに話してください。\n\n" \
+                                 f"注意事項:\n" \
+                                 f"- 友達との会話なので、簡単な言葉で\n" \
+                                 f"- 難しい専門用語は使わない\n" \
+                                 f"- 体験談や感想を中心に\n" \
+                                 f"- 20-50文字程度でお願いします"
                 
                 # AIから応答を取得（必須）
                 response = None
                 if self.gemini_chat:
                     try:
                         response = self.gemini_chat.get_response(f"ai_{speaker.id}_{i}", prompt)
-                        # 応答を短く制限（60文字以内）
-                        if len(response) > 60:
-                            response = response[:55] + "..."
+                        # より自然な文字数制限（120文字以内で自然な終わり方）
+                        if len(response) > 120:
+                            # 句読点で自然に切断
+                            cut_points = ['。', '！', '？', 'ッス！', 'ッス。', 'ッス？']
+                            best_cut = 0
+                            
+                            for point in cut_points:
+                                last_pos = response.rfind(point, 0, 115)  # 115文字以内で最後の句読点を探す
+                                if last_pos > best_cut:
+                                    best_cut = last_pos + len(point)
+                            
+                            if best_cut > 30:  # 30文字以上あれば採用
+                                response = response[:best_cut]
+                            else:
+                                # 句読点が見つからない場合は110文字で切って「…」を付ける
+                                response = response[:110] + '…'
                     except Exception as e:
                         logging.error(f"Gemini AI応答エラー ({speaker.name}): {e}")
                 
@@ -286,6 +390,10 @@ class AIChatSystem(commands.Cog):
                     'timestamp': datetime.now()
                 })
                 
+                # クロージングフェーズ判定（8回目以降）
+                conversation_length = len(self.conversation_history.get(channel.id, []))
+                is_closing_phase = conversation_length >= 8
+                
                 # 改善された会話終了判定（3回目以降）
                 if i >= 2:
                     # 明確な終了意図のキーワードのみ検出（終了意図が明確なもののみ）
@@ -300,21 +408,29 @@ class AIChatSystem(commands.Cog):
                     # 会話の流れを考慮した終了判定
                     conversation_depth = len(self.conversation_history.get(channel.id, []))
                     
-                    # 段階的な終了確率（より長い会話を保証）
-                    if i == 2:  # 3回目
-                        end_probability = 0.05  # 5%（大幅減）
-                    elif i == 3:  # 4回目
-                        end_probability = 0.10  # 10%
-                    elif i == 4:  # 5回目
-                        end_probability = 0.15  # 15%
-                    elif i == 5:  # 6回目
-                        end_probability = 0.25  # 25%
-                    elif i == 6:  # 7回目
-                        end_probability = 0.35  # 35%
-                    elif i >= 7:  # 8回目以降
-                        end_probability = 0.50  # 50%
+                    # クロージングフェーズ考慮の終了確率
+                    if is_closing_phase:
+                        # クロージングフェーズでは終了確率を上げる
+                        if i <= 7:  # 8回目まで
+                            end_probability = 0.15  # 15%
+                        elif i == 8:  # 9回目
+                            end_probability = 0.30  # 30%
+                        elif i == 9:  # 10回目  
+                            end_probability = 0.45  # 45%
+                        elif i >= 10:  # 11回目以降
+                            end_probability = 0.65  # 65%
+                        else:
+                            end_probability = 0.05  # 5%
                     else:
-                        end_probability = 0.02  # 2%
+                        # 通常フェーズの段階的な終了確率
+                        if i <= 5:  # 6回目まではほぼ終了しない
+                            end_probability = 0.02  # 2%
+                        elif i == 6:  # 7回目
+                            end_probability = 0.05  # 5%
+                        elif i == 7:  # 8回目
+                            end_probability = 0.08  # 8%
+                        else:
+                            end_probability = 0.15  # 15%
                     
                     # 全キャラクターの参加状況をチェック
                     participated_characters = set(
@@ -640,6 +756,9 @@ class AIChatSystem(commands.Cog):
             if king_dynaka and king_dynaka not in participants:
                 participants.append(king_dynaka)
                 
+            # テストでもバラエティを出すためランダム化
+            random.shuffle(participants)
+                
             if len(participants) < 2:
                 await ctx.send("❌ 会話テストに必要なキャラクターが不足しています（2人必要）")
                 return
@@ -647,21 +766,15 @@ class AIChatSystem(commands.Cog):
             participant_names = [p.display_name for p in participants]
             await ctx.send(f"🧪 AI会話テスト開始: {', '.join(participant_names)}")
             
-            # チャンネルの直近メッセージを取得してコンテキストを作成
-            recent_messages = []
-            async for message in ctx.channel.history(limit=5):
-                if not message.author.bot and len(message.content) > 10:
-                    recent_messages.append(message.content[:100])
-                    break
+            # 🧪 テスト用に会話履歴をクリア
+            if ctx.channel.id in self.conversation_history:
+                del self.conversation_history[ctx.channel.id]
             
-            # コンテキストに基づいたトピック生成（本番ロジックと同じ）
-            if recent_messages:
-                context_topic = f"最近の話題『{recent_messages[0]}』に関連して"
-            else:
-                context_topic = "テクノロジーの未来について"
+            # 🧪 本番と完全に同じロジックを使用 - トピック生成も本番と同じ
+            topic = await self._generate_contextual_topic(ctx.channel, participants)
             
             # 🧪 本番の改善されたロジックを直接呼び出し
-            await self._conduct_ai_conversation(ctx.channel, participants, context_topic)
+            await self._conduct_ai_conversation(ctx.channel, participants, topic)
             await ctx.send("✅ AI会話テスト完了！")
             
         except Exception as e:
