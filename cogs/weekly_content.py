@@ -15,23 +15,50 @@ from utils.trends_manager import TrendsManager
 class WeeklyContentCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.settings_manager = WeeklySettingsManager()
-        self.event_manager = EventManager()
-        self.news_manager = NewsManager()
-        self.connpass_manager = ConnpassManager()
-        self.trends_manager = TrendsManager()
+        
+        # 安全に初期化を実行
+        try:
+            self.settings_manager = WeeklySettingsManager()
+            print("WeeklyContentCog: WeeklySettingsManager initialized")
+        except Exception as e:
+            print(f"WeeklyContentCog: Error initializing WeeklySettingsManager: {e}")
+            self.settings_manager = None
+            
+        try:
+            self.event_manager = EventManager()
+            self.news_manager = NewsManager()
+            self.connpass_manager = ConnpassManager()
+            self.trends_manager = TrendsManager()
+            print("WeeklyContentCog: All managers initialized")
+        except Exception as e:
+            print(f"WeeklyContentCog: Error initializing managers: {e}")
+            # フォールバック用のNoneセット
+            self.event_manager = None
+            self.news_manager = None
+            self.connpass_manager = None
+            self.trends_manager = None
+            
         # 送信済み記録（重複防止用）
         self.sent_today = set()
+        print("WeeklyContentCog: Initialization completed")
         
     async def cog_load(self):
         """Cogが読み込まれた時に実行"""
-        if self.bot.is_ready():
-            self.start_scheduler()
+        try:
+            print("WeeklyContentCog: cog_load() called")
+            if self.bot.is_ready():
+                self.start_scheduler()
+        except Exception as e:
+            print(f"WeeklyContentCog: Error in cog_load(): {e}")
     
     def start_scheduler(self):
         """週間スケジューラーを開始"""
-        if not self.weekly_scheduler.is_running():
-            self.weekly_scheduler.start()
+        try:
+            if not self.weekly_scheduler.is_running():
+                self.weekly_scheduler.start()
+                print("WeeklyContentCog: Scheduler started")
+        except Exception as e:
+            print(f"WeeklyContentCog: Error starting scheduler: {e}")
     
     def cog_unload(self):
         """Cogがアンロードされる時にタスクを停止"""
@@ -40,9 +67,19 @@ class WeeklyContentCog(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """ボット起動時にスケジューラーを開始"""
-        await asyncio.sleep(5)  # ボット完全起動を待つ
-        self.start_scheduler()
-        print("Weekly content scheduler started")
+        try:
+            print("WeeklyContentCog: on_ready() called")
+            await asyncio.sleep(5)  # ボット完全起動を待つ
+            
+            # settings_managerが正常に初期化されているかチェック
+            if self.settings_manager is None:
+                print("WeeklyContentCog: settings_manager is None, skipping scheduler start")
+                return
+                
+            self.start_scheduler()
+            print("WeeklyContentCog: Weekly content scheduler started from on_ready()")
+        except Exception as e:
+            print(f"WeeklyContentCog: Error in on_ready(): {e}")
     
     # 週間スケジューラー（10分ごとにチェック）
     @tasks.loop(minutes=10)
@@ -512,6 +549,11 @@ class WeeklyContentCog(commands.Cog):
             await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
             return
         
+        # マネージャーの初期化状態をチェック
+        if self.settings_manager is None:
+            await interaction.response.send_message("設定マネージャーが初期化されていません", ephemeral=True)
+            return
+        
         # 先にinteractionに応答してタイムアウトを防ぐ
         await interaction.response.send_message("コンテンツを生成中...", ephemeral=True)
         
@@ -580,6 +622,11 @@ class WeeklyContentCog(commands.Cog):
         
         if str(interaction.user.id) != ADMIN_ID:
             await interaction.response.send_message("このコマンドは管理者のみ使用できます", ephemeral=True)
+            return
+            
+        # マネージャーの初期化状態をチェック
+        if self.settings_manager is None:
+            await interaction.response.send_message("設定マネージャーが初期化されていません", ephemeral=True)
             return
         
         guild_id = str(interaction.guild.id)
