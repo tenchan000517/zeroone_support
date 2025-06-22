@@ -10,13 +10,12 @@ class ConnpassManager:
         self.api_key = CONNPASS_API_KEY
         self.base_url = "https://connpass.com/api/v2/events/"
         
-        # オンライン講座関連キーワード
-        self.online_course_keywords = [
-            "オンライン", "リモート", "ウェビナー", "Web講座", "オンライン講座",
-            "配信", "ライブ", "バーチャル", "デジタル", "在宅",
+        # 幅広いキーワードで検索
+        self.search_keywords = [
             "プログラミング", "IT", "DX", "AI", "データ分析",
             "ビジネス", "マーケティング", "起業", "スタートアップ",
-            "キャリア", "スキルアップ", "学習", "研修", "セミナー"
+            "キャリア", "スキルアップ", "学習", "研修", "セミナー",
+            "勉強会", "ハンズオン", "ワークショップ", "LT", "もくもく会"
         ]
         
         # 都道府県マッピング
@@ -35,7 +34,7 @@ class ConnpassManager:
         all_events = []
         
         # 複数のキーワードで検索
-        for keyword in self.online_course_keywords[:5]:  # 上位5キーワード
+        for keyword in self.search_keywords[:5]:  # 上位5キーワード
             events = await self._search_events(
                 keyword=keyword,
                 days_ahead=days_ahead
@@ -53,8 +52,8 @@ class ConnpassManager:
         
         filtered_events = list(unique_events.values())
         
-        # オンライン講座のみフィルタリング
-        online_events = self._filter_online_events(filtered_events)
+        # フィルタリング無効化（デバッグ用）
+        online_events = filtered_events
         
         # イベントがない場合はフォールバック
         if not online_events:
@@ -63,22 +62,23 @@ class ConnpassManager:
         # 日付順にソート
         online_events.sort(key=lambda x: x.get('started_at', ''))
         
-        # 最大8件に制限
-        return online_events[:8]
+        # 最大12件に制限
+        return online_events[:12]
     
     async def _search_events(self, keyword: str, days_ahead: int) -> List[Dict]:
         """Connpass APIでイベント検索"""
         today = datetime.datetime.now()
+        end_date = today + datetime.timedelta(days=days_ahead)
         
-        # 今月と来月を対象
-        current_month = today.strftime("%Y%m")
-        next_month = (today.replace(day=1) + datetime.timedelta(days=32)).strftime("%Y%m")
+        # 日付範囲を指定（YYYYMMDD形式）
+        ymd_start = today.strftime("%Y%m%d")
+        ymd_end = end_date.strftime("%Y%m%d")
         
         params = {
             'keyword': keyword,
-            'ym': f"{current_month},{next_month}",
-            'count': 20,
-            'order': 2,  # 更新日時順
+            'ymd': f"{ymd_start},{ymd_end}",  # 日付範囲で検索
+            'count': 100,  # 多めに取得
+            'order': 2,  # 開催日時順
             'format': 'json'
         }
         
@@ -98,6 +98,16 @@ class ConnpassManager:
                             events = data.get('events', [])
                             print(f"Found {len(events)} events for keyword: {keyword}")
                             
+                            # デバッグ: 最初の3件のイベント詳細を出力
+                            for i, event in enumerate(events[:3]):
+                                print(f"\n=== Event {i+1} for '{keyword}' ===")
+                                print(f"Title: {event.get('title', 'N/A')}")
+                                print(f"Address: {event.get('address', 'N/A')}")
+                                print(f"Place: {event.get('place', 'N/A')}")
+                                print(f"Group: {event.get('group', {}).get('title', 'N/A')}")
+                                print(f"Event Type: {event.get('event_type', 'N/A')}")
+                                print(f"URL: {event.get('url', 'N/A')}")
+                            
                             return events
                         except Exception as json_error:
                             print(f"JSON parsing error: {json_error}")
@@ -110,26 +120,19 @@ class ConnpassManager:
             return []
     
     def _filter_online_events(self, events: List[Dict]) -> List[Dict]:
-        """オンライン講座のみフィルタリング"""
+        """オンラインイベントのみフィルタリング"""
         online_events = []
         
-        online_keywords = [
-            'オンライン', 'リモート', 'ウェビナー', 'Web', 'バーチャル',
-            '配信', 'ライブ', 'Zoom', 'Google Meet', 'Teams'
-        ]
-        
         for event in events:
-            title = (event.get('title') or '').lower()
-            catch_copy = (event.get('catch') or '').lower()
-            description = (event.get('description') or '').lower()
-            address = (event.get('address') or '').lower()
-            place = (event.get('place') or '').lower()
+            address = event.get('address') or ''
+            place = event.get('place') or ''
             
-            # オンライン講座の判定
-            full_text = f"{title} {catch_copy} {description} {address} {place}"
-            is_online = any(keyword.lower() in full_text for keyword in online_keywords)
+            # addressまたはplaceに'オンライン'が含まれる
+            is_online = ('オンライン' in address or 'オンライン' in place or 
+                        'zoom' in place.lower() or 'teams' in place.lower() or 
+                        'google meet' in place.lower())
             
-            # 地域が設定されていない（オンライン）場合も対象
+            # addressとplaceが両方空の場合もオンラインとみなす
             if not address and not place:
                 is_online = True
             
@@ -198,7 +201,7 @@ class ConnpassManager:
         total_length = 0
         max_field_length = 900
         
-        for i, course in enumerate(courses[:4], 1):  # 最大4件表示
+        for i, course in enumerate(courses[:6], 1):  # 最大6件表示
             try:
                 # 日時をパース
                 started_at_str = course.get('started_at', '')
