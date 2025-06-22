@@ -115,11 +115,14 @@ class ConnpassManager:
         
         print(f"Date-filtered to {len(date_filtered_events)} events within 1 week from today")
         
-        # 日付昇順でソート（6/22が最初に来るように）
-        date_filtered_events.sort(key=lambda x: x.get('started_at', ''))
+        # まずマッチ度でソート（降順）してトップ10を選択
+        date_filtered_events.sort(key=lambda x: -x.get('_match_score', 0))
+        top_10_events = date_filtered_events[:10]
         
-        # 最大50件に制限
-        return date_filtered_events[:50]
+        # 選ばれた上位10件を日付順にソート
+        top_10_events.sort(key=lambda x: x.get('started_at', ''))
+        
+        return top_10_events
     
     async def _search_events(self, keyword: str, days_ahead: int) -> List[Dict]:
         """Connpass APIでイベント検索"""
@@ -215,6 +218,9 @@ class ConnpassManager:
         """初心者・学習向けキーワードでフィルタリング"""
         filtered_events = []
         
+        # 高重みキーワード（学生・キャリア関連）
+        high_weight_keywords = ["学生", "キャリア", "インターン", "ガクチカ", "就活", "就職"]
+        
         for event in events:
             title = (event.get('title') or '').lower()
             catch = (event.get('catch') or '').lower()
@@ -223,21 +229,25 @@ class ConnpassManager:
             # イベント情報全体のテキスト
             event_text = f"{title} {catch} {description}"
             
-            # キーワードマッチング
-            match_count = 0
+            # キーワードマッチング（重み付き）
+            match_score = 0
             matched_keywords = []
             for keyword in self.filter_keywords:
                 if keyword.lower() in event_text:
-                    match_count += 1
+                    # 高重みキーワードは1.5倍のスコア
+                    if keyword in high_weight_keywords:
+                        match_score += 1.5
+                    else:
+                        match_score += 1.0
                     matched_keywords.append(keyword)
             
             # 1つ以上のキーワードがマッチした場合に選択
-            if match_count > 0:
+            if match_score > 0:
                 # マッチスコアをイベント情報に追加
-                event['_match_score'] = match_count
+                event['_match_score'] = match_score
                 event['_matched_keywords'] = matched_keywords
                 filtered_events.append(event)
-                print(f"✓ Matched event: {event.get('title', 'N/A')} (matches: {match_count})")
+                print(f"✓ Matched event: {event.get('title', 'N/A')} (score: {match_score:.1f})")
         
         print(f"Keyword-filtered to {len(filtered_events)} events from {len(events)} online events")
         return filtered_events
@@ -409,7 +419,7 @@ class ConnpassManager:
             "description": "**connpass**から厳選したオンライン講座をお届けします！\n新しいスキルを身につけるチャンス✨",
             "fields": [
                 {
-                    "name": "📚 注目の講座 (1-5位)",
+                    "name": "📚 注目の講座",
                     "value": "\n\n".join(first_course_list) if first_course_list else "講座情報の取得に失敗しました",
                     "inline": False
                 }
@@ -437,7 +447,7 @@ class ConnpassManager:
                     "description": "続いて、こちらの講座もチェックしてみてください！",
                     "fields": [
                         {
-                            "name": "📚 注目の講座 (6-10位)",
+                            "name": "📚 注目の講座",
                             "value": "\n\n".join(second_course_list),
                             "inline": False
                         },
