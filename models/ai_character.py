@@ -46,8 +46,8 @@ class AICharacterManager:
             AICharacter(
                 id="ai_takahashi",
                 name="高橋誠",
-                display_name="🎯 高橋誠",
-                avatar_url="https://cdn.discordapp.com/avatars/ai_takahashi/avatar.png",
+                display_name="高橋誠",
+                avatar_url="https://drive.google.com/uc?id=1yCFikJRbhHUXQooVj_sic4TLWWToVKWp",
                 personality="真面目すぎるほど真面目で責任感が強い起業家志望の大学生。理想主義から現実的な課題解決思考への変化を体現する",
                 speaking_style="論理的で丁寧な話し方。「〜だと思います」と意見を述べ、「なるほど」と相手の意見を受け止める",
                 interests=["起業", "ビジネスフレームワーク", "社会課題解決", "陸上競技"]
@@ -55,8 +55,8 @@ class AICharacterManager:
             AICharacter(
                 id="ai_sato",
                 name="佐藤健太",
-                display_name="💻 佐藤健太",
-                avatar_url="https://cdn.discordapp.com/avatars/ai_sato/avatar.png",
+                display_name="佐藤健太",
+                avatar_url="https://drive.google.com/uc?id=1TRXSmvohpWnMVZGf2KLh2gCKcvcH-h0l",
                 personality="技術と経営の融合した視点を提供するエンジニア。論理的で実践的、データドリブン思考を重視",
                 speaking_style="簡潔で要点を突いた話し方。技術用語を多用し、「データで証明しよう」とデータドリブン思考を提案",
                 interests=["プログラミング", "A技術", "システム思考", "ハッカソン"]
@@ -64,8 +64,8 @@ class AICharacterManager:
             AICharacter(
                 id="ai_suzuki", 
                 name="鈴木美咲",
-                display_name="📊 鈴木美咲",
-                avatar_url="https://cdn.discordapp.com/avatars/ai_suzuki/avatar.png",
+                display_name="鈴木美咲",
+                avatar_url="https://drive.google.com/uc?id=1FYeQ5nW-BTUZihoICqccUF_Hk4ZcQmMo",
                 personality="マーケティング・顧客視点の専門家。共感力が高く現実的で、コミュニケーション上手",
                 speaking_style="わかりやすい言葉で伝え、質問を多用。「ユーザー視点で考えると…」と顧客中心的な視点を提案",
                 interests=["マーケティング", "ユーザーインタビュー", "SNS運用", "データ分析"]
@@ -73,8 +73,8 @@ class AICharacterManager:
             AICharacter(
                 id="ai_yamada",
                 name="山田哲也",
-                display_name="🎓 山田メンター",
-                avatar_url="https://cdn.discordapp.com/avatars/ai_yamada/avatar.png",
+                display_name="山田メンター",
+                avatar_url="https://drive.google.com/uc?id=1WzinD9vo8LtX9kwcXKOiAfOfzjiAnVeZ",
                 personality="起業家育成プロジェクトのメンター。洞察力があり実践的で、「解の質より問いの質」を重視する経験豊富な指導者",
                 speaking_style="質問で考えさせる話し方。「本質は〜だ」と核心を突き、「問いの質はどうだ？」とソクラテス式対話を駆使",
                 interests=["起業家育成", "ビジネスフレームワーク", "メンタリング", "戦略思考"]
@@ -82,8 +82,8 @@ class AICharacterManager:
             AICharacter(
                 id="ai_king_dynaka",
                 name="キング・ダイナカ",
-                display_name="💪 キング・ダイナカ",
-                avatar_url="https://cdn.discordapp.com/avatars/ai_king_dynaka/avatar.png",
+                display_name="キング・ダイナカ",
+                avatar_url="https://drive.google.com/uc?id=1C0KTopEwnwu7Ya4LhbiyiVOYuAQE7Snt",
                 personality="妙にハイテンションで筋トレが趣味の超ポジティブキャラクター。常にエネルギッシュで周りを元気にする",
                 speaking_style="「〜ッス！」「筋肉は裏切らない！」などの体育会系の話し方。全てを筋トレと関連付けて話す癖がある",
                 interests=["筋トレ", "プロテイン", "体力向上", "モチベーション向上", "スポーツ全般"]
