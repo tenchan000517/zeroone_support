@@ -8,7 +8,7 @@ import asyncio
 class ConnpassManager:
     def __init__(self):
         self.api_key = CONNPASS_API_KEY
-        self.base_url = "https://connpass.com/api/v1/event/"
+        self.base_url = "https://connpass.com/api/v2/events/"
         
         # オンライン講座関連キーワード
         self.online_course_keywords = [
@@ -87,6 +87,7 @@ class ConnpassManager:
                 async with session.get(
                     self.base_url,
                     params=params,
+                    headers={'X-API-Key': self.api_key},
                     timeout=aiohttp.ClientTimeout(total=15)
                 ) as response:
                     print(f"Connpass API status: {response.status}")
@@ -96,6 +97,7 @@ class ConnpassManager:
                             data = await response.json()
                             events = data.get('events', [])
                             print(f"Found {len(events)} events for keyword: {keyword}")
+                            
                             return events
                         except Exception as json_error:
                             print(f"JSON parsing error: {json_error}")
@@ -146,30 +148,30 @@ class ConnpassManager:
                 "title": "Python初心者向けオンライン講座",
                 "started_at": (today + datetime.timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S+09:00"),
                 "catch": "プログラミング初心者でも安心のPython入門コース",
-                "event_url": "https://connpass.com/event/example1/",
+                "url": "https://connpass.com/event/example1/",
                 "place": "オンライン開催",
                 "address": "",
-                "description": "Python基礎からWebアプリ開発まで学べる実践的なオンライン講座です。"
+                "description": "<p>Python基礎からWebアプリ開発まで学べる実践的なオンライン講座です。</p><p>プログラミング未経験者でも安心の丁寧な指導で、実際のプロジェクトを通して学習できます。</p>"
             },
             {
                 "event_id": "fallback_2", 
                 "title": "Web制作スキルアップウェビナー",
                 "started_at": (today + datetime.timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%S+09:00"),
                 "catch": "現役エンジニアが教えるWeb制作のコツ",
-                "event_url": "https://connpass.com/event/example2/",
+                "url": "https://connpass.com/event/example2/",
                 "place": "オンライン配信",
                 "address": "",
-                "description": "HTML/CSS/JavaScriptを使った実践的なWeb制作技術を学習できます。"
+                "description": "<p>HTML/CSS/JavaScriptを使った実践的なWeb制作技術を学習できます。</p><p>レスポンシブデザインやモダンな開発手法も含めて幅広くカバーします。</p>"
             },
             {
                 "event_id": "fallback_3",
                 "title": "データ分析入門オンラインセミナー", 
                 "started_at": (today + datetime.timedelta(days=5)).strftime("%Y-%m-%dT%H:%M:%S+09:00"),
                 "catch": "ExcelからPythonまで、データ分析の基礎を学ぼう",
-                "event_url": "https://connpass.com/event/example3/",
+                "url": "https://connpass.com/event/example3/",
                 "place": "リモート開催",
                 "address": "",
-                "description": "ビジネスに活かせるデータ分析スキルをオンラインで身につけられます。"
+                "description": "<p>ビジネスに活かせるデータ分析スキルをオンラインで身につけられます。</p><p>ExcelからPython、統計解析まで段階的に学習し、実務で使える技術を習得できます。</p>"
             }
         ]
         
@@ -209,20 +211,38 @@ class ConnpassManager:
                 else:
                     date_str = "日時未定"
                 
-                # タイトルを短縮（25文字制限）
+                # タイトルを短縮（35文字制限に拡張）
                 title = course.get('title', 'タイトル未定')
-                if len(title) > 25:
-                    title = title[:22] + "..."
-                
-                # キャッチコピー
-                catch = course.get('catch', '')
-                if catch and len(catch) > 30:
-                    catch = catch[:27] + "..."
+                if len(title) > 35:
+                    title = title[:32] + "..."
                 
                 course_info = f"**{title}**\n📅 {date_str}"
                 
+                # キャッチコピーまたはdescriptionから要約を追加
+                catch = course.get('catch', '').strip()
+                description = course.get('description', '').strip()
+                
+                summary_text = ""
                 if catch:
-                    course_info += f"\n💡 {catch}"
+                    summary_text = catch
+                elif description:
+                    # HTMLタグを除去して最初の文を抽出
+                    import re
+                    clean_desc = re.sub(r'<[^>]+>', '', description)
+                    clean_desc = re.sub(r'\s+', ' ', clean_desc).strip()
+                    # 最初の文または100文字を抽出
+                    if clean_desc:
+                        sentences = clean_desc.split('。')
+                        first_sentence = sentences[0]
+                        if len(first_sentence) > 80:
+                            summary_text = first_sentence[:77] + "..."
+                        else:
+                            summary_text = first_sentence + '。' if first_sentence else ""
+                
+                if summary_text:
+                    if len(summary_text) > 80:
+                        summary_text = summary_text[:77] + "..."
+                    course_info += f"\n💡 {summary_text}"
                 
                 # 場所情報
                 place = course.get('place', 'オンライン')
@@ -233,8 +253,10 @@ class ConnpassManager:
                 else:
                     course_info += f"\n📍 オンライン開催"
                 
-                if course.get('event_url'):
-                    course_info += f"\n🔗 [詳細・申込]({course['event_url']})"
+                # API v2では event_url が url に変更
+                url = course.get('url') or course.get('event_url')
+                if url:
+                    course_info += f"\n🔗 [詳細・申込]({url})"
                 
                 # 文字数チェック
                 if total_length + len(course_info) + 2 > max_field_length:
