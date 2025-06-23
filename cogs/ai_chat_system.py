@@ -27,10 +27,12 @@ class AIChatSystem(commands.Cog):
         self.conversation_history: Dict[int, List[Dict]] = {}  # チャンネルID -> 会話履歴
         self.last_activity: Dict[int, datetime] = {}  # チャンネルID -> 最後の活動時間
         
-        # 自発的会話のタスク
-        self.spontaneous_chat.start()
+        # 自発的会話のタスク（後で開始）
+        # self.spontaneous_chat.start() を後に移動
         # ユーザーとの会話履歴を管理
         self.user_conversation_context: Dict[int, Dict] = {}  # チャンネルID -> 会話コンテキスト
+        # 会話実行中フラグを追加
+        self.is_conversation_active: Dict[int, bool] = {}  # チャンネルID -> 会話実行中フラグ
         
     def cog_unload(self):
         """Cog終了時の処理"""
@@ -59,6 +61,11 @@ class AIChatSystem(commands.Cog):
                 logging.warning(f"AIチャット対象チャンネル {target_channel_id} が見つからないか、権限がありません")
                 return
                 
+            # 会話実行中チェック
+            if self.is_conversation_active.get(channel.id, False):
+                logging.info(f"チャンネル {channel.id} で既に会話が実行中です。スキップします。")
+                return
+                
             # 1日に同じ時間帯での重複を防ぐ
             today = current_time.date()
             channel_activity = self.last_activity.get(channel.id)
@@ -67,6 +74,7 @@ class AIChatSystem(commands.Cog):
             if (channel_activity and 
                 channel_activity.date() == today and 
                 abs(channel_activity.hour - current_hour) <= 2):
+                logging.info(f"チャンネル {channel.id} で本日この時間帯に既に会話済みです。スキップします。")
                 return
                 
             # 自発的会話を開始
@@ -231,6 +239,12 @@ class AIChatSystem(commands.Cog):
     async def _conduct_ai_conversation(self, channel: discord.TextChannel, participants: List[AICharacter], topic: str):
         """AIキャラクター同士の会話を実行"""
         try:
+            # 会話開始時にフラグを設定
+            self.is_conversation_active[channel.id] = True
+            
+            # 会話履歴をクリア（新しい会話の開始）
+            self.conversation_history[channel.id] = []
+            
             max_turns = random.randint(16, 22)  # 16-22回のやり取りでランダム（クロージングフェーズを保証）
             
             for i in range(max_turns):
@@ -666,6 +680,9 @@ class AIChatSystem(commands.Cog):
             
         except Exception as e:
             logging.error(f"AI会話実行エラー: {e}")
+        finally:
+            # 会話終了時にフラグをリセット
+            self.is_conversation_active[channel.id] = False
     
     async def _send_as_character(self, channel: discord.TextChannel, character: AICharacter, message: str):
         """キャラクターとしてメッセージを送信"""
@@ -1377,6 +1394,12 @@ class AIChatSystem(commands.Cog):
                 
         except Exception as e:
             logging.error(f"ユーザーインタラクションエラー: {e}")
+    
+    async def cog_load(self):
+        """Cog読み込み時の処理（ボット準備完了後）"""
+        await self.bot.wait_until_ready()
+        self.spontaneous_chat.start()
+        logging.info("AI自動会話システムのタスクを開始しました")
     
 
 async def setup(bot):
