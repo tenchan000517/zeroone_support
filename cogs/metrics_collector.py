@@ -70,29 +70,72 @@ class MetricsCollector(commands.Cog):
         if message.author.bot:
             return
         
+        print(f"🔍 [METRICS] メッセージ受信: {message.author.name} in {message.channel.name}")
+        
         # チャンネルが閲覧可能ロールで見えるかチェック
         guild = message.guild
         if not guild:
+            print(f"❌ [METRICS] ギルドなし: {message.id}")
             return
             
+        print(f"🔍 [METRICS] ギルド: {guild.name} (ID: {guild.id})")
+        
         viewable_role = guild.get_role(self.VIEWABLE_ROLE_ID)
         if not viewable_role:
+            print(f"❌ [METRICS] 閲覧可能ロール {self.VIEWABLE_ROLE_ID} が見つかりません")
+            print(f"🔍 [METRICS] 利用可能なロール一覧:")
+            for role in guild.roles:
+                print(f"  - {role.name} (ID: {role.id})")
             return
             
+        print(f"✅ [METRICS] 閲覧可能ロール見つかりました: {viewable_role.name}")
+        
         # チャンネルの権限をチェック
         channel_perms = message.channel.permissions_for(viewable_role)
+        print(f"🔍 [METRICS] チャンネル権限 view_channel: {channel_perms.view_channel}")
         if not channel_perms.view_channel:
+            print(f"❌ [METRICS] チャンネル {message.channel.name} は閲覧可能ロールで見えません")
             return
         
         # 運営ロールかどうかチェック
         staff_role = guild.get_role(self.STAFF_ROLE_ID)
         is_staff = staff_role in message.author.roles if staff_role else False
+        print(f"🔍 [METRICS] 運営ロール: {staff_role.name if staff_role else 'なし'}, is_staff: {is_staff}")
         
         # メッセージカウント
         if is_staff:
             self.staff_message_counts[message.channel.id][message.author.id] += 1
+            print(f"📊 [METRICS] 運営メッセージカウント +1: {message.author.name}")
         else:
             self.message_counts[message.channel.id][message.author.id] += 1
+            print(f"📊 [METRICS] ユーザーメッセージカウント +1: {message.author.name}")
+        
+        # 現在のカウント状況を表示
+        total_user = sum(sum(users.values()) for users in self.message_counts.values())
+        total_staff = sum(sum(users.values()) for users in self.staff_message_counts.values())
+        
+        # チャンネル別の詳細も表示
+        channel_details = []
+        for channel_id, users in self.message_counts.items():
+            channel = guild.get_channel(channel_id)
+            channel_name = channel.name if channel else f"ID:{channel_id}"
+            user_count = sum(users.values())
+            if user_count > 0:
+                channel_details.append(f"{channel_name}({user_count}件)")
+        
+        staff_channel_details = []
+        for channel_id, users in self.staff_message_counts.items():
+            channel = guild.get_channel(channel_id)
+            channel_name = channel.name if channel else f"ID:{channel_id}"
+            staff_count = sum(users.values())
+            if staff_count > 0:
+                staff_channel_details.append(f"{channel_name}({staff_count}件)")
+        
+        print(f"📊 [METRICS] 現在の合計 - ユーザー: {total_user}件, 運営: {total_staff}件")
+        if channel_details:
+            print(f"📍 [METRICS] ユーザーチャンネル別: {', '.join(channel_details)}")
+        if staff_channel_details:
+            print(f"👮 [METRICS] 運営チャンネル別: {', '.join(staff_channel_details)}")
     
     async def get_main_guild(self) -> Optional[discord.Guild]:
         """メインサーバーを取得"""
@@ -135,8 +178,14 @@ class MetricsCollector(commands.Cog):
     
     def reset_daily_counts(self):
         """日次カウントをリセット"""
+        total_user = sum(sum(users.values()) for users in self.message_counts.values())
+        total_staff = sum(sum(users.values()) for users in self.staff_message_counts.values())
+        print(f"🔄 [METRICS] カウントリセット前 - ユーザー: {total_user}件, 運営: {total_staff}件")
+        
         self.message_counts.clear()
         self.staff_message_counts.clear()
+        
+        print(f"✅ [METRICS] メッセージカウントをリセットしました")
         logger.info("📝 メッセージカウントをリセットしました")
     
     async def count_role_members(self, guild: discord.Guild) -> Dict[str, any]:
@@ -167,21 +216,56 @@ class MetricsCollector(commands.Cog):
     async def count_active_users(self, guild: discord.Guild) -> int:
         """アクティブユーザー数をカウント（運営※エグゼクティブマネージャーなどを除く）"""
         try:
+            # デバッグログ
+            print(f"[METRICS] アクティブユーザー数カウント開始")
+            
+            # 今日メッセージを送信したユーザーIDを収集
+            active_user_ids = set()
+            
+            # ユーザーメッセージから収集
+            for channel_id, users in self.message_counts.items():
+                for user_id in users.keys():
+                    active_user_ids.add(user_id)
+                    print(f"[METRICS] アクティブユーザー追加: {user_id}")
+            
+            # 運営メッセージからも収集（運営は除外するため別途カウント）
+            staff_user_ids = set()
+            for channel_id, users in self.staff_message_counts.items():
+                for user_id in users.keys():
+                    staff_user_ids.add(user_id)
+            
+            print(f"[METRICS] 収集完了 - ユーザー: {len(active_user_ids)}人, 運営: {len(staff_user_ids)}人")
+            
+            # 運営ロールを持つユーザーを除外
             staff_role = guild.get_role(self.STAFF_ROLE_ID)
+            active_non_staff_count = 0
             
-            # オンライン状態のユーザー（BOTと運営を除く）
-            active_users = len([
-                m for m in guild.members 
-                if not m.bot 
-                and m.status != discord.Status.offline
-                and (not staff_role or staff_role not in m.roles)
-            ])
+            if staff_role:
+                for user_id_str in active_user_ids:
+                    try:
+                        user_id = int(user_id_str)
+                        member = guild.get_member(user_id)
+                        if member and staff_role not in member.roles:
+                            active_non_staff_count += 1
+                    except Exception as e:
+                        print(f"[METRICS] ユーザー{user_id_str}の確認エラー: {e}")
+                        # エラーでもカウントは継続
+                        active_non_staff_count += 1
+            else:
+                # 運営ロールが見つからない場合は全員をカウント
+                active_non_staff_count = len(active_user_ids)
+                print(f"[METRICS] 運営ロールが見つからないため全員をカウント")
             
-            logger.info(f"👥 アクティブユーザー数（運営除く）: {active_users}")
-            return active_users
+            print(f"[METRICS] アクティブユーザー数（運営除く）: {active_non_staff_count}人")
+            logger.info(f"👥 アクティブユーザー数（運営除く）: {active_non_staff_count}")
+            
+            return active_non_staff_count
             
         except Exception as e:
+            print(f"[METRICS] ❌ アクティブユーザー数取得エラー: {type(e).__name__}: {e}")
             logger.error(f"❌ アクティブユーザー数取得エラー: {e}")
+            import traceback
+            traceback.print_exc()
             return 0
     
     async def calculate_engagement_score(self, member_count: int, active_users: int, daily_messages: int) -> float:
@@ -323,9 +407,13 @@ class MetricsCollector(commands.Cog):
                 # 過去N日間のデータを取得
                 rows = await conn.fetch("""
                     SELECT * FROM discord_metrics 
-                    WHERE date >= CURRENT_DATE - INTERVAL '$1 days'
+                    WHERE date >= CURRENT_DATE - INTERVAL %s
                     ORDER BY date DESC
-                """, days)
+                """ % f"'{days} days'")
+                
+                print(f"🔍 [METRICS] データ取得: {len(rows)}件 (過去{days}日間)")
+                for row in rows:
+                    print(f"  📅 {row['date']}: メンバー{row['member_count']}人, メッセージ{row['daily_messages']}件")
                 
                 return [dict(row) for row in rows]
             finally:
@@ -351,8 +439,7 @@ class MetricsCollector(commands.Cog):
         success = await self.save_metrics_to_db(metrics)
         
         if success:
-            # 日次カウントをリセット
-            self.reset_daily_counts()
+            # 手動実行時はリセットしない（定期実行時のみリセット）
             
             embed = discord.Embed(
                 title="📊 Discord KPI収集完了",
@@ -372,6 +459,15 @@ class MetricsCollector(commands.Cog):
             role_text = "\n".join([f"{data['name']}: {data['count']}人" 
                                  for role_id, data in metrics['role_counts'].items()])
             embed.add_field(name="👥 ロール別メンバー", value=role_text or "なし", inline=False)
+            
+            # 現在のカウント状況（リセットしていないため継続中）
+            current_user = sum(sum(users.values()) for users in self.message_counts.values())
+            current_staff = sum(sum(users.values()) for users in self.staff_message_counts.values())
+            embed.add_field(
+                name="📊 現在の累計カウント",
+                value=f"ユーザー: {current_user}件\n運営: {current_staff}件\n（次回0:00にリセット）",
+                inline=False
+            )
             
             await interaction.followup.send(embed=embed)
         else:
@@ -475,17 +571,23 @@ class MetricsCollector(commands.Cog):
     @tasks.loop(time=time(hour=0, minute=0, tzinfo=timezone(timedelta(hours=9))))  # 日本時間0:00に実行
     async def daily_metrics_task(self):
         """定期的にメトリクスを収集（日本時間0:00）"""
+        print(f"⏰ [METRICS] 定期メトリクス収集開始（日本時間0:00）...")
         logger.info("⏰ 定期メトリクス収集開始（日本時間0:00）...")
         
         metrics = await self.collect_daily_metrics()
         if metrics:
+            print(f"📊 [METRICS] メトリクス収集完了: ユーザー{metrics['daily_user_messages']}件, 運営{metrics['daily_staff_messages']}件")
             success = await self.save_metrics_to_db(metrics)
             if success:
+                print(f"✅ [METRICS] データベース保存成功")
                 # 日次カウントをリセット
                 self.reset_daily_counts()
                 logger.info("✅ 定期メトリクス収集・保存完了")
             else:
+                print(f"❌ [METRICS] データベース保存失敗")
                 logger.error("❌ 定期メトリクス保存失敗")
+        else:
+            print(f"❌ [METRICS] メトリクス収集失敗")
     
     @daily_metrics_task.before_loop
     async def before_daily_metrics(self):
@@ -594,6 +696,76 @@ class MetricsCollector(commands.Cog):
         )
         
         await interaction.response.send_message(embed=embed)
+    
+    @discord.app_commands.command(name="metrics_live", description="現在のライブカウント状況を表示")
+    @discord.app_commands.default_permissions(administrator=True)
+    async def show_live_metrics(self, interaction: discord.Interaction):
+        """現在のメッセージカウント状況を詳細表示"""
+        await interaction.response.defer()
+        
+        # 現在のカウント詳細
+        embed = discord.Embed(
+            title="📊 ライブメトリクス状況",
+            color=discord.Color.blue(),
+            timestamp=datetime.now()
+        )
+        
+        # ユーザーメッセージ詳細
+        user_total = 0
+        user_details = []
+        for channel_id, users in self.message_counts.items():
+            channel = interaction.guild.get_channel(int(channel_id))
+            channel_name = channel.name if channel else f"Unknown({channel_id})"
+            channel_total = sum(users.values())
+            user_count = len(users)
+            user_total += channel_total
+            if channel_total > 0:
+                user_details.append(f"{channel_name}: {channel_total}件 ({user_count}人)")
+        
+        # 運営メッセージ詳細
+        staff_total = 0
+        staff_details = []
+        for channel_id, users in self.staff_message_counts.items():
+            channel = interaction.guild.get_channel(int(channel_id))
+            channel_name = channel.name if channel else f"Unknown({channel_id})"
+            channel_total = sum(users.values())
+            staff_count = len(users)
+            staff_total += channel_total
+            if channel_total > 0:
+                staff_details.append(f"{channel_name}: {channel_total}件 ({staff_count}人)")
+        
+        # アクティブユーザー数を計算
+        active_users = await self.count_active_users(interaction.guild)
+        
+        # 基本統計
+        embed.add_field(
+            name="📈 総計",
+            value=f"ユーザー: {user_total}件\n運営: {staff_total}件\n合計: {user_total + staff_total}件",
+            inline=True
+        )
+        
+        embed.add_field(
+            name="👥 アクティブ",
+            value=f"ユーザー: {active_users}人\nチャンネル: {len(self.message_counts) + len(self.staff_message_counts)}",
+            inline=True
+        )
+        
+        # チャンネル別詳細
+        if user_details:
+            embed.add_field(
+                name="📍 ユーザーメッセージ詳細",
+                value="\n".join(user_details[:5]),
+                inline=False
+            )
+        
+        if staff_details:
+            embed.add_field(
+                name="👮 運営メッセージ詳細",
+                value="\n".join(staff_details[:5]),
+                inline=False
+            )
+        
+        await interaction.followup.send(embed=embed)
 
 async def setup(bot):
     """Cogのセットアップ"""
