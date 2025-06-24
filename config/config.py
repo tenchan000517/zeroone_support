@@ -41,12 +41,22 @@ WEEKLY_MENTION_ROLES = {
     6: None   # 日曜: メンションなし
 }
 
-# AIキャラクター会話設定
+# AIキャラクター会話設定（シンプル版）
 AI_CHAT_CONFIG = {
     "enabled": True,
     "target_channel_id": "1236344090086342798",  # AIキャラクター会話専用チャンネル
-    "spontaneous_chat_times": [8, 13, 20],  # 自発的会話の時刻（朝昼晩）
+    "spontaneous_chat_times": [13],  # 自発的会話の時刻（お昼過ぎのみ）
     "user_interaction_enabled": True,  # ユーザーとのインタラクション機能
     "max_responses_per_conversation": 3,  # 1つの会話での最大応答回数
-    "conversation_timeout_minutes": 30  # 会話コンテキストのタイムアウト（分）
+    "conversation_timeout_minutes": 30,  # 会話コンテキストのタイムアウト（分）
+    "simple_mode": True,  # シンプルモード有効
+    "api_throttle_seconds": 2.0,  # APIリクエスト間隔（秒）
+    
+    # キャラクターバイパスモード設定
+    "character_bypass": {
+        "enabled": True,
+        "source_channel_id": "1382212340623347794",  # キャラクターバイパス専用チャンネルID
+        "default_character_id": "ai_king_dynaka",  # デフォルトキャラクター（キング・ダイナカ）
+        "default_target_channel_id": "1236344090086342798"  # デフォルト送信先
+    }
 }

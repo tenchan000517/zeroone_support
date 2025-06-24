@@ -74,7 +74,7 @@ async def on_ready():
         gemini_chat = None
     
     # Cogsをロード
-    for cog in ['cogs.points', 'cogs.role_panel', 'cogs.rumble', 'cogs.welcome', 'cogs.weekly_content', 'cogs.help_system', 'cogs.channel_intro', 'cogs.metrics_collector', 'cogs.announcement_detector', 'cogs.rss_monitor', 'cogs.ai_chat_system']:
+    for cog in ['cogs.points', 'cogs.role_panel', 'cogs.rumble', 'cogs.welcome', 'cogs.weekly_content', 'cogs.help_system', 'cogs.channel_intro', 'cogs.metrics_collector', 'cogs.announcement_detector', 'cogs.rss_monitor', 'cogs.ai_chat_system_simple']:
         try:
             await client.load_extension(cog)
             print(f'Loaded {cog}')
@@ -178,8 +178,8 @@ async def on_message(message):
     # コマンド処理を先に実行
     await client.process_commands(message)
 
-    # 天気予報システム（独立したコマンド）
-    if '天気' in message.content and not message.content.startswith('DJアイズ'):
+    # 天気予報システム（独立したコマンド）- 無効化（メンション処理に移行）
+    if False and '天気' in message.content and not message.content.startswith('DJアイズ'):
         await message.channel.send(f"{message.author.mention} どの県の天気を表示しますか？")
 
         def check(m):
@@ -228,7 +228,7 @@ async def on_message(message):
     print(f"DEBUG: message.author.id = {message.author.id}")
     print(f"DEBUG: ADMIN_ID = {ADMIN_ID}")
     
-    if message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
+    if BACK_MODE_CHANNEL and message.channel == client.get_channel(int(BACK_MODE_CHANNEL)) and str(message.author.id) == ADMIN_ID:
         print("DEBUG: バックモード条件に一致しました")
         try:
             text = message.content
@@ -291,7 +291,25 @@ async def on_message(message):
                     return
                 
                 # 特定のキーワードは既存機能を使用（トークン節約）
-                if text.find('慰めて') > -1 or text.find('なぐさめて') > -1 or text.find('アドバイス') > -1 or text.find('助言') > -1:
+                if text.find('天気') > -1:
+                    # 対話型天気機能
+                    await message.channel.send(f"{message.author.mention} どの県の天気を表示しますか？")
+                    
+                    def check(m):
+                        return m.author == message.author and m.channel == message.channel
+                    
+                    try:
+                        reply = await client.wait_for('message', check=check, timeout=30.0)
+                        prefecture = reply.content
+                        msg = await get_weather_information(prefecture)
+                        await message.channel.send(msg)
+                        return  # 天気処理後は他の処理をスキップ
+                    except asyncio.TimeoutError:
+                        prefecture = random.choice(['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'])
+                        msg = await get_weather_information(prefecture)
+                        await message.channel.send(f"{message.author.mention} 時間内に県名が送信されなかったため、ランダムに選んだ {prefecture} の天気を表示します。")
+                        return  # 天気処理後は他の処理をスキップ
+                elif text.find('慰めて') > -1 or text.find('なぐさめて') > -1 or text.find('アドバイス') > -1 or text.find('助言') > -1:
                     msg = meigen.meigen()
                 elif text.find('グー') > -1 or text.find('チョキ') > -1 or text.find('パー') > -1 or text.find('ぐー') > -1 or text.find('ちょき') > -1 or text.find('ぱー') > -1:
                     msg = keisuke_honda.keisuke_honda(text, user_id)
@@ -338,7 +356,7 @@ async def on_message(message):
                     # Gemini AIで応答
                     if gemini_chat:
                         try:
-                            ai_response = gemini_chat.get_response(str(user_id), text.replace('DJアイズ', '').strip())
+                            ai_response = await gemini_chat.get_response(str(user_id), text.replace('DJアイズ', '').strip())
                             msg = ai_response
                         except:
                             msg = kumo_san + user_name + 'さん その言葉は知らなかったから調べたよ。\n' + wiki.wiki(text)
