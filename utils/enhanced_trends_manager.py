@@ -942,6 +942,7 @@ class EnhancedTrendsManager:
             "title": "📊 ビジネストレンド速報",
             "description": description,
             "color": 0x00D4AA,
+            "fields": [],  # 空のfieldsを追加（descriptionに全て含まれているため）
             "footer": {
                 "text": "🎯 7カテゴリ完全網羅 | 毎週水曜配信"
             }
