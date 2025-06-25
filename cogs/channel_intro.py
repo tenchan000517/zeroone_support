@@ -37,7 +37,7 @@ class ChannelIntroCog(commands.Cog):
             topic = random.choice(topics)
             prompt = f"{topic}。50文字以内で、絵文字も使って親しみやすくお願いします。"
             
-            response = gemini.get_response("channel_intro_system", prompt)
+            response = await gemini.get_response("channel_intro_system", prompt)
             
             # レスポンスを50文字に制限
             if len(response) > 50:

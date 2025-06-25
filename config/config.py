@@ -106,7 +106,7 @@ METRICS_CONFIG = {
     # ダッシュボード連携設定
     "dashboard_integration": {
         "enabled": True,
-        "api_url": "http://localhost:3000/api/discord/metrics",
+        "api_url": "https://find-to-do-management-app-tenchan000517-tenchan000517s-projects.vercel.app/api/discord/metrics",
         "timeout_seconds": 10,
         "retry_attempts": 3,
         "fallback_to_db_only": True  # API失敗時はDB保存のみ継続
