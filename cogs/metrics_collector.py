@@ -9,8 +9,14 @@ from discord.ext import commands, tasks
 from datetime import datetime, date, time, timezone, timedelta
 import os
 import logging
+import aiohttp
+import json
+import asyncio
 from typing import Optional, Dict, List
 from collections import defaultdict
+
+# 設定インポート
+from config.config import METRICS_CONFIG
 
 # ログ設定
 logging.basicConfig(level=logging.INFO)
@@ -25,33 +31,28 @@ class MetricsCollector(commands.Cog):
         db_url_raw = os.getenv('NEON_DATABASE_URL')
         self.db_url = db_url_raw.replace('\n', '').replace(' ', '') if db_url_raw else None
         
-        # ロールIDの定義
-        self.VIEWABLE_ROLE_ID = 1236344630132473946  # 閲覧可能ロール
-        self.STAFF_ROLE_ID = 1236487195741913119     # 運営ロール
-        self.TRACKED_ROLE_IDS = [
-            1381201663045668906,
-            1382167308180394145,
-            1332242428459221046,
-            1383347155548504175,
-            1383347231188586628,
-            1383347303347257486,
-            1383347353141907476
-        ]
+        # コンフィグからロール設定を読み込み
+        self.VIEWABLE_ROLE_ID = METRICS_CONFIG["viewable_role_id"]
+        self.STAFF_ROLE_ID = METRICS_CONFIG["staff_role_id"]
+        self.TRACKED_ROLE_IDS = list(METRICS_CONFIG["tracked_roles"].keys())
+        self.ROLE_NAMES = METRICS_CONFIG["tracked_roles"]
         
-        # ロール名のマッピング（自動取得できない場合のバックアップ）
-        self.ROLE_NAMES = {
-            1332242428459221046: "FIND to DO",
-            1381201663045668906: "イベント情報",
-            1382167308180394145: "みんなの告知",
-            1383347155548504175: "経営幹部",
-            1383347231188586628: "学生",
-            1383347303347257486: "フリーランス",
-            1383347353141907476: "エンジョイ"
-        }
+        # エンゲージメント計算の重み設定
+        self.ENGAGEMENT_WEIGHTS = METRICS_CONFIG["engagement_weights"]
+        
+        # リアクション追跡設定
+        self.REACTION_CONFIG = METRICS_CONFIG["reaction_tracking"]
+        
+        # ダッシュボード連携設定
+        self.DASHBOARD_CONFIG = METRICS_CONFIG["dashboard_integration"]
         
         # メッセージカウント用の辞書（メモリ上で管理）
         self.message_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {user_id: count}}
         self.staff_message_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {user_id: count}}
+        
+        # リアクションカウント用の辞書（メモリ上で管理）
+        self.reaction_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {emoji: count}}
+        self.user_reaction_counts = defaultdict(int)  # {user_id: count} - ユーザー別リアクション数
         
         # 定期収集タスク開始
         if not self.daily_metrics_task.is_running():
@@ -137,6 +138,99 @@ class MetricsCollector(commands.Cog):
         if staff_channel_details:
             print(f"👮 [METRICS] 運営チャンネル別: {', '.join(staff_channel_details)}")
     
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+        """リアクション追加時の処理"""
+        # BOTの場合は除外
+        if user.bot:
+            return
+        
+        # リアクション追跡が無効の場合は処理しない
+        if not self.REACTION_CONFIG["enabled"]:
+            return
+        
+        # チャンネルが除外対象の場合は処理しない
+        if reaction.message.channel.id in self.REACTION_CONFIG["excluded_channels"]:
+            return
+        
+        print(f"👍 [REACTIONS] リアクション追加: {reaction.emoji} by {user.name} in {reaction.message.channel.name}")
+        
+        # チャンネルの権限チェック（既存のメッセージ処理と同様）
+        guild = reaction.message.guild
+        if not guild:
+            return
+        
+        viewable_role = guild.get_role(self.VIEWABLE_ROLE_ID)
+        if not viewable_role:
+            return
+        
+        channel_perms = reaction.message.channel.permissions_for(viewable_role)
+        if not channel_perms.view_channel:
+            return
+        
+        # 絵文字文字列を取得
+        emoji_str = self._get_emoji_string(reaction.emoji)
+        
+        # リアクションカウント
+        self.reaction_counts[reaction.message.channel.id][emoji_str] += 1
+        self.user_reaction_counts[user.id] += 1
+        
+        print(f"📊 [REACTIONS] リアクションカウント +1: {emoji_str} (チャンネル: {reaction.message.channel.name})")
+    
+    @commands.Cog.listener()
+    async def on_reaction_remove(self, reaction, user):
+        """リアクション削除時の処理"""
+        # BOTの場合は除外
+        if user.bot:
+            return
+        
+        # リアクション追跡が無効の場合は処理しない
+        if not self.REACTION_CONFIG["enabled"]:
+            return
+        
+        # チャンネルが除外対象の場合は処理しない
+        if reaction.message.channel.id in self.REACTION_CONFIG["excluded_channels"]:
+            return
+        
+        print(f"👎 [REACTIONS] リアクション削除: {reaction.emoji} by {user.name} in {reaction.message.channel.name}")
+        
+        # チャンネルの権限チェック（既存のメッセージ処理と同様）
+        guild = reaction.message.guild
+        if not guild:
+            return
+        
+        viewable_role = guild.get_role(self.VIEWABLE_ROLE_ID)
+        if not viewable_role:
+            return
+        
+        channel_perms = reaction.message.channel.permissions_for(viewable_role)
+        if not channel_perms.view_channel:
+            return
+        
+        # 絵文字文字列を取得
+        emoji_str = self._get_emoji_string(reaction.emoji)
+        
+        # リアクションカウント減算（0以下にならないよう制限）
+        if self.reaction_counts[reaction.message.channel.id][emoji_str] > 0:
+            self.reaction_counts[reaction.message.channel.id][emoji_str] -= 1
+        
+        if self.user_reaction_counts[user.id] > 0:
+            self.user_reaction_counts[user.id] -= 1
+        
+        print(f"📊 [REACTIONS] リアクションカウント -1: {emoji_str} (チャンネル: {reaction.message.channel.name})")
+    
+    def _get_emoji_string(self, emoji) -> str:
+        """絵文字から文字列を取得"""
+        if isinstance(emoji, str):
+            # 標準絵文字
+            return emoji
+        else:
+            # カスタム絵文字
+            if self.REACTION_CONFIG["track_custom_emojis"]:
+                return f"<:{emoji.name}:{emoji.id}>"
+            else:
+                return emoji.name
+    
     async def get_main_guild(self) -> Optional[discord.Guild]:
         """メインサーバーを取得"""
         if not self.bot.guilds:
@@ -176,17 +270,114 @@ class MetricsCollector(commands.Cog):
             'staff_channel_stats': staff_channel_stats
         }
     
+    def get_daily_reaction_stats(self) -> Dict[str, any]:
+        """日次リアクション統計を取得"""
+        if not self.REACTION_CONFIG["enabled"]:
+            return {}
+        
+        total_reactions = sum(sum(emojis.values()) for emojis in self.reaction_counts.values())
+        total_unique_emojis = len(set(emoji for emojis in self.reaction_counts.values() for emoji in emojis.keys()))
+        total_reaction_users = len([count for count in self.user_reaction_counts.values() if count > 0])
+        
+        # チャンネル別リアクション統計
+        channel_reactions = {}
+        for channel_id, emojis in self.reaction_counts.items():
+            channel_total = sum(emojis.values())
+            if channel_total > 0:
+                channel_reactions[str(channel_id)] = {
+                    'total_reactions': channel_total,
+                    'unique_emojis': len(emojis),
+                    'emoji_breakdown': dict(emojis)
+                }
+        
+        # 人気絵文字トップN
+        all_emoji_counts = defaultdict(int)
+        for emojis in self.reaction_counts.values():
+            for emoji, count in emojis.items():
+                all_emoji_counts[emoji] += count
+        
+        top_emojis = sorted(all_emoji_counts.items(), key=lambda x: x[1], reverse=True)[:self.REACTION_CONFIG["top_emojis_limit"]]
+        
+        return {
+            'total_reactions': total_reactions,
+            'unique_emojis': total_unique_emojis,
+            'reaction_users': total_reaction_users,
+            'channel_reactions': channel_reactions,
+            'top_emojis': [{'emoji': emoji, 'count': count} for emoji, count in top_emojis]
+        }
+    
+    async def send_to_dashboard(self, metrics: dict) -> bool:
+        """ダッシュボードAPIにメトリクスを送信"""
+        if not self.DASHBOARD_CONFIG["enabled"]:
+            logger.info("📊 ダッシュボード連携が無効のため、スキップします")
+            return True
+        
+        try:
+            # フィールド名をキャメルケースに変換
+            dashboard_metrics = {
+                'date': metrics['date'].isoformat(),
+                'memberCount': metrics['member_count'],
+                'onlineCount': metrics['online_count'],
+                'dailyMessages': metrics['daily_messages'],
+                'dailyUserMessages': metrics['daily_user_messages'],
+                'dailyStaffMessages': metrics['daily_staff_messages'],
+                'activeUsers': metrics['active_users'],
+                'engagementScore': metrics['engagement_score'],
+                'channelMessageStats': metrics['channel_message_stats'],
+                'staffChannelStats': metrics['staff_channel_stats'],
+                'roleCounts': metrics['role_counts'],
+                'reactionStats': metrics.get('reaction_stats', {})  # 新機能
+            }
+            
+            timeout = aiohttp.ClientTimeout(total=self.DASHBOARD_CONFIG["timeout_seconds"])
+            
+            for attempt in range(self.DASHBOARD_CONFIG["retry_attempts"]):
+                try:
+                    async with aiohttp.ClientSession(timeout=timeout) as session:
+                        async with session.post(
+                            self.DASHBOARD_CONFIG["api_url"],
+                            json=dashboard_metrics,
+                            headers={'Content-Type': 'application/json'}
+                        ) as response:
+                            if response.status == 200:
+                                result = await response.json()
+                                logger.info(f"✅ ダッシュボードへの送信成功: {result}")
+                                return True
+                            else:
+                                response_text = await response.text()
+                                logger.error(f"❌ ダッシュボードAPIエラー({response.status}): {response_text}")
+                                
+                except aiohttp.ClientError as e:
+                    logger.warning(f"⚠️ ダッシュボード送信試行 {attempt + 1}/{self.DASHBOARD_CONFIG['retry_attempts']}: {e}")
+                    if attempt == self.DASHBOARD_CONFIG["retry_attempts"] - 1:
+                        raise
+                    await asyncio.sleep(2)  # 2秒待機してリトライ
+                    
+        except Exception as e:
+            logger.error(f"❌ ダッシュボード送信エラー: {type(e).__name__}: {e}")
+            if self.DASHBOARD_CONFIG["fallback_to_db_only"]:
+                logger.info("📊 フォールバック: データベースのみに保存を継続")
+                return True
+            return False
+        
+        return False
+    
     def reset_daily_counts(self):
         """日次カウントをリセット"""
         total_user = sum(sum(users.values()) for users in self.message_counts.values())
         total_staff = sum(sum(users.values()) for users in self.staff_message_counts.values())
-        print(f"🔄 [METRICS] カウントリセット前 - ユーザー: {total_user}件, 運営: {total_staff}件")
+        total_reactions = sum(sum(emojis.values()) for emojis in self.reaction_counts.values())
+        total_reaction_users = len([count for count in self.user_reaction_counts.values() if count > 0])
+        
+        print(f"🔄 [METRICS] カウントリセット前 - ユーザー: {total_user}件, 運営: {total_staff}件, リアクション: {total_reactions}件 ({total_reaction_users}人)")
         
         self.message_counts.clear()
         self.staff_message_counts.clear()
+        self.reaction_counts.clear()
+        self.user_reaction_counts.clear()
         
-        print(f"✅ [METRICS] メッセージカウントをリセットしました")
-        logger.info("📝 メッセージカウントをリセットしました")
+        print(f"✅ [METRICS] メッセージ・リアクションカウントをリセットしました")
+        logger.info("📝 メッセージ・リアクションカウントをリセットしました")
     
     async def count_role_members(self, guild: discord.Guild) -> Dict[str, any]:
         """特定ロールのメンバー数をカウント"""
@@ -274,11 +465,15 @@ class MetricsCollector(commands.Cog):
             if member_count == 0:
                 return 0.0
             
-            # エンゲージメントスコア = (アクティブユーザー率 * 0.4) + (メッセージ密度 * 0.6)
+            # エンゲージメントスコア = (アクティブユーザー率 * 重み1) + (メッセージ密度 * 重み2)
             active_ratio = (active_users / member_count) * 100
             message_density = daily_messages / member_count if member_count > 0 else 0
             
-            engagement_score = (active_ratio * 0.4) + (message_density * 0.6)
+            # 設定から重みを取得
+            active_weight = self.ENGAGEMENT_WEIGHTS["active_ratio_weight"]
+            message_weight = self.ENGAGEMENT_WEIGHTS["message_density_weight"]
+            
+            engagement_score = (active_ratio * active_weight) + (message_density * message_weight)
             
             logger.info(f"📈 エンゲージメントスコア: {engagement_score:.2f}")
             return round(engagement_score, 2)
@@ -298,6 +493,9 @@ class MetricsCollector(commands.Cog):
             
             # メッセージ統計を取得
             message_stats = self.get_daily_message_stats()
+            
+            # リアクション統計を取得
+            reaction_stats = self.get_daily_reaction_stats()
             
             # ロールメンバー数を取得
             role_counts = await self.count_role_members(guild)
@@ -323,7 +521,8 @@ class MetricsCollector(commands.Cog):
                 'engagement_score': engagement_score,
                 'channel_message_stats': message_stats['channel_stats'],
                 'staff_channel_stats': message_stats['staff_channel_stats'],
-                'role_counts': role_counts
+                'role_counts': role_counts,
+                'reaction_stats': reaction_stats
             }
             
             logger.info(f"✅ メトリクス収集完了: {metrics['date']}")
@@ -334,7 +533,11 @@ class MetricsCollector(commands.Cog):
             return None
     
     async def save_metrics_to_db(self, metrics: dict) -> bool:
-        """メトリクスをデータベースに保存"""
+        """メトリクスをデータベースとダッシュボードに保存"""
+        # 1. ダッシュボードAPI送信
+        dashboard_success = await self.send_to_dashboard(metrics)
+        
+        # 2. データベース保存
         try:
             conn = await asyncpg.connect(self.db_url)
             try:
@@ -364,39 +567,89 @@ class MetricsCollector(commands.Cog):
                 channel_stats_json = json.dumps(metrics['channel_message_stats'])
                 staff_stats_json = json.dumps(metrics['staff_channel_stats'])
                 role_counts_json = json.dumps(metrics['role_counts'])
+                reaction_stats_json = json.dumps(metrics['reaction_stats'])
                 
-                result = await conn.execute("""
-                    INSERT INTO discord_metrics 
-                    (id, date, member_count, online_count, daily_messages, active_users, 
-                     engagement_score, daily_user_messages, daily_staff_messages,
-                     channel_message_stats, staff_channel_stats, role_counts, 
-                     created_at, updated_at)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW())
-                    ON CONFLICT (date) DO UPDATE SET
-                    member_count = $3, 
-                    online_count = $4, 
-                    daily_messages = $5,
-                    active_users = $6, 
-                    engagement_score = $7,
-                    daily_user_messages = $8,
-                    daily_staff_messages = $9,
-                    channel_message_stats = $10,
-                    staff_channel_stats = $11,
-                    role_counts = $12,
-                    updated_at = NOW()
-                """, cuid, metrics['date'], metrics['member_count'], 
-                    metrics['online_count'], metrics['daily_messages'], 
-                    metrics['active_users'], metrics['engagement_score'],
-                    metrics['daily_user_messages'], metrics['daily_staff_messages'],
-                    channel_stats_json, staff_stats_json, role_counts_json)
+                # テーブルにreaction_statsカラムが存在するかチェック
+                column_exists = await conn.fetchval("""
+                    SELECT EXISTS (
+                        SELECT FROM information_schema.columns 
+                        WHERE table_name = 'discord_metrics' 
+                        AND column_name = 'reaction_stats'
+                    )
+                """)
+                
+                if column_exists:
+                    # reaction_statsカラムが存在する場合
+                    result = await conn.execute("""
+                        INSERT INTO discord_metrics 
+                        (id, date, member_count, online_count, daily_messages, active_users, 
+                         engagement_score, daily_user_messages, daily_staff_messages,
+                         channel_message_stats, staff_channel_stats, role_counts, reaction_stats,
+                         created_at, updated_at)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW(), NOW())
+                        ON CONFLICT (date) DO UPDATE SET
+                        member_count = $3, 
+                        online_count = $4, 
+                        daily_messages = $5,
+                        active_users = $6, 
+                        engagement_score = $7,
+                        daily_user_messages = $8,
+                        daily_staff_messages = $9,
+                        channel_message_stats = $10,
+                        staff_channel_stats = $11,
+                        role_counts = $12,
+                        reaction_stats = $13,
+                        updated_at = NOW()
+                    """, cuid, metrics['date'], metrics['member_count'], 
+                        metrics['online_count'], metrics['daily_messages'], 
+                        metrics['active_users'], metrics['engagement_score'],
+                        metrics['daily_user_messages'], metrics['daily_staff_messages'],
+                        channel_stats_json, staff_stats_json, role_counts_json, reaction_stats_json)
+                else:
+                    # reaction_statsカラムが存在しない場合（従来の形式で保存）
+                    logger.warning("⚠️ reaction_statsカラムが存在しません。リアクション統計はスキップされます。")
+                    result = await conn.execute("""
+                        INSERT INTO discord_metrics 
+                        (id, date, member_count, online_count, daily_messages, active_users, 
+                         engagement_score, daily_user_messages, daily_staff_messages,
+                         channel_message_stats, staff_channel_stats, role_counts, 
+                         created_at, updated_at)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW())
+                        ON CONFLICT (date) DO UPDATE SET
+                        member_count = $3, 
+                        online_count = $4, 
+                        daily_messages = $5,
+                        active_users = $6, 
+                        engagement_score = $7,
+                        daily_user_messages = $8,
+                        daily_staff_messages = $9,
+                        channel_message_stats = $10,
+                        staff_channel_stats = $11,
+                        role_counts = $12,
+                        updated_at = NOW()
+                    """, cuid, metrics['date'], metrics['member_count'], 
+                        metrics['online_count'], metrics['daily_messages'], 
+                        metrics['active_users'], metrics['engagement_score'],
+                        metrics['daily_user_messages'], metrics['daily_staff_messages'],
+                        channel_stats_json, staff_stats_json, role_counts_json)
                 
                 logger.info(f"✅ データベース保存成功: {result}")
-                return True
+                
+                # 結果判定
+                if dashboard_success:
+                    logger.info("✅ ダッシュボード・データベース両方に保存成功")
+                    return True
+                else:
+                    logger.warning("⚠️ データベース保存成功、ダッシュボード送信失敗")
+                    return True  # データベース保存は成功しているため True を返す
+                    
             finally:
                 await conn.close()
                 
         except Exception as e:
             logger.error(f"❌ データベース保存エラー: {e}")
+            if dashboard_success:
+                logger.warning("⚠️ ダッシュボード送信成功、データベース保存失敗")
             return False
     
     async def get_recent_metrics(self, days: int = 7) -> list:
@@ -460,12 +713,38 @@ class MetricsCollector(commands.Cog):
                                  for role_id, data in metrics['role_counts'].items()])
             embed.add_field(name="👥 ロール別メンバー", value=role_text or "なし", inline=False)
             
+            # リアクション統計
+            if metrics['reaction_stats'] and self.REACTION_CONFIG["enabled"]:
+                reaction_stats = metrics['reaction_stats']
+                embed.add_field(
+                    name="👍 リアクション総数", 
+                    value=f"{reaction_stats.get('total_reactions', 0):,}", 
+                    inline=True
+                )
+                embed.add_field(
+                    name="😊 使用絵文字数", 
+                    value=f"{reaction_stats.get('unique_emojis', 0):,}", 
+                    inline=True
+                )
+                embed.add_field(
+                    name="🙋 リアクションユーザー", 
+                    value=f"{reaction_stats.get('reaction_users', 0):,}人", 
+                    inline=True
+                )
+                
+                # 人気絵文字トップ5
+                if reaction_stats.get('top_emojis'):
+                    top_emojis_text = "\n".join([f"{data['emoji']}: {data['count']}回" 
+                                               for data in reaction_stats['top_emojis'][:5]])
+                    embed.add_field(name="🔥 人気絵文字トップ5", value=top_emojis_text, inline=False)
+            
             # 現在のカウント状況（リセットしていないため継続中）
             current_user = sum(sum(users.values()) for users in self.message_counts.values())
             current_staff = sum(sum(users.values()) for users in self.staff_message_counts.values())
+            current_reactions = sum(sum(emojis.values()) for emojis in self.reaction_counts.values())
             embed.add_field(
                 name="📊 現在の累計カウント",
-                value=f"ユーザー: {current_user}件\n運営: {current_staff}件\n（次回0:00にリセット）",
+                value=f"ユーザー: {current_user}件\n運営: {current_staff}件\nリアクション: {current_reactions}件\n（次回0:00にリセット）",
                 inline=False
             )
             
@@ -737,12 +1016,24 @@ class MetricsCollector(commands.Cog):
         # アクティブユーザー数を計算
         active_users = await self.count_active_users(interaction.guild)
         
+        # リアクション統計
+        reaction_total = sum(sum(emojis.values()) for emojis in self.reaction_counts.values())
+        reaction_users = len([count for count in self.user_reaction_counts.values() if count > 0])
+        unique_emojis = len(set(emoji for emojis in self.reaction_counts.values() for emoji in emojis.keys()))
+        
         # 基本統計
         embed.add_field(
-            name="📈 総計",
+            name="📈 メッセージ統計",
             value=f"ユーザー: {user_total}件\n運営: {staff_total}件\n合計: {user_total + staff_total}件",
             inline=True
         )
+        
+        if self.REACTION_CONFIG["enabled"]:
+            embed.add_field(
+                name="👍 リアクション統計",
+                value=f"総数: {reaction_total}件\nユーザー: {reaction_users}人\n絵文字: {unique_emojis}種類",
+                inline=True
+            )
         
         embed.add_field(
             name="👥 アクティブ",
@@ -764,6 +1055,145 @@ class MetricsCollector(commands.Cog):
                 value="\n".join(staff_details[:5]),
                 inline=False
             )
+        
+        await interaction.followup.send(embed=embed)
+    
+    @discord.app_commands.command(name="metrics_config", description="メトリクス設定を表示")
+    @discord.app_commands.default_permissions(administrator=True)
+    async def show_metrics_config(self, interaction: discord.Interaction):
+        """現在のメトリクス設定を表示"""
+        await interaction.response.defer()
+        
+        embed = discord.Embed(
+            title="⚙️ メトリクス設定",
+            color=discord.Color.orange(),
+            timestamp=datetime.now()
+        )
+        
+        # メインロール設定
+        viewable_role = interaction.guild.get_role(self.VIEWABLE_ROLE_ID)
+        staff_role = interaction.guild.get_role(self.STAFF_ROLE_ID)
+        
+        embed.add_field(
+            name="🔧 メインロール設定",
+            value=f"閲覧可能ロール: {viewable_role.name if viewable_role else 'Unknown'} (ID: {self.VIEWABLE_ROLE_ID})\n"
+                  f"運営ロール: {staff_role.name if staff_role else 'Unknown'} (ID: {self.STAFF_ROLE_ID})",
+            inline=False
+        )
+        
+        # 集計対象ロール
+        tracked_roles_text = []
+        for role_id, role_name in self.ROLE_NAMES.items():
+            role = interaction.guild.get_role(role_id)
+            actual_name = role.name if role else "Not Found"
+            member_count = len(role.members) if role else 0
+            tracked_roles_text.append(f"• {role_name}: {member_count}人 ({actual_name})")
+        
+        embed.add_field(
+            name="📊 集計対象ロール",
+            value="\n".join(tracked_roles_text[:10]),  # 最大10件表示
+            inline=False
+        )
+        
+        # エンゲージメント設定
+        embed.add_field(
+            name="📈 エンゲージメント計算設定",
+            value=f"アクティブ率重み: {self.ENGAGEMENT_WEIGHTS['active_ratio_weight']}\n"
+                  f"メッセージ密度重み: {self.ENGAGEMENT_WEIGHTS['message_density_weight']}",
+            inline=True
+        )
+        
+        # 収集スケジュール
+        schedule = METRICS_CONFIG["collection_schedule"]
+        embed.add_field(
+            name="⏰ 収集スケジュール",
+            value=f"タイムゾーン: {schedule['timezone']}\n"
+                  f"実行時刻: 毎日 {schedule['daily_hour']:02d}:{schedule['daily_minute']:02d}",
+            inline=True
+        )
+        
+        # リアクション追跡設定
+        reaction_config = METRICS_CONFIG["reaction_tracking"]
+        embed.add_field(
+            name="👍 リアクション追跡設定",
+            value=f"機能: {'有効' if reaction_config['enabled'] else '無効'}\n"
+                  f"カスタム絵文字: {'追跡' if reaction_config['track_custom_emojis'] else '除外'}\n"
+                  f"除外チャンネル: {len(reaction_config['excluded_channels'])}件\n"
+                  f"メッセージ対象期間: {reaction_config['max_message_age_days']}日\n"
+                  f"トップ絵文字表示数: {reaction_config['top_emojis_limit']}件",
+            inline=True
+        )
+        
+        await interaction.followup.send(embed=embed)
+    
+    @discord.app_commands.command(name="metrics_reactions", description="リアクション統計を詳細表示")
+    @discord.app_commands.default_permissions(administrator=True)
+    async def show_reaction_metrics(self, interaction: discord.Interaction):
+        """リアクション統計を詳細表示"""
+        await interaction.response.defer()
+        
+        if not self.REACTION_CONFIG["enabled"]:
+            await interaction.followup.send("❌ リアクション追跡機能が無効になっています")
+            return
+        
+        embed = discord.Embed(
+            title="👍 リアクション統計詳細",
+            color=discord.Color.gold(),
+            timestamp=datetime.now()
+        )
+        
+        # 全体統計
+        total_reactions = sum(sum(emojis.values()) for emojis in self.reaction_counts.values())
+        total_reaction_users = len([count for count in self.user_reaction_counts.values() if count > 0])
+        unique_emojis = len(set(emoji for emojis in self.reaction_counts.values() for emoji in emojis.keys()))
+        
+        embed.add_field(
+            name="📊 全体統計",
+            value=f"総リアクション数: {total_reactions:,}件\nリアクションユーザー: {total_reaction_users:,}人\n使用絵文字数: {unique_emojis:,}種類",
+            inline=False
+        )
+        
+        # チャンネル別リアクション統計
+        channel_details = []
+        for channel_id, emojis in self.reaction_counts.items():
+            channel = interaction.guild.get_channel(int(channel_id))
+            channel_name = channel.name if channel else f"Unknown({channel_id})"
+            channel_total = sum(emojis.values())
+            channel_unique = len(emojis)
+            if channel_total > 0:
+                channel_details.append(f"{channel_name}: {channel_total}件 ({channel_unique}種類)")
+        
+        if channel_details:
+            embed.add_field(
+                name="📍 チャンネル別リアクション",
+                value="\n".join(channel_details[:10]),  # 最大10チャンネル表示
+                inline=False
+            )
+        
+        # 人気絵文字ランキング
+        all_emoji_counts = defaultdict(int)
+        for emojis in self.reaction_counts.values():
+            for emoji, count in emojis.items():
+                all_emoji_counts[emoji] += count
+        
+        if all_emoji_counts:
+            top_emojis = sorted(all_emoji_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+            emoji_ranking = "\n".join([f"{i+1}. {emoji}: {count}回" 
+                                     for i, (emoji, count) in enumerate(top_emojis)])
+            embed.add_field(
+                name="🏆 人気絵文字ランキング",
+                value=emoji_ranking,
+                inline=False
+            )
+        
+        # 設定情報
+        embed.add_field(
+            name="⚙️ 設定",
+            value=f"カスタム絵文字追跡: {'有効' if self.REACTION_CONFIG['track_custom_emojis'] else '無効'}\n"
+                  f"除外チャンネル: {len(self.REACTION_CONFIG['excluded_channels'])}件\n"
+                  f"メッセージ対象期間: {self.REACTION_CONFIG['max_message_age_days']}日",
+            inline=True
+        )
         
         await interaction.followup.send(embed=embed)
 
