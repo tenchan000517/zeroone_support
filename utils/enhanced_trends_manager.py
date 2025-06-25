@@ -91,49 +91,76 @@ class EnhancedTrendsManager:
     
     async def get_enhanced_trends(self, max_trends: int = 200, categories: List[str] = None) -> List[Dict]:
         """高品質なトレンドデータを取得"""
+        print(f"[DEBUG] get_enhanced_trends called with max_trends={max_trends}")
         try:
             all_trends = []
             
             # 1. Zenn記事取得
+            print("[DEBUG] Fetching Zenn trends...")
             zenn_trends = await self._get_zenn_trends()
+            print(f"[DEBUG] Zenn trends: {len(zenn_trends)} items")
             all_trends.extend(zenn_trends)
             
             # 2. Hacker News取得（海外技術情報）
+            print("[DEBUG] Fetching Hacker News trends...")
             hn_trends = await self._get_hacker_news_trends()
+            print(f"[DEBUG] Hacker News trends: {len(hn_trends)} items")
             all_trends.extend(hn_trends)
             
             # 3. Google News取得（各分野別）
+            print("[DEBUG] Fetching Google News trends...")
             google_trends = await self._get_google_news_trends()
+            print(f"[DEBUG] Google News trends: {len(google_trends)} items")
             all_trends.extend(google_trends)
             
             # 4. GitHub Trending取得（リポジトリ情報）
+            print("[DEBUG] Fetching GitHub trends...")
             github_trends = await self._get_github_trends()
+            print(f"[DEBUG] GitHub trends: {len(github_trends)} items")
             all_trends.extend(github_trends)
             
             # 5. カテゴリ別専門トレンド取得（categoryフィールド付き）
+            print("[DEBUG] Fetching career trends...")
             career_trends = await self._get_career_trends()
+            print(f"[DEBUG] Career trends: {len(career_trends)} items")
             all_trends.extend(career_trends)
             
+            print("[DEBUG] Fetching business trends...")
             business_trends = await self._get_business_trends()
+            print(f"[DEBUG] Business trends: {len(business_trends)} items")
             all_trends.extend(business_trends)
             
+            print("[DEBUG] Fetching programming trends...")
             programming_trends = await self._get_programming_trends()
+            print(f"[DEBUG] Programming trends: {len(programming_trends)} items")
             all_trends.extend(programming_trends)
             
+            print("[DEBUG] Fetching data science trends...")
             data_science_trends = await self._get_data_science_trends()
+            print(f"[DEBUG] Data science trends: {len(data_science_trends)} items")
             all_trends.extend(data_science_trends)
             
+            print("[DEBUG] Fetching generative AI trends...")
             generative_ai_trends = await self._get_generative_ai_trends()
+            print(f"[DEBUG] Generative AI trends: {len(generative_ai_trends)} items")
             all_trends.extend(generative_ai_trends)
             
+            print("[DEBUG] Fetching study trends...")
             study_trends = await self._get_study_trends()
+            print(f"[DEBUG] Study trends: {len(study_trends)} items")
             all_trends.extend(study_trends)
             
+            print("[DEBUG] Fetching webdev trends...")
             webdev_trends = await self._get_webdev_trends()
+            print(f"[DEBUG] Webdev trends: {len(webdev_trends)} items")
             all_trends.extend(webdev_trends)
             
+            print(f"[DEBUG] Total trends before categorization: {len(all_trends)}")
+            
             # 自動カテゴリ分類（categoryフィールドがない記事のみ）
+            print("[DEBUG] Categorizing trends...")
             categorized_trends = self._categorize_trends(all_trends)
+            print(f"[DEBUG] Categorized trends: {len(categorized_trends)} items")
             
             # フィルタリング（指定カテゴリがある場合）
             if categories:

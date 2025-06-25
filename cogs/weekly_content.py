@@ -11,6 +11,7 @@ from utils.event_manager import EventManager
 from utils.news_manager import NewsManager
 from utils.connpass_manager import ConnpassManager
 from utils.trends_manager import TrendsManager
+from utils.enhanced_trends_manager import EnhancedTrendsManager
 
 class WeeklyContentCog(commands.Cog):
     def __init__(self, bot):
@@ -203,8 +204,67 @@ class WeeklyContentCog(commands.Cog):
         
         return embed
     
-    async def create_trends_embed(self):
-        """ビジネストレンドのEmbed作成（GoogleTrends RSS）"""
+    async def get_enhanced_business_trends(self):
+        """高品質ビジネストレンド取得 - 各カテゴリ1-2位"""
+        print("[DEBUG] get_enhanced_business_trends called")
+        try:
+            print("[DEBUG] Creating EnhancedTrendsManager...")
+            async with EnhancedTrendsManager() as manager:
+                print("[DEBUG] EnhancedTrendsManager created successfully")
+                # 全トレンド取得
+                print("[DEBUG] Calling manager.get_enhanced_trends...")
+                all_trends = await manager.get_enhanced_trends(max_trends=200)
+                print(f"[DEBUG] Received {len(all_trends)} trends from manager")
+
+                # カテゴリ別に分類・ソート
+                categorized = {}
+                for trend in all_trends:
+                    category = trend.get('category', '一般')
+                    if category not in categorized:
+                        categorized[category] = []
+                    categorized[category].append(trend)
+
+                # 各カテゴリ上位1-2件抽出
+                top_trends = {}
+                for category, trends in categorized.items():
+                    # 品質スコア順でソート
+                    sorted_trends = sorted(trends, key=lambda x: x.get('quality_score', 0), reverse=True)
+                    top_trends[category] = sorted_trends[:2]  # 上位2件
+
+                # Discord用フォーマット取得
+                embed_data = manager.format_trends_for_discord(
+                    [trend for trends in top_trends.values() for trend in trends]
+                )
+                
+                # Discord Embedオブジェクト作成
+                embed = discord.Embed(
+                    title=embed_data["title"],
+                    description=embed_data["description"],
+                    color=embed_data["color"]
+                )
+                
+                for field in embed_data["fields"]:
+                    embed.add_field(
+                        name=field["name"],
+                        value=field["value"],
+                        inline=field.get("inline", False)
+                    )
+                
+                if "footer" in embed_data:
+                    embed.set_footer(text=embed_data["footer"]["text"])
+                
+                return embed
+
+        except Exception as e:
+            print(f"[DEBUG] Enhanced trends取得エラー: {e}")
+            import traceback
+            traceback.print_exc()
+            # フォールバック: 従来システムを使用
+            print("[DEBUG] Falling back to original trends method...")
+            return await self.original_trends_method()
+    
+    async def original_trends_method(self):
+        """フォールバック用の従来のトレンド取得メソッド"""
         try:
             # GoogleTrendsからリアルタイムトレンド取得
             trends = await self.trends_manager.get_business_trends(max_trends=5)
@@ -249,6 +309,10 @@ class WeeklyContentCog(commands.Cog):
             embed.set_footer(text="ZERO to ONE 📈 トレンドを先取りして競争優位を築こう")
         
         return embed
+
+    async def create_trends_embed(self):
+        """ビジネストレンドのEmbed作成（新システム対応）"""
+        return await self.get_enhanced_business_trends()
     
     async def create_tips_embed(self):
         """スキルアップTipsのEmbed作成"""
