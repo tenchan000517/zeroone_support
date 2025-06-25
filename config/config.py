@@ -116,7 +116,7 @@ METRICS_CONFIG = {
 # チャンネル通知設定
 CHANNEL_NOTIFICATIONS = {
     "enabled": True,
-    "line_webhook_url": "https://find-to-do-management-app.vercel.app/api/webhook/line",
+    "line_webhook_url": "https://find-to-do-management-app.vercel.app/api/webhook/discord-notifications",
     
     "monitored_channels": {
         # WELCOM - 新規参入通知
