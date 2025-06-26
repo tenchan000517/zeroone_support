@@ -123,7 +123,7 @@ CHANNEL_NOTIFICATIONS = {
         "1236341987272032316": {
             "name": "WELCOM",
             "type": "new_member",
-            "description": "メンバーが新規参入した時の通知（ボット除外）",
+            "description": "メンバーが新規参入した時の通知（ボット・運営除外）",
             "exclude_bots": True,
             "notification_message": "🎉 新しいメンバーが WELCOM チャンネルに参加しました！"
         },
@@ -132,7 +132,7 @@ CHANNEL_NOTIFICATIONS = {
         "1373946891334844416": {
             "name": "自己紹介", 
             "type": "new_post",
-            "description": "メンバーが自己紹介をした時の通知（リプライ除外）",
+            "description": "メンバーが自己紹介をした時の通知（リプライ・ボット・運営除外）",
             "exclude_bots": True,
             "exclude_replies": True,
             "notification_message": "📝 新しい自己紹介が投稿されました！"
@@ -152,7 +152,7 @@ CHANNEL_NOTIFICATIONS = {
         "1330790111259922513": {
             "name": "誰でも告知",
             "type": "announcement", 
-            "description": "メンバーが告知を行った場合に通知",
+            "description": "メンバーが告知を行った場合に通知（ボット・運営除外）",
             "exclude_bots": True,
             "notification_message": "📢 新しい告知が投稿されました！"
         }

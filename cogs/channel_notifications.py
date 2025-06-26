@@ -79,21 +79,29 @@ class ChannelNotifications(commands.Cog):
         channel_id = str(message.channel.id)
         
         if channel_type == "new_member":
-            # WELCOM チャンネル - 新規参入通知
-            await self._handle_welcome_message(message, channel_config)
+            # WELCOM チャンネル - 新規参入通知（運営除外）
+            if not is_staff:
+                await self._handle_welcome_message(message, channel_config)
+            else:
+                print(f"👮 [NOTIFICATIONS] 運営発言のため通知スキップ: {message.author.display_name} in {channel_config['name']}")
             
         elif channel_type == "new_post":
-            # 自己紹介チャンネル - 新規投稿通知（リプライ除外）
-            if not message.reference:  # リプライでない場合
+            # 自己紹介チャンネル - 新規投稿通知（リプライ・運営除外）
+            if not message.reference and not is_staff:  # リプライでない かつ 運営でない場合
                 await self._handle_introduction_message(message, channel_config)
+            elif is_staff:
+                print(f"👮 [NOTIFICATIONS] 運営発言のため通知スキップ: {message.author.display_name} in {channel_config['name']}")
                 
         elif channel_type == "staff_absence_monitoring":
             # 雑談チャンネル - 運営不在監視
             await self._handle_chat_monitoring(message, channel_config, is_staff)
             
         elif channel_type == "announcement":
-            # 誰でも告知チャンネル - 告知投稿通知
-            await self._handle_announcement_message(message, channel_config)
+            # 誰でも告知チャンネル - 告知投稿通知（運営除外）
+            if not is_staff:
+                await self._handle_announcement_message(message, channel_config)
+            else:
+                print(f"👮 [NOTIFICATIONS] 運営発言のため通知スキップ: {message.author.display_name} in {channel_config['name']}")
     
     async def _handle_welcome_message(self, message, channel_config):
         """WELCOM チャンネルの新規参入通知"""
