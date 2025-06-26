@@ -334,10 +334,16 @@ class MetricsCollector(commands.Cog):
             for attempt in range(self.DASHBOARD_CONFIG["retry_attempts"]):
                 try:
                     async with aiohttp.ClientSession(timeout=timeout) as session:
+                        # 認証ヘッダーの準備
+                        headers = {'Content-Type': 'application/json'}
+                        discord_api_token = os.getenv('DISCORD_API_TOKEN')
+                        if discord_api_token:
+                            headers['Authorization'] = f'Bearer {discord_api_token}'
+                        
                         async with session.post(
                             self.DASHBOARD_CONFIG["api_url"],
                             json=dashboard_metrics,
-                            headers={'Content-Type': 'application/json'}
+                            headers=headers
                         ) as response:
                             if response.status == 200:
                                 result = await response.json()
