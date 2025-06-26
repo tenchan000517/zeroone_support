@@ -5,7 +5,7 @@ import datetime
 import asyncio
 import pytz
 import random
-from config.config import ADMIN_ID
+from config.config import ADMIN_ID, CHANNEL_INTRO_CONFIG
 from models.database import SessionLocal, ChannelIntroSettings
 
 class ChannelIntroCog(commands.Cog):
@@ -64,8 +64,8 @@ class ChannelIntroCog(commands.Cog):
             
         return talks
 
-    def calculate_next_scheduled_time(self, current_time: datetime.datetime, hour: int, minute: int, interval_hours: int) -> datetime.datetime:
-        """指定時刻とインターバルから次回送信時刻を計算（日本時間対応）"""
+    def calculate_next_scheduled_time(self, current_time: datetime.datetime, hour: int, minute: int, interval_hours: int, days_of_week: list = None) -> datetime.datetime:
+        """指定時刻とインターバルから次回送信時刻を計算（日本時間対応、曜日指定対応）"""
         # 日本時間に変換
         if current_time.tzinfo is None:
             current_time = pytz.utc.localize(current_time)
@@ -74,6 +74,20 @@ class ChannelIntroCog(commands.Cog):
         # 本日の指定時刻（日本時間）
         today_scheduled = jst_time.replace(hour=hour, minute=minute, second=0, microsecond=0)
         
+        # 曜日指定がある場合の処理
+        if days_of_week:
+            # 今日が指定曜日で、かつ時刻がまだ来ていない場合
+            if jst_time.weekday() in days_of_week and jst_time < today_scheduled:
+                return today_scheduled.astimezone(pytz.utc).replace(tzinfo=None)
+            
+            # 次の指定曜日と時刻を探す
+            for i in range(1, 8):  # 最大7日後まで検索
+                next_date = jst_time + datetime.timedelta(days=i)
+                if next_date.weekday() in days_of_week:
+                    next_scheduled = next_date.replace(hour=hour, minute=minute, second=0, microsecond=0)
+                    return next_scheduled.astimezone(pytz.utc).replace(tzinfo=None)
+        
+        # 曜日指定がない場合の既存ロジック
         # 今日の指定時刻がまだ来ていない場合
         if jst_time < today_scheduled:
             return today_scheduled.astimezone(pytz.utc).replace(tzinfo=None)
@@ -727,8 +741,32 @@ class ChannelIntroCog(commands.Cog):
                         
                         should_send = False
                         
-                        if settings.scheduled_hour is not None and settings.scheduled_minute is not None:
-                            # 指定時刻ベースの送信判定
+                        # config.pyの設定を使用した曜日判定
+                        config_days = CHANNEL_INTRO_CONFIG.get("schedule", {}).get("days_of_week", [])
+                        config_hour = CHANNEL_INTRO_CONFIG.get("schedule", {}).get("hour", 9)
+                        config_minute = CHANNEL_INTRO_CONFIG.get("schedule", {}).get("minute", 0)
+                        
+                        if config_days:  # 曜日指定がある場合（月金）
+                            now_jst = now.replace(tzinfo=pytz.utc).astimezone(self.jst)
+                            
+                            # 今日が指定曜日かチェック
+                            if now_jst.weekday() in config_days:
+                                # 指定時刻を過ぎているかチェック
+                                today_scheduled = now_jst.replace(hour=config_hour, minute=config_minute, second=0, microsecond=0)
+                                
+                                if now_jst >= today_scheduled:
+                                    # 今日まだ送信していないかチェック
+                                    if not settings.last_sent:
+                                        should_send = True
+                                    else:
+                                        last_sent_jst = settings.last_sent.replace(tzinfo=pytz.utc).astimezone(self.jst)
+                                        # 前回送信が今日より前、または前回送信が今日でも指定時刻より前の場合
+                                        if (last_sent_jst.date() < now_jst.date() or 
+                                            (last_sent_jst.date() == now_jst.date() and last_sent_jst < today_scheduled)):
+                                            should_send = True
+                        
+                        elif settings.scheduled_hour is not None and settings.scheduled_minute is not None:
+                            # 指定時刻ベースの送信判定（従来のロジック）
                             next_scheduled = self.calculate_next_scheduled_time(
                                 settings.last_sent or now, 
                                 settings.scheduled_hour, 
@@ -752,6 +790,14 @@ class ChannelIntroCog(commands.Cog):
         """軽量な定期通知（ロール取得メインの案内）"""
         try:
             guild = channel.guild
+            
+            # 設定からロールメンションを取得
+            mention_role = None
+            try:
+                if CHANNEL_INTRO_CONFIG.get("mention_role_id"):
+                    mention_role = guild.get_role(int(CHANNEL_INTRO_CONFIG["mention_role_id"]))
+            except:
+                pass
             
             # ロールパネルの場所を確認（テストチャンネル等を除外）
             role_panel_channels = []
@@ -862,6 +908,11 @@ class ChannelIntroCog(commands.Cog):
             # Geminiからの小粋なトークを追加
             gemini_talks = await self.get_gemini_talks()
             intro_text += f"\n{gemini_talks[0]}\n\n"
+            
+            # ロールメンションを追加
+            if mention_role:
+                intro_text += f"{mention_role.mention} "
+            
             intro_text += "**ZERO to ONE** 🚀 コミュニティをお楽しみください！"
             
             # 長すぎる場合は分割送信

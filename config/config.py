@@ -158,3 +158,16 @@ CHANNEL_NOTIFICATIONS = {
         }
     }
 }
+
+# チャンネル紹介通知設定
+CHANNEL_INTRO_CONFIG = {
+    "enabled": True,
+    "target_channel_id": "1236344090086342798",  # 雑談チャンネル
+    "mention_role_id": "1332242428459221046",    # FIND to DOロール
+    "schedule": {
+        "days_of_week": [0, 4],  # 月曜日(0)と金曜日(4)
+        "hour": 9,               # 9時
+        "minute": 0              # 0分
+    },
+    "interval_hours": 24  # 24時間間隔での確認
+}
