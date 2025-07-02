@@ -167,30 +167,63 @@ class WelcomeCog(commands.Cog):
         
         return embed
     
+    async def _wait_for_other_bots(self, guild: discord.Guild, member: discord.Member):
+        """他のボットがウェルカムメッセージを送信するまで動的に待機"""
+        welcome_channel = self._get_welcome_channel(guild)
+        if not welcome_channel:
+            await asyncio.sleep(self.WELCOME_DELAY)
+            return
+        
+        # 最初の短い遅延
+        await asyncio.sleep(2)
+        
+        # 最大15秒間、1秒間隔で他のボットのメッセージをチェック
+        for i in range(13):  # 2 + 13 = 15秒最大
+            try:
+                # 最近のメッセージを取得（参加から現在まで）
+                async for message in welcome_channel.history(limit=5, after=member.joined_at):
+                    # ボットからのメンション付きメッセージをチェック
+                    if (message.author.bot and 
+                        member in message.mentions and 
+                        message.author.id != self.bot.user.id):
+                        print(f"Found other bot message from {message.author.name}, waiting completed")
+                        return
+            except:
+                pass
+            
+            await asyncio.sleep(1)
+        
+        # 15秒経過したら送信
+        print(f"Timeout reached, proceeding with welcome message")
+    
+    def _get_welcome_channel(self, guild: discord.Guild):
+        """ウェルカムチャンネルを取得"""
+        # 1. システムチャンネル
+        if guild.system_channel:
+            return guild.system_channel
+        
+        # 2. general系チャンネル
+        categories = self.categorize_channels(guild)
+        if categories["general"]:
+            return categories["general"][0]
+        
+        # 3. 最初のテキストチャンネル
+        text_channels = [ch for ch in guild.channels if isinstance(ch, discord.TextChannel)]
+        if text_channels:
+            return text_channels[0]
+        
+        return None
+    
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         """メンバーが参加した時の自動ウェルカムメッセージ"""
         guild = member.guild
         
-        # Mee6などの他ボットより後に送信されるよう遅延
-        await asyncio.sleep(self.WELCOME_DELAY)
+        # Mee6などの他ボットより後に送信されるよう動的に待機
+        await self._wait_for_other_bots(guild, member)
         
-        # システムチャンネルまたは一般チャンネルを取得
-        welcome_channel = None
-        
-        # 1. システムチャンネル
-        if guild.system_channel:
-            welcome_channel = guild.system_channel
-        else:
-            # 2. general系チャンネル
-            categories = self.categorize_channels(guild)
-            if categories["general"]:
-                welcome_channel = categories["general"][0]
-            # 3. 最初のテキストチャンネル
-            else:
-                text_channels = [ch for ch in guild.channels if isinstance(ch, discord.TextChannel)]
-                if text_channels:
-                    welcome_channel = text_channels[0]
+        # ウェルカムチャンネルを取得
+        welcome_channel = self._get_welcome_channel(guild)
         
         if welcome_channel:
             try:

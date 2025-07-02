@@ -135,7 +135,8 @@ class ConnpassManager:
         
         params = {
             'keyword': keyword,
-            'ym': today.strftime("%Y%m"),  # 今月のイベントを検索
+            'ymd_start': ymd_start,  # 開始日を指定
+            'ymd_end': ymd_end,      # 終了日を指定
             'count': 100,  # 多めに取得
             'order': 2,  # 開催日時順
         }
