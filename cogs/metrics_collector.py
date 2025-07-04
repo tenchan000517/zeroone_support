@@ -394,38 +394,7 @@ class MetricsCollector(commands.Cog):
             logger.info(f"  - 対象ロール保持オンラインメンバー数: {target_role_members_found}")
             logger.info(f"  - 収集データ数: {len(online_users)}")
             
-            for member in guild.members:
-                if member.status != discord.Status.offline and not member.bot:
-                    # ユーザーのロール情報を取得
-                    member_role_ids = [role.id for role in member.roles if role.id != guild.default_role.id]
-                    
-                    # 対象ロールを持っているかチェック
-                    has_target_role = any(role_id in target_role_ids for role_id in member_role_ids)
-                    
-                    if has_target_role:
-                        # 対象ロールを持つユーザーのみ収集
-                        role_ids_str = [str(role_id) for role_id in member_role_ids]
-                        role_names = [role.name for role in member.roles if role.id != guild.default_role.id]
-                        
-                        user_data = {
-                            'user_id': str(member.id),
-                            'username': member.name,
-                            'display_name': member.display_name,
-                            'status': str(member.status),
-                            'role_ids': role_ids_str,
-                            'role_names': role_names,
-                            'activity_type': None,
-                            'activity_name': None,
-                            'timestamp': current_time.isoformat()
-                        }
-                        
-                        # アクティビティ情報
-                        if member.activity:
-                            activity_type = str(member.activity.type).split('.')[-1].lower()
-                            user_data['activity_type'] = activity_type
-                            user_data['activity_name'] = member.activity.name
-                        
-                        online_users.append(user_data)
+            # 重複処理を削除（上記の346-389行で既に処理済み）
             
             # 統計情報の計算
             total_online = len(online_users)
