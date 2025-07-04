@@ -40,6 +40,7 @@ intents.messages = True
 intents.message_content = True
 intents.guilds = True
 intents.members = True
+intents.presences = True  # オンライン状態を取得するために必要
 
 # このbotのアカウント情報を格納、CommandsBotを使用
 client = commands.Bot(command_prefix='DJアイズ ', intents=intents)

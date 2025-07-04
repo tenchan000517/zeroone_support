@@ -298,20 +298,94 @@ class MetricsCollector(commands.Cog):
     async def collect_gantt_chart_data(self, guild: discord.Guild) -> dict:
         """フロントエンド用ガントチャートデータを収集（指定ロールのユーザーのみ）"""
         try:
+            logger.info(f"🔍 [DEBUG] ガントチャート収集開始 - Guild: {guild.name} (ID: {guild.id})")
+            
             # ガントチャート収集が無効の場合は空データを返す
             if not self.GANTT_CONFIG["enabled"]:
+                logger.warning(f"⚠️  [DEBUG] ガントチャート収集が無効です: {self.GANTT_CONFIG['enabled']}")
                 return {}
             
             current_time = datetime.now(timezone.utc)
             target_role_ids = self.GANTT_CONFIG["target_roles"]
+            logger.info(f"🔍 [DEBUG] 対象ロールID: {target_role_ids}")
             
             # 対象ロールがない場合は空データを返す
             if not target_role_ids:
                 logger.warning("ガントチャート収集対象ロールが設定されていません")
                 return {}
             
+            # 対象ロールが実際に存在するかチェック
+            target_roles = []
+            for role_id in target_role_ids:
+                role = guild.get_role(role_id)
+                if role:
+                    target_roles.append(role)
+                    logger.info(f"✅ [DEBUG] 対象ロール見つかりました: {role.name} (ID: {role_id}, メンバー数: {len(role.members)})")
+                else:
+                    logger.warning(f"❌ [DEBUG] 対象ロールが見つかりません: {role_id}")
+            
+            if not target_roles:
+                logger.warning("❌ [DEBUG] 有効な対象ロールがありません")
+                return {}
+            
             # 現在オンライン中の対象ロールユーザー情報を収集
             online_users = []
+            total_members_checked = 0
+            online_members_found = 0
+            target_role_members_found = 0
+            
+            logger.info(f"🔍 [DEBUG] 全メンバー数: {len(guild.members)}")
+            
+            for member in guild.members:
+                total_members_checked += 1
+                
+                # BOTは除外
+                if member.bot:
+                    continue
+                
+                # オンライン状態チェック
+                if member.status != discord.Status.offline:
+                    online_members_found += 1
+                    
+                    # ユーザーのロール情報を取得
+                    member_role_ids = [role.id for role in member.roles if role.id != guild.default_role.id]
+                    
+                    # 対象ロールを持っているかチェック
+                    has_target_role = any(role_id in target_role_ids for role_id in member_role_ids)
+                    
+                    if has_target_role:
+                        target_role_members_found += 1
+                        logger.info(f"✅ [DEBUG] 対象ユーザー発見: {member.display_name} (Status: {member.status})")
+                        
+                        # 対象ロールを持つユーザーのみ収集
+                        role_ids_str = [str(role_id) for role_id in member_role_ids]
+                        role_names = [role.name for role in member.roles if role.id != guild.default_role.id]
+                        
+                        user_data = {
+                            'user_id': str(member.id),
+                            'username': member.name,
+                            'display_name': member.display_name,
+                            'status': str(member.status),
+                            'role_ids': role_ids_str,
+                            'role_names': role_names,
+                            'activity_type': None,
+                            'activity_name': None,
+                            'timestamp': current_time.isoformat()
+                        }
+                        
+                        # アクティビティ情報
+                        if member.activity:
+                            activity_type = str(member.activity.type).split('.')[-1].lower()
+                            user_data['activity_type'] = activity_type
+                            user_data['activity_name'] = member.activity.name
+                        
+                        online_users.append(user_data)
+            
+            logger.info(f"📊 [DEBUG] 収集結果:")
+            logger.info(f"  - 全メンバー数: {total_members_checked}")
+            logger.info(f"  - オンラインメンバー数: {online_members_found}")
+            logger.info(f"  - 対象ロール保持オンラインメンバー数: {target_role_members_found}")
+            logger.info(f"  - 収集データ数: {len(online_users)}")
             
             for member in guild.members:
                 if member.status != discord.Status.offline and not member.bot:
