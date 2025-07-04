@@ -513,7 +513,7 @@ class MetricsCollector(commands.Cog):
             conn = await asyncpg.connect(self.db_url)
             
             # データ準備
-            date_str = current_time.date().isoformat()
+            date_obj = current_time.date()  # dateオブジェクトを直接使用
             data_json = json.dumps(gantt_data, ensure_ascii=False)
             
             # データベースに保存（重複時は更新）
@@ -526,8 +526,8 @@ class MetricsCollector(commands.Cog):
                     updated_at = NOW()
             """
             
-            await conn.execute(query, date_str, hour, data_json)
-            logger.info(f"💾 ガントチャートデータDB保存完了: {date_str} {hour:02d}:00")
+            await conn.execute(query, date_obj, hour, data_json)
+            logger.info(f"💾 ガントチャートデータDB保存完了: {date_obj} {hour:02d}:00")
             
             await conn.close()
             
