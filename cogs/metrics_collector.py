@@ -46,6 +46,9 @@ class MetricsCollector(commands.Cog):
         # ダッシュボード連携設定
         self.DASHBOARD_CONFIG = METRICS_CONFIG["dashboard_integration"]
         
+        # ガントチャート収集設定
+        self.GANTT_CONFIG = METRICS_CONFIG["gantt_chart_collection"]
+        
         # メッセージカウント用の辞書（メモリ上で管理）
         self.message_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {user_id: count}}
         self.staff_message_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {user_id: count}}
@@ -54,15 +57,24 @@ class MetricsCollector(commands.Cog):
         self.reaction_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {emoji: count}}
         self.user_reaction_counts = defaultdict(int)  # {user_id: count} - ユーザー別リアクション数
         
+        # 時間別ガントチャートデータを蓄積するためのメモリストレージ
+        self.hourly_gantt_data = {}  # {hour: gantt_data} 形式で24時間分保持
+        
         # 定期収集タスク開始
         if not self.daily_metrics_task.is_running():
             self.daily_metrics_task.start()
+        
+        # 1時間ごとのガントチャートデータ収集タスク開始
+        if not self.hourly_gantt_collection_task.is_running():
+            self.hourly_gantt_collection_task.start()
         
         logger.info("📊 MetricsCollector初期化完了")
     
     def cog_unload(self):
         """Cog終了時の処理"""
         self.daily_metrics_task.cancel()
+        if hasattr(self, 'hourly_gantt_collection_task'):
+            self.hourly_gantt_collection_task.cancel()
     
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -231,6 +243,341 @@ class MetricsCollector(commands.Cog):
             else:
                 return emoji.name
     
+    async def collect_online_users_data(self, guild: discord.Guild) -> dict:
+        """オンラインユーザーデータを収集"""
+        try:
+            online_users = []
+            status_counts = {'online': 0, 'idle': 0, 'dnd': 0, 'offline': 0}
+            activity_counts = {}
+            
+            for member in guild.members:
+                # ステータスカウント
+                status_counts[str(member.status)] += 1
+                
+                # オンラインのユーザーのみ詳細記録
+                if member.status != discord.Status.offline:
+                    user_data = {
+                        'user_id': str(member.id),
+                        'username': member.name,
+                        'display_name': member.display_name,
+                        'status': str(member.status),
+                        'is_bot': member.bot
+                    }
+                    
+                    # アクティビティ情報
+                    if member.activity:
+                        activity_type = str(member.activity.type).split('.')[-1].lower()
+                        user_data['activity_type'] = activity_type
+                        user_data['activity_name'] = member.activity.name
+                        
+                        # アクティビティ種別カウント
+                        activity_counts[activity_type] = activity_counts.get(activity_type, 0) + 1
+                    
+                    online_users.append(user_data)
+            
+            # 統計情報
+            online_stats = {
+                'total_online': len(online_users),
+                'status_breakdown': status_counts,
+                'activity_breakdown': activity_counts,
+                'online_users_count': len([u for u in online_users if not u['is_bot']]),
+                'online_bots_count': len([u for u in online_users if u['is_bot']]),
+                'timestamp': datetime.now(timezone.utc).isoformat()
+            }
+            
+            logger.info(f"📊 オンラインユーザー収集完了: {online_stats['total_online']}人")
+            return {
+                'stats': online_stats,
+                'users': online_users
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ オンラインユーザー収集エラー: {e}")
+            return {'stats': {}, 'users': []}
+    
+    async def collect_gantt_chart_data(self, guild: discord.Guild) -> dict:
+        """フロントエンド用ガントチャートデータを収集（指定ロールのユーザーのみ）"""
+        try:
+            # ガントチャート収集が無効の場合は空データを返す
+            if not self.GANTT_CONFIG["enabled"]:
+                return {}
+            
+            current_time = datetime.now(timezone.utc)
+            target_role_ids = self.GANTT_CONFIG["target_roles"]
+            
+            # 対象ロールがない場合は空データを返す
+            if not target_role_ids:
+                logger.warning("ガントチャート収集対象ロールが設定されていません")
+                return {}
+            
+            # 現在オンライン中の対象ロールユーザー情報を収集
+            online_users = []
+            
+            for member in guild.members:
+                if member.status != discord.Status.offline and not member.bot:
+                    # ユーザーのロール情報を取得
+                    member_role_ids = [role.id for role in member.roles if role.id != guild.default_role.id]
+                    
+                    # 対象ロールを持っているかチェック
+                    has_target_role = any(role_id in target_role_ids for role_id in member_role_ids)
+                    
+                    if has_target_role:
+                        # 対象ロールを持つユーザーのみ収集
+                        role_ids_str = [str(role_id) for role_id in member_role_ids]
+                        role_names = [role.name for role in member.roles if role.id != guild.default_role.id]
+                        
+                        user_data = {
+                            'user_id': str(member.id),
+                            'username': member.name,
+                            'display_name': member.display_name,
+                            'status': str(member.status),
+                            'role_ids': role_ids_str,
+                            'role_names': role_names,
+                            'activity_type': None,
+                            'activity_name': None,
+                            'timestamp': current_time.isoformat()
+                        }
+                        
+                        # アクティビティ情報
+                        if member.activity:
+                            activity_type = str(member.activity.type).split('.')[-1].lower()
+                            user_data['activity_type'] = activity_type
+                            user_data['activity_name'] = member.activity.name
+                        
+                        online_users.append(user_data)
+            
+            # 統計情報の計算
+            total_online = len(online_users)
+            
+            # 対象ロール別オンライン数の集計（指定されたロールのみ）
+            role_online_counts = {}
+            for role_id in target_role_ids:
+                role = guild.get_role(role_id)
+                if role:
+                    # 対象ロールを持つオンラインユーザーの数をカウント
+                    role_online_count = len([
+                        user for user in online_users 
+                        if str(role_id) in user['role_ids']
+                    ])
+                    
+                    # そのロールを持つ全メンバー数（BOT除外）
+                    total_role_members = len([m for m in role.members if not m.bot])
+                    
+                    role_online_counts[str(role_id)] = {
+                        'role_name': role.name,
+                        'online_count': role_online_count,
+                        'total_members': total_role_members,
+                        'online_rate': round((role_online_count / total_role_members) * 100, 2) if total_role_members > 0 else 0
+                    }
+            
+            # ステータス別集計
+            status_counts = {'online': 0, 'idle': 0, 'dnd': 0}
+            for user in online_users:
+                status_counts[user['status']] = status_counts.get(user['status'], 0) + 1
+            
+            # アクティビティ別集計
+            activity_counts = {}
+            for user in online_users:
+                if user['activity_type']:
+                    activity_counts[user['activity_type']] = activity_counts.get(user['activity_type'], 0) + 1
+            
+            # 時間別データ（現在の時刻のスナップショット）
+            current_hour = current_time.hour
+            hourly_data = {
+                str(current_hour): {
+                    'total_online': total_online,
+                    'status_breakdown': status_counts,
+                    'activity_breakdown': activity_counts,
+                    'role_breakdown': role_online_counts
+                }
+            }
+            
+            gantt_data = {
+                'date': current_time.date().isoformat(),
+                'timestamp': current_time.isoformat(),
+                'total_online_users': total_online,
+                'status_breakdown': status_counts,
+                'activity_breakdown': activity_counts,
+                'role_breakdown': role_online_counts,
+                'hourly_snapshot': hourly_data,
+                'online_users': online_users,
+                'top_active_roles': [
+                    {'role_name': data['role_name'], 'online_count': data['online_count'], 'online_rate': data['online_rate']}
+                    for data in sorted(role_online_counts.values(), key=lambda x: x['online_rate'], reverse=True)[:10]
+                    if data['online_count'] > 0
+                ]
+            }
+            
+            # 対象ロール名をログに出力
+            target_role_names = []
+            for role_id in target_role_ids:
+                role = guild.get_role(role_id)
+                if role:
+                    target_role_names.append(role.name)
+            
+            logger.info(f"📊 ガントチャートデータ収集完了: {total_online}人オンライン（対象ロール: {', '.join(target_role_names)}）")
+            return gantt_data
+            
+        except Exception as e:
+            logger.error(f"❌ ガントチャートデータ収集エラー: {e}")
+            return {}
+    
+    async def compile_daily_gantt_data(self, guild: discord.Guild) -> dict:
+        """24時間分の時間別ガントチャートデータを統合"""
+        try:
+            current_time = datetime.now(timezone.utc)
+            today_str = current_time.date().isoformat()
+            
+            # 現在の時刻のデータも含めて最新情報にする
+            current_gantt_data = await self.collect_gantt_chart_data(guild)
+            current_hour = current_time.hour
+            
+            # 現在の時刻のデータを更新
+            if current_gantt_data:
+                self.hourly_gantt_data[current_hour] = current_gantt_data
+            
+            # 24時間分のデータを統合
+            hourly_timeline = {}
+            total_unique_users = set()
+            role_activity_summary = {}
+            
+            # 0-23時の各時間のデータを整理
+            for hour in range(24):
+                if hour in self.hourly_gantt_data:
+                    hourly_data = self.hourly_gantt_data[hour]
+                    hourly_timeline[f"{hour:02d}:00"] = {
+                        'total_online': hourly_data.get('total_online_users', 0),
+                        'status_breakdown': hourly_data.get('status_breakdown', {}),
+                        'timestamp': hourly_data.get('timestamp', ''),
+                        'online_users': hourly_data.get('online_users', [])
+                    }
+                    
+                    # ユニークユーザー集計
+                    for user in hourly_data.get('online_users', []):
+                        total_unique_users.add(user['user_id'])
+                        
+                        # ロール別活動集計
+                        for role_id in user.get('role_ids', []):
+                            if role_id not in role_activity_summary:
+                                role_activity_summary[role_id] = {
+                                    'user_set': set(),
+                                    'total_appearances': 0
+                                }
+                            role_activity_summary[role_id]['user_set'].add(user['user_id'])
+                            role_activity_summary[role_id]['total_appearances'] += 1
+                else:
+                    # データがない時間帯
+                    hourly_timeline[f"{hour:02d}:00"] = {
+                        'total_online': 0,
+                        'status_breakdown': {},
+                        'timestamp': '',
+                        'online_users': []
+                    }
+            
+            # ロール別サマリーの作成
+            role_summary = {}
+            for role_id, data in role_activity_summary.items():
+                role = guild.get_role(int(role_id)) if role_id.isdigit() else None
+                if role:
+                    unique_users = len(data['user_set'])
+                    total_members = len(role.members)
+                    role_summary[role_id] = {
+                        'role_name': role.name,
+                        'unique_active_users': unique_users,
+                        'total_members': total_members,
+                        'activity_rate': round((unique_users / total_members) * 100, 2) if total_members > 0 else 0,
+                        'total_appearances': data['total_appearances'],
+                        'avg_online_per_hour': round(data['total_appearances'] / 24, 2)
+                    }
+            
+            # 最も活発な時間帯の特定
+            peak_hour_data = max(
+                [(hour, data) for hour, data in hourly_timeline.items() if data['total_online'] > 0],
+                key=lambda x: x[1]['total_online'],
+                default=(None, {'total_online': 0})
+            )
+            
+            daily_gantt_summary = {
+                'date': today_str,
+                'summary_timestamp': current_time.isoformat(),
+                'total_unique_users_today': len(total_unique_users),
+                'peak_hour': peak_hour_data[0],
+                'peak_online_count': peak_hour_data[1]['total_online'],
+                'hourly_timeline': hourly_timeline,
+                'role_daily_summary': role_summary,
+                'data_coverage': len([h for h in hourly_timeline.values() if h['total_online'] > 0])
+            }
+            
+            logger.info(f"📊 日次ガントチャートデータ統合完了: {len(total_unique_users)}人のユニークユーザー")
+            return daily_gantt_summary
+            
+        except Exception as e:
+            logger.error(f"❌ 日次ガントチャートデータ統合エラー: {e}")
+            return {}
+    
+    @tasks.loop(hours=1)
+    async def hourly_gantt_collection_task(self):
+        """1時間ごとにガントチャートデータを収集"""
+        try:
+            current_time = datetime.now(timezone.utc)
+            current_hour = current_time.hour
+            
+            logger.info(f"⏰ 時間別ガントチャートデータ収集開始: {current_hour}:00")
+            
+            guild = await self.get_main_guild()
+            if not guild:
+                logger.warning("❌ メインギルドが見つかりません")
+                return
+            
+            # 現在のオンライン状況を収集
+            gantt_data = await self.collect_gantt_chart_data(guild)
+            
+            if gantt_data:
+                # 時間別データとして保存
+                self.hourly_gantt_data[current_hour] = gantt_data
+                
+                # メモリ最適化：設定された保持時間を超えるデータは削除
+                retention_hours = self.GANTT_CONFIG.get("data_retention_hours", 25)
+                hours_to_remove = []
+                for stored_hour in self.hourly_gantt_data.keys():
+                    hour_diff = (current_hour - stored_hour) % 24
+                    if hour_diff >= retention_hours:  # 設定時間より古い
+                        hours_to_remove.append(stored_hour)
+                
+                for hour in hours_to_remove:
+                    del self.hourly_gantt_data[hour]
+                
+                online_count = gantt_data.get('total_online_users', 0)
+                logger.info(f"✅ 時間別データ収集完了: {current_hour}:00 - {online_count}人オンライン")
+                
+                # デバッグ用：現在の蓄積状況
+                stored_hours = sorted(self.hourly_gantt_data.keys())
+                logger.info(f"📋 蓄積中の時間データ: {stored_hours}")
+            else:
+                logger.warning(f"❌ {current_hour}:00のデータ収集に失敗")
+                
+        except Exception as e:
+            logger.error(f"❌ 時間別ガントチャートデータ収集エラー: {e}")
+    
+    @hourly_gantt_collection_task.before_loop
+    async def before_hourly_gantt_collection(self):
+        """時間別収集タスク開始前の待機"""
+        await self.bot.wait_until_ready()
+        
+        # 初回実行時に現在の時刻のデータを即座に収集
+        try:
+            guild = await self.get_main_guild()
+            if guild:
+                current_hour = datetime.now(timezone.utc).hour
+                gantt_data = await self.collect_gantt_chart_data(guild)
+                if gantt_data:
+                    self.hourly_gantt_data[current_hour] = gantt_data
+                    logger.info(f"🚀 初期時間別データ収集完了: {current_hour}:00")
+        except Exception as e:
+            logger.error(f"❌ 初期時間別データ収集エラー: {e}")
+        
+        logger.info("⏰ 時間別ガントチャートデータ収集タスクを開始しました")
+    
     async def get_main_guild(self) -> Optional[discord.Guild]:
         """メインサーバーを取得"""
         if not self.bot.guilds:
@@ -326,7 +673,8 @@ class MetricsCollector(commands.Cog):
                 'channelMessageStats': metrics['channel_message_stats'],
                 'staffChannelStats': metrics['staff_channel_stats'],
                 'roleCounts': metrics['role_counts'],
-                'reactionStats': metrics.get('reaction_stats', {})  # 新機能
+                'reactionStats': metrics.get('reaction_stats', {}),  # 新機能
+                'ganttChartData': metrics.get('gantt_chart_data', {})  # ガントチャート用データ
             }
             
             timeout = aiohttp.ClientTimeout(total=self.DASHBOARD_CONFIG["timeout_seconds"])
@@ -511,6 +859,9 @@ class MetricsCollector(commands.Cog):
             online_count = len([m for m in guild.members if m.status != discord.Status.offline])
             active_users = await self.count_active_users(guild)
             
+            # 24時間分の時間別ガントチャートデータを統合
+            gantt_chart_data = await self.compile_daily_gantt_data(guild)
+            
             # エンゲージメントスコア計算
             engagement_score = await self.calculate_engagement_score(
                 member_count, active_users, message_stats['total_user_messages']
@@ -528,7 +879,8 @@ class MetricsCollector(commands.Cog):
                 'channel_message_stats': message_stats['channel_stats'],
                 'staff_channel_stats': message_stats['staff_channel_stats'],
                 'role_counts': role_counts,
-                'reaction_stats': reaction_stats
+                'reaction_stats': reaction_stats,
+                'gantt_chart_data': gantt_chart_data
             }
             
             logger.info(f"✅ メトリクス収集完了: {metrics['date']}")
@@ -743,6 +1095,55 @@ class MetricsCollector(commands.Cog):
                     top_emojis_text = "\n".join([f"{data['emoji']}: {data['count']}回" 
                                                for data in reaction_stats['top_emojis'][:5]])
                     embed.add_field(name="🔥 人気絵文字トップ5", value=top_emojis_text, inline=False)
+            
+            # ガントチャートデータ（24時間分の統合データ）
+            if metrics['gantt_chart_data']:
+                gantt_data = metrics['gantt_chart_data']
+                embed.add_field(
+                    name="👥 本日のユニークユーザー", 
+                    value=f"{gantt_data.get('total_unique_users_today', 0)}人", 
+                    inline=True
+                )
+                
+                # ピーク時間帯
+                peak_hour = gantt_data.get('peak_hour')
+                peak_count = gantt_data.get('peak_online_count', 0)
+                if peak_hour:
+                    embed.add_field(
+                        name="📈 ピーク時間帯",
+                        value=f"{peak_hour} ({peak_count}人)",
+                        inline=True
+                    )
+                
+                # データ収集カバレッジ
+                coverage = gantt_data.get('data_coverage', 0)
+                embed.add_field(
+                    name="📊 データ収集状況",
+                    value=f"{coverage}/24時間",
+                    inline=True
+                )
+                
+                # ロール別日次サマリー
+                role_summary = gantt_data.get('role_daily_summary', {})
+                if role_summary:
+                    top_active_roles = sorted(
+                        [(role_id, data) for role_id, data in role_summary.items()],
+                        key=lambda x: x[1]['activity_rate'],
+                        reverse=True
+                    )[:5]
+                    
+                    role_text = "\n".join([
+                        f"{data['role_name']}: {data['unique_active_users']}人 ({data['activity_rate']:.1f}%)"
+                        for role_id, data in top_active_roles
+                        if data['unique_active_users'] > 0
+                    ])
+                    
+                    if role_text:
+                        embed.add_field(
+                            name="🏷️ ロール別日次アクティブ率",
+                            value=role_text,
+                            inline=False
+                        )
             
             # 現在のカウント状況（リセットしていないため継続中）
             current_user = sum(sum(users.values()) for users in self.message_counts.values())
@@ -1202,6 +1603,308 @@ class MetricsCollector(commands.Cog):
         )
         
         await interaction.followup.send(embed=embed)
+    
+    @discord.app_commands.command(name="online_gantt_test", description="現在のオンライン状況をガントチャート用データとして表示（テスト）")
+    @discord.app_commands.default_permissions(administrator=True)
+    async def online_gantt_test(self, interaction: discord.Interaction):
+        """現在のオンライン状況をガントチャート用データとして表示（テスト用）"""
+        await interaction.response.defer()
+        
+        try:
+            guild = interaction.guild
+            gantt_data = await self.collect_gantt_chart_data(guild)
+            
+            if not gantt_data:
+                await interaction.followup.send("❌ データの取得に失敗しました")
+                return
+            
+            # メイン統計表示
+            embed = discord.Embed(
+                title="🕐 現在のオンライン状況（ガントチャート用データ）",
+                color=discord.Color.green(),
+                timestamp=datetime.now(timezone.utc)
+            )
+            
+            # 基本統計
+            embed.add_field(
+                name="📊 基本統計",
+                value=f"オンライン総数: {gantt_data['total_online_users']}人\n"
+                      f"データ取得時刻: {gantt_data['timestamp'][:19]}Z",
+                inline=False
+            )
+            
+            # ステータス別
+            status_breakdown = gantt_data.get('status_breakdown', {})
+            if status_breakdown:
+                status_text = "\n".join([
+                    f"{status.capitalize()}: {count}人"
+                    for status, count in status_breakdown.items()
+                    if count > 0
+                ])
+                embed.add_field(name="🟢 ステータス別", value=status_text, inline=True)
+            
+            # アクティビティ別
+            activity_breakdown = gantt_data.get('activity_breakdown', {})
+            if activity_breakdown:
+                activity_text = "\n".join([
+                    f"{activity.capitalize()}: {count}人"
+                    for activity, count in sorted(activity_breakdown.items(), key=lambda x: x[1], reverse=True)[:5]
+                ])
+                embed.add_field(name="🎮 アクティビティ別", value=activity_text, inline=True)
+            
+            # ロール別オンライン率トップ5
+            top_roles = gantt_data.get('top_active_roles', [])
+            if top_roles:
+                role_text = "\n".join([
+                    f"**{role['role_name']}**\n{role['online_count']}人 ({role['online_rate']:.1f}%)"
+                    for role in top_roles[:5]
+                ])
+                embed.add_field(name="🏷️ アクティブロールトップ5", value=role_text, inline=False)
+            
+            await interaction.followup.send(embed=embed)
+            
+            # オンラインユーザー詳細を別メッセージで送信
+            online_users = gantt_data.get('online_users', [])
+            if online_users:
+                # ロール1332242428459221046を持つユーザーを特別表示
+                target_role_id = "1332242428459221046"
+                target_role_users = [
+                    user for user in online_users 
+                    if target_role_id in user['role_ids']
+                ]
+                
+                detail_embed = discord.Embed(
+                    title="👥 オンラインユーザー詳細",
+                    color=discord.Color.blue()
+                )
+                
+                # 全ユーザー（最初の10人）
+                all_users_text = "\n".join([
+                    f"**{user['display_name']}** ({user['status']})"
+                    + (f" - {user['activity_name']}" if user['activity_name'] else "")
+                    for user in online_users[:10]
+                ])
+                detail_embed.add_field(
+                    name=f"🌐 全オンラインユーザー（最初の10人）",
+                    value=all_users_text or "なし",
+                    inline=False
+                )
+                
+                # 特定ロールのユーザー
+                if target_role_users:
+                    target_role = guild.get_role(int(target_role_id))
+                    role_name = target_role.name if target_role else f"ロールID: {target_role_id}"
+                    
+                    target_users_text = "\n".join([
+                        f"**{user['display_name']}** ({user['status']})"
+                        + (f" - {user['activity_name']}" if user['activity_name'] else "")
+                        + f" | ロール: {', '.join(user['role_names'][:2])}"
+                        for user in target_role_users[:10]
+                    ])
+                    detail_embed.add_field(
+                        name=f"🎯 {role_name} のオンラインユーザー（{len(target_role_users)}人）",
+                        value=target_users_text,
+                        inline=False
+                    )
+                
+                # JSON形式のサンプル
+                sample_user = online_users[0] if online_users else {}
+                json_sample = {
+                    'user_id': sample_user.get('user_id', 'sample_id'),
+                    'display_name': sample_user.get('display_name', 'Sample User'),
+                    'status': sample_user.get('status', 'online'),
+                    'role_ids': sample_user.get('role_ids', []),
+                    'timestamp': sample_user.get('timestamp', '')
+                }
+                
+                detail_embed.add_field(
+                    name="📋 データ形式サンプル",
+                    value=f"```json\n{json.dumps(json_sample, indent=2, ensure_ascii=False)[:500]}```",
+                    inline=False
+                )
+                
+                await interaction.followup.send(embed=detail_embed)
+            
+        except Exception as e:
+            logger.error(f"❌ ガントチャートテスト表示エラー: {e}")
+            await interaction.followup.send(f"❌ エラーが発生しました: {str(e)}")
+    
+    @discord.app_commands.command(name="role_filter_test", description="特定ロールのオンライン状況をテスト表示")
+    @discord.app_commands.default_permissions(administrator=True)
+    @discord.app_commands.describe(role="フィルタリングするロール")
+    async def role_filter_test(self, interaction: discord.Interaction, role: discord.Role):
+        """特定ロールのオンライン状況をテスト表示"""
+        await interaction.response.defer()
+        
+        try:
+            gantt_data = await self.collect_gantt_chart_data(interaction.guild)
+            
+            if not gantt_data:
+                await interaction.followup.send("❌ データの取得に失敗しました")
+                return
+            
+            # 指定ロールのユーザーをフィルタリング
+            online_users = gantt_data.get('online_users', [])
+            role_users = [
+                user for user in online_users 
+                if str(role.id) in user['role_ids']
+            ]
+            
+            embed = discord.Embed(
+                title=f"🏷️ ロール「{role.name}」のオンライン状況",
+                color=role.color or discord.Color.blue(),
+                timestamp=datetime.now(timezone.utc)
+            )
+            
+            # 基本統計
+            total_role_members = len(role.members)
+            online_role_members = len(role_users)
+            online_rate = (online_role_members / total_role_members * 100) if total_role_members > 0 else 0
+            
+            embed.add_field(
+                name="📊 統計",
+                value=f"総メンバー数: {total_role_members}人\n"
+                      f"オンライン: {online_role_members}人\n"
+                      f"オンライン率: {online_rate:.1f}%",
+                inline=True
+            )
+            
+            # ステータス別集計
+            if role_users:
+                status_counts = {}
+                activity_counts = {}
+                
+                for user in role_users:
+                    status = user['status']
+                    status_counts[status] = status_counts.get(status, 0) + 1
+                    
+                    if user['activity_type']:
+                        activity = user['activity_type']
+                        activity_counts[activity] = activity_counts.get(activity, 0) + 1
+                
+                status_text = "\n".join([
+                    f"{status.capitalize()}: {count}人"
+                    for status, count in status_counts.items()
+                ])
+                embed.add_field(name="🟢 ステータス別", value=status_text, inline=True)
+                
+                if activity_counts:
+                    activity_text = "\n".join([
+                        f"{activity.capitalize()}: {count}人"
+                        for activity, count in sorted(activity_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+                    ])
+                    embed.add_field(name="🎮 アクティビティ", value=activity_text, inline=True)
+                
+                # オンラインユーザー一覧
+                users_text = "\n".join([
+                    f"**{user['display_name']}** ({user['status']})"
+                    + (f" - {user['activity_name']}" if user['activity_name'] else "")
+                    for user in role_users[:15]
+                ])
+                
+                if len(role_users) > 15:
+                    users_text += f"\n... 他 {len(role_users) - 15}人"
+                
+                embed.add_field(
+                    name=f"👥 オンラインメンバー ({len(role_users)}人)",
+                    value=users_text or "なし",
+                    inline=False
+                )
+            else:
+                embed.add_field(
+                    name="結果",
+                    value="このロールのオンラインメンバーはいません",
+                    inline=False
+                )
+            
+            await interaction.followup.send(embed=embed)
+            
+        except Exception as e:
+            logger.error(f"❌ ロールフィルターテスト表示エラー: {e}")
+            await interaction.followup.send(f"❌ エラーが発生しました: {str(e)}")
+    
+    @discord.app_commands.command(name="hourly_gantt_status", description="時間別ガントチャートデータの蓄積状況を確認")
+    @discord.app_commands.default_permissions(administrator=True)
+    async def hourly_gantt_status(self, interaction: discord.Interaction):
+        """時間別ガントチャートデータの蓄積状況を確認"""
+        await interaction.response.defer()
+        
+        try:
+            current_time = datetime.now(timezone.utc)
+            current_hour = current_time.hour
+            
+            embed = discord.Embed(
+                title="⏰ 時間別ガントチャートデータ蓄積状況",
+                color=discord.Color.blue(),
+                timestamp=current_time
+            )
+            
+            # 基本情報
+            stored_hours = sorted(self.hourly_gantt_data.keys())
+            
+            # 対象ロール情報
+            target_role_names = []
+            for role_id in self.GANTT_CONFIG["target_roles"]:
+                role = interaction.guild.get_role(role_id)
+                if role:
+                    target_role_names.append(f"{role.name}({len([m for m in role.members if not m.bot])}人)")
+            
+            embed.add_field(
+                name="📊 蓄積状況",
+                value=f"現在時刻: {current_hour}:00\n"
+                      f"蓄積時間数: {len(stored_hours)}/24時間\n"
+                      f"対象ロール: {', '.join(target_role_names) if target_role_names else 'なし'}\n"
+                      f"蓄積データ: {stored_hours}",
+                inline=False
+            )
+            
+            # 各時間のデータ詳細
+            if self.hourly_gantt_data:
+                hourly_details = []
+                for hour in range(24):
+                    if hour in self.hourly_gantt_data:
+                        data = self.hourly_gantt_data[hour]
+                        online_count = data.get('total_online_users', 0)
+                        timestamp = data.get('timestamp', '')[:16] if data.get('timestamp') else ''
+                        hourly_details.append(f"{hour:02d}:00 - {online_count}人 ({timestamp})")
+                    else:
+                        hourly_details.append(f"{hour:02d}:00 - データなし")
+                
+                # 12時間ずつ分けて表示
+                embed.add_field(
+                    name="🌅 午前（0-11時）",
+                    value="\n".join(hourly_details[:12]),
+                    inline=True
+                )
+                embed.add_field(
+                    name="🌆 午後（12-23時）",
+                    value="\n".join(hourly_details[12:]),
+                    inline=True
+                )
+            else:
+                embed.add_field(
+                    name="⚠️ 状況",
+                    value="時間別データが蓄積されていません",
+                    inline=False
+                )
+            
+            # タスク状況
+            task_status = "実行中" if self.hourly_gantt_collection_task.is_running() else "停止中"
+            next_run = self.hourly_gantt_collection_task.next_iteration
+            next_run_str = next_run.strftime('%H:%M:%S') if next_run else "不明"
+            
+            embed.add_field(
+                name="🔧 タスク状況",
+                value=f"収集タスク: {task_status}\n"
+                      f"次回実行: {next_run_str}",
+                inline=True
+            )
+            
+            await interaction.followup.send(embed=embed)
+            
+        except Exception as e:
+            logger.error(f"❌ 時間別状況確認エラー: {e}")
+            await interaction.followup.send(f"❌ エラーが発生しました: {str(e)}")
 
 async def setup(bot):
     """Cogのセットアップ"""

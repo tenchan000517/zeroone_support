@@ -110,6 +110,17 @@ METRICS_CONFIG = {
         "timeout_seconds": 10,
         "retry_attempts": 3,
         "fallback_to_db_only": True  # API失敗時はDB保存のみ継続
+    },
+    
+    # ガントチャート時間別収集設定
+    "gantt_chart_collection": {
+        "enabled": True,
+        "target_roles": [
+            1332242428459221046  # FIND to DO ロール
+        ],
+        "collection_interval_hours": 1,  # 1時間ごとに収集
+        "data_retention_hours": 25,      # 25時間分のデータを保持（翌日の1時間分含む）
+        "include_all_users_fallback": False  # 対象ロールがない場合の全ユーザー収集（無効）
     }
 }
 
