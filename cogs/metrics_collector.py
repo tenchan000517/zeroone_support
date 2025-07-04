@@ -57,8 +57,9 @@ class MetricsCollector(commands.Cog):
         self.reaction_counts = defaultdict(lambda: defaultdict(int))  # {channel_id: {emoji: count}}
         self.user_reaction_counts = defaultdict(int)  # {user_id: count} - ユーザー別リアクション数
         
-        # 時間別ガントチャートデータを蓄積するためのメモリストレージ
-        self.hourly_gantt_data = {}  # {hour: gantt_data} 形式で24時間分保持
+        # 時間別ガントチャートデータを蓄積するためのメモリストレージ（互換性のため保持）
+        # 注意: 実際のデータはデータベースに直接保存され、このメモリ保存は使用されません
+        self.hourly_gantt_data = {}  # 互換性のため保持
         
         # 定期収集タスク開始
         if not self.daily_metrics_task.is_running():
@@ -68,6 +69,10 @@ class MetricsCollector(commands.Cog):
         if not self.hourly_gantt_collection_task.is_running():
             self.hourly_gantt_collection_task.start()
         
+        # 月次クリーンアップタスク開始
+        if not self.monthly_gantt_cleanup_task.is_running():
+            self.monthly_gantt_cleanup_task.start()
+        
         logger.info("📊 MetricsCollector初期化完了")
     
     def cog_unload(self):
@@ -75,6 +80,8 @@ class MetricsCollector(commands.Cog):
         self.daily_metrics_task.cancel()
         if hasattr(self, 'hourly_gantt_collection_task'):
             self.hourly_gantt_collection_task.cancel()
+        if hasattr(self, 'monthly_gantt_cleanup_task'):
+            self.monthly_gantt_cleanup_task.cancel()
     
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -496,98 +503,6 @@ class MetricsCollector(commands.Cog):
             logger.error(f"❌ ガントチャートデータ収集エラー: {e}")
             return {}
     
-    async def compile_daily_gantt_data(self, guild: discord.Guild) -> dict:
-        """24時間分の時間別ガントチャートデータを統合"""
-        try:
-            current_time = datetime.now(timezone.utc)
-            today_str = current_time.date().isoformat()
-            
-            # 現在の時刻のデータも含めて最新情報にする
-            current_gantt_data = await self.collect_gantt_chart_data(guild)
-            current_hour = current_time.hour
-            
-            # 現在の時刻のデータを更新
-            if current_gantt_data:
-                self.hourly_gantt_data[current_hour] = current_gantt_data
-            
-            # 24時間分のデータを統合
-            hourly_timeline = {}
-            total_unique_users = set()
-            role_activity_summary = {}
-            
-            # 0-23時の各時間のデータを整理
-            for hour in range(24):
-                if hour in self.hourly_gantt_data:
-                    hourly_data = self.hourly_gantt_data[hour]
-                    hourly_timeline[f"{hour:02d}:00"] = {
-                        'total_online': hourly_data.get('total_online_users', 0),
-                        'status_breakdown': hourly_data.get('status_breakdown', {}),
-                        'timestamp': hourly_data.get('timestamp', ''),
-                        'online_users': hourly_data.get('online_users', [])
-                    }
-                    
-                    # ユニークユーザー集計
-                    for user in hourly_data.get('online_users', []):
-                        total_unique_users.add(user['user_id'])
-                        
-                        # ロール別活動集計
-                        for role_id in user.get('role_ids', []):
-                            if role_id not in role_activity_summary:
-                                role_activity_summary[role_id] = {
-                                    'user_set': set(),
-                                    'total_appearances': 0
-                                }
-                            role_activity_summary[role_id]['user_set'].add(user['user_id'])
-                            role_activity_summary[role_id]['total_appearances'] += 1
-                else:
-                    # データがない時間帯
-                    hourly_timeline[f"{hour:02d}:00"] = {
-                        'total_online': 0,
-                        'status_breakdown': {},
-                        'timestamp': '',
-                        'online_users': []
-                    }
-            
-            # ロール別サマリーの作成
-            role_summary = {}
-            for role_id, data in role_activity_summary.items():
-                role = guild.get_role(int(role_id)) if role_id.isdigit() else None
-                if role:
-                    unique_users = len(data['user_set'])
-                    total_members = len(role.members)
-                    role_summary[role_id] = {
-                        'role_name': role.name,
-                        'unique_active_users': unique_users,
-                        'total_members': total_members,
-                        'activity_rate': round((unique_users / total_members) * 100, 2) if total_members > 0 else 0,
-                        'total_appearances': data['total_appearances'],
-                        'avg_online_per_hour': round(data['total_appearances'] / 24, 2)
-                    }
-            
-            # 最も活発な時間帯の特定
-            peak_hour_data = max(
-                [(hour, data) for hour, data in hourly_timeline.items() if data['total_online'] > 0],
-                key=lambda x: x[1]['total_online'],
-                default=(None, {'total_online': 0})
-            )
-            
-            daily_gantt_summary = {
-                'date': today_str,
-                'summary_timestamp': current_time.isoformat(),
-                'total_unique_users_today': len(total_unique_users),
-                'peak_hour': peak_hour_data[0],
-                'peak_online_count': peak_hour_data[1]['total_online'],
-                'hourly_timeline': hourly_timeline,
-                'role_daily_summary': role_summary,
-                'data_coverage': len([h for h in hourly_timeline.values() if h['total_online'] > 0])
-            }
-            
-            logger.info(f"📊 日次ガントチャートデータ統合完了: {len(total_unique_users)}人のユニークユーザー")
-            return daily_gantt_summary
-            
-        except Exception as e:
-            logger.error(f"❌ 日次ガントチャートデータ統合エラー: {e}")
-            return {}
     
     @tasks.loop(hours=1)
     async def hourly_gantt_collection_task(self):
@@ -607,31 +522,86 @@ class MetricsCollector(commands.Cog):
             gantt_data = await self.collect_gantt_chart_data(guild)
             
             if gantt_data:
-                # 時間別データとして保存
-                self.hourly_gantt_data[current_hour] = gantt_data
-                
-                # メモリ最適化：設定された保持時間を超えるデータは削除
-                retention_hours = self.GANTT_CONFIG.get("data_retention_hours", 25)
-                hours_to_remove = []
-                for stored_hour in self.hourly_gantt_data.keys():
-                    hour_diff = (current_hour - stored_hour) % 24
-                    if hour_diff >= retention_hours:  # 設定時間より古い
-                        hours_to_remove.append(stored_hour)
-                
-                for hour in hours_to_remove:
-                    del self.hourly_gantt_data[hour]
+                # データベースに永続保存
+                await self.save_hourly_gantt_to_db(current_time, current_hour, gantt_data)
                 
                 online_count = gantt_data.get('total_online_users', 0)
-                logger.info(f"✅ 時間別データ収集完了: {current_hour}:00 - {online_count}人オンライン")
-                
-                # デバッグ用：現在の蓄積状況
-                stored_hours = sorted(self.hourly_gantt_data.keys())
-                logger.info(f"📋 蓄積中の時間データ: {stored_hours}")
+                logger.info(f"✅ 時間別データ収集完了: {current_hour}:00 - {online_count}人オンライン（DB保存済み）")
             else:
                 logger.warning(f"❌ {current_hour}:00のデータ収集に失敗")
                 
         except Exception as e:
             logger.error(f"❌ 時間別ガントチャートデータ収集エラー: {e}")
+    
+    async def save_hourly_gantt_to_db(self, current_time: datetime, hour: int, gantt_data: dict):
+        """時間別ガントチャートデータをデータベースに保存"""
+        try:
+            if not self.db_url:
+                logger.warning("⚠️ データベースURL未設定のため、ガントチャートデータのDB保存をスキップ")
+                return
+            
+            # 接続確立
+            conn = await asyncpg.connect(self.db_url)
+            
+            # データ準備
+            date_str = current_time.date().isoformat()
+            data_json = json.dumps(gantt_data, ensure_ascii=False)
+            
+            # データベースに保存（重複時は更新）
+            query = """
+                INSERT INTO hourly_gantt_data (date, hour, data, created_at, updated_at)
+                VALUES ($1, $2, $3, NOW(), NOW())
+                ON CONFLICT (date, hour) 
+                DO UPDATE SET 
+                    data = EXCLUDED.data,
+                    updated_at = NOW()
+            """
+            
+            await conn.execute(query, date_str, hour, data_json)
+            logger.info(f"💾 ガントチャートデータDB保存完了: {date_str} {hour:02d}:00")
+            
+            await conn.close()
+            
+        except Exception as e:
+            logger.error(f"❌ ガントチャートデータDB保存エラー: {e}")
+            if 'conn' in locals():
+                await conn.close()
+    
+    @tasks.loop(time=time(hour=0, minute=30, tzinfo=timezone(timedelta(hours=9))))
+    async def monthly_gantt_cleanup_task(self):
+        """月次ガントチャートデータクリーンアップ（90日保持）"""
+        try:
+            # 月初のみ実行
+            current_date = datetime.now(timezone(timedelta(hours=9)))
+            if current_date.day != 1:
+                return
+            
+            logger.info("🧹 月次ガントチャートデータクリーンアップ開始")
+            
+            if not self.db_url:
+                logger.warning("⚠️ データベースURL未設定のため、クリーンアップをスキップ")
+                return
+            
+            # 接続確立
+            conn = await asyncpg.connect(self.db_url)
+            
+            # 90日より古いデータを削除
+            cleanup_query = """
+                DELETE FROM hourly_gantt_data 
+                WHERE created_at < NOW() - INTERVAL '90 days'
+            """
+            
+            result = await conn.execute(cleanup_query)
+            deleted_count = int(result.split()[-1]) if result != 'DELETE 0' else 0
+            
+            logger.info(f"✅ 月次クリーンアップ完了: {deleted_count}件のレコードを削除")
+            
+            await conn.close()
+            
+        except Exception as e:
+            logger.error(f"❌ 月次ガントチャートクリーンアップエラー: {e}")
+            if 'conn' in locals():
+                await conn.close()
     
     @hourly_gantt_collection_task.before_loop
     async def before_hourly_gantt_collection(self):
@@ -642,11 +612,12 @@ class MetricsCollector(commands.Cog):
         try:
             guild = await self.get_main_guild()
             if guild:
-                current_hour = datetime.now(timezone.utc).hour
+                current_time = datetime.now(timezone.utc)
+                current_hour = current_time.hour
                 gantt_data = await self.collect_gantt_chart_data(guild)
                 if gantt_data:
-                    self.hourly_gantt_data[current_hour] = gantt_data
-                    logger.info(f"🚀 初期時間別データ収集完了: {current_hour}:00")
+                    await self.save_hourly_gantt_to_db(current_time, current_hour, gantt_data)
+                    logger.info(f"🚀 初期時間別データ収集完了: {current_hour}:00（DB保存済み）")
         except Exception as e:
             logger.error(f"❌ 初期時間別データ収集エラー: {e}")
         
@@ -748,7 +719,6 @@ class MetricsCollector(commands.Cog):
                 'staffChannelStats': metrics['staff_channel_stats'],
                 'roleCounts': metrics['role_counts'],
                 'reactionStats': metrics.get('reaction_stats', {}),  # 新機能
-                'ganttChartData': metrics.get('gantt_chart_data', {})  # ガントチャート用データ
             }
             
             timeout = aiohttp.ClientTimeout(total=self.DASHBOARD_CONFIG["timeout_seconds"])
@@ -933,8 +903,6 @@ class MetricsCollector(commands.Cog):
             online_count = len([m for m in guild.members if m.status != discord.Status.offline])
             active_users = await self.count_active_users(guild)
             
-            # 24時間分の時間別ガントチャートデータを統合
-            gantt_chart_data = await self.compile_daily_gantt_data(guild)
             
             # エンゲージメントスコア計算
             engagement_score = await self.calculate_engagement_score(
@@ -954,7 +922,6 @@ class MetricsCollector(commands.Cog):
                 'staff_channel_stats': message_stats['staff_channel_stats'],
                 'role_counts': role_counts,
                 'reaction_stats': reaction_stats,
-                'gantt_chart_data': gantt_chart_data
             }
             
             logger.info(f"✅ メトリクス収集完了: {metrics['date']}")
@@ -1170,54 +1137,6 @@ class MetricsCollector(commands.Cog):
                                                for data in reaction_stats['top_emojis'][:5]])
                     embed.add_field(name="🔥 人気絵文字トップ5", value=top_emojis_text, inline=False)
             
-            # ガントチャートデータ（24時間分の統合データ）
-            if metrics['gantt_chart_data']:
-                gantt_data = metrics['gantt_chart_data']
-                embed.add_field(
-                    name="👥 本日のユニークユーザー", 
-                    value=f"{gantt_data.get('total_unique_users_today', 0)}人", 
-                    inline=True
-                )
-                
-                # ピーク時間帯
-                peak_hour = gantt_data.get('peak_hour')
-                peak_count = gantt_data.get('peak_online_count', 0)
-                if peak_hour:
-                    embed.add_field(
-                        name="📈 ピーク時間帯",
-                        value=f"{peak_hour} ({peak_count}人)",
-                        inline=True
-                    )
-                
-                # データ収集カバレッジ
-                coverage = gantt_data.get('data_coverage', 0)
-                embed.add_field(
-                    name="📊 データ収集状況",
-                    value=f"{coverage}/24時間",
-                    inline=True
-                )
-                
-                # ロール別日次サマリー
-                role_summary = gantt_data.get('role_daily_summary', {})
-                if role_summary:
-                    top_active_roles = sorted(
-                        [(role_id, data) for role_id, data in role_summary.items()],
-                        key=lambda x: x[1]['activity_rate'],
-                        reverse=True
-                    )[:5]
-                    
-                    role_text = "\n".join([
-                        f"{data['role_name']}: {data['unique_active_users']}人 ({data['activity_rate']:.1f}%)"
-                        for role_id, data in top_active_roles
-                        if data['unique_active_users'] > 0
-                    ])
-                    
-                    if role_text:
-                        embed.add_field(
-                            name="🏷️ ロール別日次アクティブ率",
-                            value=role_text,
-                            inline=False
-                        )
             
             # 現在のカウント状況（リセットしていないため継続中）
             current_user = sum(sum(users.values()) for users in self.message_counts.values())
@@ -1802,6 +1721,82 @@ class MetricsCollector(commands.Cog):
         except Exception as e:
             logger.error(f"❌ ガントチャートテスト表示エラー: {e}")
             await interaction.followup.send(f"❌ エラーが発生しました: {str(e)}")
+    
+    @discord.app_commands.command(name="hourly_gantt_db_status", description="データベース内の時間別ガントチャートデータ状況確認")
+    @discord.app_commands.default_permissions(administrator=True)
+    async def hourly_gantt_db_status(self, interaction: discord.Interaction):
+        """データベース内の時間別ガントチャートデータ状況を確認"""
+        await interaction.response.defer()
+        
+        try:
+            if not self.db_url:
+                await interaction.followup.send("❌ データベースURL未設定")
+                return
+            
+            # データベース接続
+            conn = await asyncpg.connect(self.db_url)
+            
+            # 基本統計取得
+            stats_query = """
+                SELECT 
+                    COUNT(*) as total_records,
+                    COUNT(DISTINCT date) as unique_dates,
+                    MIN(created_at) as oldest_record,
+                    MAX(created_at) as newest_record
+                FROM hourly_gantt_data
+            """
+            
+            stats = await conn.fetchrow(stats_query)
+            
+            # 最近7日間のデータ取得
+            recent_query = """
+                SELECT date, COUNT(*) as hours_count
+                FROM hourly_gantt_data 
+                WHERE created_at >= NOW() - INTERVAL '7 days'
+                GROUP BY date 
+                ORDER BY date DESC
+                LIMIT 7
+            """
+            
+            recent_data = await conn.fetch(recent_query)
+            
+            await conn.close()
+            
+            # 結果表示
+            embed = discord.Embed(
+                title="🗄️ データベース内ガントチャートデータ状況",
+                color=discord.Color.blue(),
+                timestamp=datetime.now(timezone.utc)
+            )
+            
+            # 基本統計
+            embed.add_field(
+                name="📊 基本統計",
+                value=f"総レコード数: {stats['total_records']:,}件\n"
+                      f"記録日数: {stats['unique_dates']}日\n"
+                      f"最古記録: {stats['oldest_record'].strftime('%Y-%m-%d %H:%M') if stats['oldest_record'] else 'なし'}\n"
+                      f"最新記録: {stats['newest_record'].strftime('%Y-%m-%d %H:%M') if stats['newest_record'] else 'なし'}",
+                inline=False
+            )
+            
+            # 最近7日間のデータ
+            if recent_data:
+                recent_text = "\n".join([
+                    f"{row['date']}: {row['hours_count']}/24時間"
+                    for row in recent_data
+                ])
+                embed.add_field(
+                    name="📅 最近7日間のデータ収集状況",
+                    value=recent_text,
+                    inline=False
+                )
+            
+            await interaction.followup.send(embed=embed)
+            
+        except Exception as e:
+            await interaction.followup.send(f"❌ エラー: {e}")
+            if 'conn' in locals():
+                await conn.close()
     
     @discord.app_commands.command(name="role_filter_test", description="特定ロールのオンライン状況をテスト表示")
     @discord.app_commands.default_permissions(administrator=True)
